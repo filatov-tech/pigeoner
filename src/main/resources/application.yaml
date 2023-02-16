@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    driver-class-name: org.postgresql.Driver
+    username: pguser
+    password: pgpassword
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_batch_fetch_size: 20
+        format_sql: true
+  sql.init.mode: always
+  thymeleaf:
+    prefix: classpath:/static/
+#logging:
+#  level:
+#    root: debug
+#    org.springframework.web: debug

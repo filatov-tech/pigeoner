@@ -1,4 +1,4 @@
-package ru.pigeoner.pigeoner;
+package tech.filatov.pigeoner;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
