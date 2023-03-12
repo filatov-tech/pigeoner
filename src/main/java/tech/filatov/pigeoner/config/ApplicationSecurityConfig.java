@@ -34,8 +34,9 @@ public class ApplicationSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .antMatchers("/", "/images/**", "/js/**", "/css/**", "index").permitAll()
-                        .anyRequest().authenticated()
+                                .anyRequest().permitAll() //TODO включить защиту
+//                        .antMatchers("/", "/images/**", "/js/**", "/css/**", "index").permitAll()
+//                        .anyRequest().authenticated()
                 )
                 .formLogin();
         return http.build();
