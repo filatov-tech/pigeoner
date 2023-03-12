@@ -20,11 +20,10 @@ public class PigeonService {
         this.repository = repository;
     }
 
-    public String getAll(Map<String, String> filterParameters) {
+    public List<PigeonTableDto> getAll(Map<String, String> filterParameters) {
         List<Pigeon> resultList = filterParameters.isEmpty() ?
                 repository.getAll() :
                 repository.getFiltered(filterParameters);
-        return getPigeonsInString(getDtos(resultList));
+        return getDtos(resultList);
     }
-
 }
