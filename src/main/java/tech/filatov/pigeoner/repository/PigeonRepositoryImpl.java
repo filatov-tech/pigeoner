@@ -1,6 +1,7 @@
 package tech.filatov.pigeoner.repository;
 
 import org.springframework.stereotype.Repository;
+import tech.filatov.pigeoner.model.Condition;
 import tech.filatov.pigeoner.model.Pigeon;
 
 import javax.persistence.EntityManager;
@@ -31,7 +32,7 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
         cq.select(pigeonRoot);
 
         if (!filterParameters.get(RING_NUMBER).isEmpty()) {
-            cq.where(cb.equal(pigeonRoot.get("ringNumber"), filterParameters.get(RING_NUMBER)));
+            cq.where(cb.equal(pigeonRoot.get(RING_NUMBER), filterParameters.get(RING_NUMBER)));
         }
         if (!filterParameters.get(CONDITION).isEmpty()) {
             cq.where(
@@ -39,10 +40,10 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
                     Condition.valueOfLabel(filterParameters.get(CONDITION))));
         }
         if (!filterParameters.get(LOCATION).isEmpty()) {
-            cq.where(cb.equal(pigeonRoot.get("location"), filterParameters.get(LOCATION)));
+            cq.where(cb.equal(pigeonRoot.get(LOCATION), filterParameters.get(LOCATION)));
         }
         if (!filterParameters.get(PIGEON_NAME).isEmpty()) {
-            cq.where(cb.equal(pigeonRoot.get("name"), filterParameters.get(PIGEON_NAME)));
+            cq.where(cb.equal(pigeonRoot.get(PIGEON_NAME), filterParameters.get(PIGEON_NAME)));
         }
         TypedQuery<Pigeon> executableQuery = em.createQuery(cq);
 
