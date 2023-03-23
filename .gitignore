@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 src/main/resources/static/**
+/src/main/java/tech/filatov/pigeoner/Tests.java
 
 
 ### IntelliJ IDEA ###
@@ -11,3 +12,4 @@ src/main/resources/static/**
 *.iws
 *.iml
 *.ipr
+
