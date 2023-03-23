@@ -12,4 +12,13 @@ public enum Condition {
     Condition(String label) {
         this.label = label;
     }
+
+    public static Condition valueOfLabel(String label) {
+        for (Condition c : values()) {
+            if (c.label.equals(label)) {
+                return c;
+            }
+        }
+        return null;
+    }
 }

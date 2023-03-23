@@ -34,7 +34,9 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
             cq.where(cb.equal(pigeonRoot.get("ringNumber"), filterParameters.get(RING_NUMBER)));
         }
         if (!filterParameters.get(CONDITION).isEmpty()) {
-            cq.where(cb.equal(pigeonRoot.get("condition"), filterParameters.get(CONDITION)));
+            cq.where(
+                    cb.equal(pigeonRoot.get("conditionStatus"),
+                    Condition.valueOfLabel(filterParameters.get(CONDITION))));
         }
         if (!filterParameters.get(LOCATION).isEmpty()) {
             cq.where(cb.equal(pigeonRoot.get("location"), filterParameters.get(LOCATION)));
