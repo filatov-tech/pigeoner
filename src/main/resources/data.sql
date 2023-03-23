@@ -25,7 +25,7 @@ INSERT INTO pigeon (id, created, updated, birthdate, condition_status, is_male, 
 VALUES
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2017, 12, 1), 'HEALTH', true, true, 'Дедушка по папе', '2314213',
      100000, 100001, null, 100006, null, null, null), --100010
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2017, 3, 1), 'HEALTH', false, true, 'Бабушка по маме', '23142215',
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2017, 3, 1), 'DISEASED', false, true, 'Бабушка по маме', '23142215',
      100000, 100001, null, 100006, null, 100012, null), --100011
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2017, 1, 1), 'HEALTH', true, true, 'Дедушка по маме', '23144215',
      100000, 100001, null, 100006, null, 100011, null), --100012
@@ -37,7 +37,7 @@ VALUES
      100000, 100001, 100010, 100006, null, null, null), --100015
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2018, 12, 1), 'HEALTH', true, true, 'Брат папы', '23142155',
      100000, 100001, 100010, 100006, null, null, null), --100016
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'HEALTH', true, true, 'Сын', '23142152',
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'LOST', true, true, 'Сын', '23142152',
      100000, 100001, 100013, 100006, null, null, 100014), --100017
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'HEALTH', false, true, 'Дочь', '231134215',
      100000, 100001, 100013, 100006, null, null, 100014), --100018
@@ -45,7 +45,7 @@ VALUES
      100000, 100001, 100013, 100006, null, null, 100014), --100019
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'HEALTH', true, true, 'Сын брата папы', '24215',
      100000, 100001, 100016, 100006, null, null, null), --100020
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2018, 12, 1), 'HEALTH', true, true, 'Друг семьи', '244215',
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2018, 12, 1), 'DEAD', true, true, 'Друг семьи', '244215',
      100000, 100001, null, 100006, null, null, null)  --100021
 ;
 
