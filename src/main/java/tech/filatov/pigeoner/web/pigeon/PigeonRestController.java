@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static tech.filatov.pigeoner.util.ValidationUtil.validateDataFromFilter;
+
 @RestController
 @RequestMapping("/api/v1/pigeons")
 public class PigeonRestController {
@@ -28,6 +30,7 @@ public class PigeonRestController {
 
     @GetMapping("/filter")
     public List<PigeonTableDto> getFiltered(@RequestParam(required = false) Map<String, String> filterParameters) {
+        validateDataFromFilter(filterParameters);
         return service.getAll(filterParameters);
     }
 }
