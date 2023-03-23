@@ -33,7 +33,7 @@ public class ValidationUtil {
                         || !filterParameters.get(AGE_YEAR_TO).isEmpty()
                         || !filterParameters.get(AGE_MONTH_TO).isEmpty();
 
-        if (hasBirthdateFilter == true && hasAgeFilter == true) {
+        if (hasBirthdateFilter && hasAgeFilter) {
             throw new FilterContradictionException("Можно фильтровать либо по дате рождения, либо по возрасту");
         }
         setFilterDateType(hasBirthdateFilter, hasAgeFilter, filterParameters);
