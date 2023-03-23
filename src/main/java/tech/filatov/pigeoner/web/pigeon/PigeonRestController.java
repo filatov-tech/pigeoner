@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import tech.filatov.pigeoner.dto.PigeonTableDto;
 import tech.filatov.pigeoner.service.PigeonService;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +24,7 @@ public class PigeonRestController {
 
     @GetMapping
     public List<PigeonTableDto> getAll() {
-        return service.getAll(new HashMap<>());
+        return service.getAll();
     }
 
     @GetMapping("/filter")
