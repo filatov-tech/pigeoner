@@ -4,6 +4,8 @@ import tech.filatov.pigeoner.util.exception.FilterContradictionException;
 import tech.filatov.pigeoner.util.exception.InvalidFilterDataException;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.TemporalAmount;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,10 +18,19 @@ public class ValidationUtil {
 
     public static void validateDataFromFilter(Map<String, String> filterParameters) {
         validateFilter(filterParameters);
-        if (!filterParameters.get(FILTER_DATE_TYPE).isEmpty()) {
-            validateAgeConstraint(filterParameters);
+
+        String filterDateType = filterParameters.get(FILTER_DATE_TYPE);
+        if (!filterDateType.isEmpty()) {
+            switch (filterDateType) {
+                case (AGE_TYPE) -> validateAgeConstraint(filterParameters);
+                case (BIRTHDATE_TYPE) -> validateBirthdateTypeConstraint(filterParameters);
+            }
         }
         validateInputStringData(filterParameters);
+    }
+
+    private static void validateBirthdateTypeConstraint(Map<String, String> filterParameters) {
+        //TODO: write date check
     }
 
     private static void validateFilter(Map<String, String> filterParameters) {
@@ -52,22 +63,23 @@ public class ValidationUtil {
     }
 
     private static void validateAgeConstraint(Map<String, String> filterParameters) {
-
-
         int yearFrom = getNumberFromParameter(filterParameters.get(AGE_YEAR_FROM));
         int monthFrom = getNumberFromParameter(filterParameters.get(AGE_MONTH_FROM));
         int yearTo = getNumberFromParameter(filterParameters.get(AGE_YEAR_TO));
         int monthTo = getNumberFromParameter(filterParameters.get(AGE_MONTH_TO));
 
-        LocalDate from = LocalDate.of(yearFrom, monthFrom, 1);
+        LocalDate now = LocalDate.now();
+        TemporalAmount yearFromMinus = Period.ofYears(yearFrom);
+        TemporalAmount monthsFromMinus = Period.ofMonths(monthFrom);
+        LocalDate from = now.minus(yearFromMinus).minus(monthsFromMinus);
+        TemporalAmount yearToMinus = Period.ofYears(yearTo);
+        TemporalAmount monthsToMinus = Period.ofMonths(monthTo);
+        LocalDate to = now.minus(yearToMinus).minus(monthsToMinus);
 
-        LocalDate to;
-
-
-
-        if (yearFrom > yearTo
-                || yearFrom == yearTo && monthFrom >= monthTo) {
-            throw new FilterContradictionException("Возраст \"ОТ\" должен быть меньше, чем \"ДО\"");
+        if (!from.isEqual(now) && !to.isEqual(now)) {
+            if (from.isBefore(to)) {
+                throw new FilterContradictionException("Возраст \"ОТ\" должен быть меньше, чем \"ДО\"");
+            }
         }
     }
 
