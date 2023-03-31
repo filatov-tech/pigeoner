@@ -67,12 +67,12 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
             if (filterDateType.equals(BIRTHDATE_TYPE)) {
                 if (!filterParameters.get(BIRTHDATE_FROM).isEmpty()) {
                     predicates.add(
-                            cb.greaterThan(pigeonRoot.get("birthdate"), LocalDate.parse(filterParameters.get(BIRTHDATE_FROM)))
+                            cb.greaterThanOrEqualTo(pigeonRoot.get("birthdate"), LocalDate.parse(filterParameters.get(BIRTHDATE_FROM)))
                     );
                 }
                 if (!filterParameters.get(BIRTHDATE_TO).isEmpty()) {
                     predicates.add(
-                            cb.lessThan(pigeonRoot.get("birthdate"), LocalDate.parse(filterParameters.get(BIRTHDATE_TO)))
+                            cb.lessThanOrEqualTo(pigeonRoot.get("birthdate"), LocalDate.parse(filterParameters.get(BIRTHDATE_TO)))
                     );
                 }
             } else if (filterDateType.equals(AGE_TYPE)) {
@@ -89,6 +89,8 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
                     }
                     try {
                         monthsFrom = Integer.parseInt(filterParameters.get(AGE_MONTH_FROM));
+                        int monthInclusive = 1;
+                        monthsFrom -= monthInclusive;
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
@@ -116,10 +118,10 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
                     to = now.minus(yearsMin).minus(monthsMin);
                 }
                 if (!from.isEqual(now)) {
-                    predicates.add(cb.lessThan(pigeonRoot.get("birthdate"), from));
+                    predicates.add(cb.lessThanOrEqualTo(pigeonRoot.get("birthdate"), from));
                 }
                 if (!to.isEqual(now)) {
-                    predicates.add(cb.greaterThan(pigeonRoot.get("birthdate"), to));
+                    predicates.add(cb.greaterThanOrEqualTo(pigeonRoot.get("birthdate"), to));
                 }
             }
         }
