@@ -49,11 +49,6 @@ VALUES
      100000, 100001, null, 100006, null, null, null)  --100021
 ;
 
-INSERT INTO departure_location (id, created, updated, name, user_id)
-VALUES
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Можайск', 100000)
-;
-
 -- INSERT INTO flight (id, created, updated, departure, distance, is_training, user_id, location_id)
 -- VALUES
 --     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_timestamp())
