@@ -19,6 +19,5 @@ public class Flight extends AbstractOwnedEntity {
     @OneToMany(mappedBy = "flight")
     private List<FlightResult> participants;
 
-    //TODO: добавить поле названия/номера
-    // private String locationName;
+    private String locationName;
 }
