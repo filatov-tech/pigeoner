@@ -21,6 +21,4 @@ public class Flight extends AbstractOwnedEntity {
 
     //TODO: добавить поле названия/номера
     // private String locationName;
-
-    private boolean isTraining;
 }
