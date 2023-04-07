@@ -19,9 +19,8 @@ public class Flight extends AbstractOwnedEntity {
     @OneToMany(mappedBy = "flight")
     private List<FlightResult> participants;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "LOCATION_ID")
-    private DepartureLocation departureLocation;
+    //TODO: добавить поле названия/номера
+    // private String locationName;
 
     private boolean isTraining;
 }
