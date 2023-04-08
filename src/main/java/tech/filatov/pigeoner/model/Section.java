@@ -25,6 +25,10 @@ public class Section extends AbstractOwnedEntity {
     @Enumerated(EnumType.STRING)
     private SectionType type;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FEEDING_MODE_ID")
+    private FeedingMode feedingMode;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "location")
     private Set<Pigeon> pigeons;
 }
