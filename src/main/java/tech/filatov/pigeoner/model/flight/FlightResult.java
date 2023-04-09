@@ -5,9 +5,8 @@ import lombok.EqualsAndHashCode;
 import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,4 +25,13 @@ public class FlightResult extends AbstractOwnedEntity {
     private LocalDateTime departure;
 
     private LocalDateTime arrival;
+
+    private boolean isPass;
+
+    private int resultPlace;
+
+    private BigInteger winPoints;
+
+    @Enumerated(EnumType.STRING)
+    private AfterFlightCondition condition;
 }
