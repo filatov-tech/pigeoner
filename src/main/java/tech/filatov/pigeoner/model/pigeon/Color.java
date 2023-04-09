@@ -1,9 +1,10 @@
-package tech.filatov.pigeoner.model;
+package tech.filatov.pigeoner.model.pigeon;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

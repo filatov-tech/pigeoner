@@ -2,7 +2,6 @@ package tech.filatov.pigeoner.service;
 
 import org.springframework.stereotype.Service;
 import tech.filatov.pigeoner.dto.PigeonTableDto;
-import tech.filatov.pigeoner.model.Pigeon;
 import tech.filatov.pigeoner.repository.PigeonRepository;
 
 import java.util.Collection;

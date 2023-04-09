@@ -2,7 +2,7 @@ package tech.filatov.pigeoner.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import tech.filatov.pigeoner.model.Pigeon;
+import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
 import java.util.List;
 

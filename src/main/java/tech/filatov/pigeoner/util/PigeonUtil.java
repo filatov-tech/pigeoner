@@ -1,7 +1,7 @@
 package tech.filatov.pigeoner.util;
 
 import tech.filatov.pigeoner.dto.PigeonTableDto;
-import tech.filatov.pigeoner.model.Pigeon;
+import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
 import java.util.Collection;
 import java.util.List;

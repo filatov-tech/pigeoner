@@ -1,10 +1,12 @@
-package tech.filatov.pigeoner.model;
+package tech.filatov.pigeoner.model.pigeon;
 
 import lombok.*;
+import tech.filatov.pigeoner.model.AbstractOwnedEntity;
+import tech.filatov.pigeoner.model.flight.FlightResult;
+import tech.filatov.pigeoner.model.dovecote.Section;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Entity

@@ -1,8 +1,8 @@
 package tech.filatov.pigeoner.repository;
 
 import org.springframework.stereotype.Repository;
-import tech.filatov.pigeoner.model.Condition;
-import tech.filatov.pigeoner.model.Pigeon;
+import tech.filatov.pigeoner.model.pigeon.Condition;
+import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

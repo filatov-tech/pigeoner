@@ -1,4 +1,4 @@
-package tech.filatov.pigeoner.model;
+package tech.filatov.pigeoner.model.dovecote;
 
 public enum SectionType {
     DOVECOTE,

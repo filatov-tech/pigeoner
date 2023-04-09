@@ -1,8 +1,6 @@
 package tech.filatov.pigeoner.repository;
 
-import org.springframework.lang.Nullable;
-import org.springframework.web.bind.annotation.RequestParam;
-import tech.filatov.pigeoner.model.Pigeon;
+import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
 import java.time.LocalDate;
 import java.util.List;

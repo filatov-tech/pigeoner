@@ -1,7 +1,8 @@
-package tech.filatov.pigeoner.model;
+package tech.filatov.pigeoner.model.feeding;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

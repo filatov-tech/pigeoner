@@ -1,7 +1,9 @@
-package tech.filatov.pigeoner.model;
+package tech.filatov.pigeoner.model.flight;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import tech.filatov.pigeoner.model.AbstractOwnedEntity;
+import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
