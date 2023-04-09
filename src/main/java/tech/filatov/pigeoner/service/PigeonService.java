@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import tech.filatov.pigeoner.dto.PigeonTableDto;
 import tech.filatov.pigeoner.repository.PigeonRepository;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
