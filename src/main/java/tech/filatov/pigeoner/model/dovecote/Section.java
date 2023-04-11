@@ -22,7 +22,7 @@ public class Section extends AbstractOwnedEntity {
     @JoinColumn(name = "PARENT_ID")
     private Section parent;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+    @OneToMany(mappedBy = "parent")
     private List<Section> children;
 
     @Enumerated(EnumType.STRING)
@@ -32,6 +32,6 @@ public class Section extends AbstractOwnedEntity {
     @JoinColumn(name = "FEEDING_MODE_ID")
     private FeedingMode feedingMode;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "location")
+    @OneToMany(mappedBy = "location")
     private Set<Pigeon> pigeons;
 }

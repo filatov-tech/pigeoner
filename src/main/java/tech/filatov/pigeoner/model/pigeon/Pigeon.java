@@ -47,10 +47,10 @@ public class Pigeon extends AbstractOwnedEntity {
     @JoinColumn(name = "MATE_ID")
     private Pigeon mate;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "mother")
+    @OneToMany(mappedBy = "mother")
     private Set<Pigeon> mothersChildren;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "father")
+    @OneToMany(mappedBy = "father")
     private Set<Pigeon> fathersChildren;
 
     @Enumerated(EnumType.STRING)
@@ -60,7 +60,7 @@ public class Pigeon extends AbstractOwnedEntity {
     @JoinColumn(name = "PHOTO_ID")
     private Image mainPhoto;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pigeon")
+    @OneToMany(mappedBy = "pigeon")
     private Set<Image> images;
 
 }
