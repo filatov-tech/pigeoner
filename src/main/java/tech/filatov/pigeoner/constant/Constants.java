@@ -19,6 +19,64 @@ public class Constants {
     public static final String FILTER_DATE_TYPE = "filterDateType";
     public static final String BIRTHDATE_TYPE = "birthdate";
     public static final String AGE_TYPE = "age";
+    public static final String SECTION_DTO_COMMON_NATIVE_QUERY = "SELECT ms.id AS sect_id,\n" +
+            "       ms.name AS sect_name,\n" +
+            "       type AS sect_type,\n" +
+            "       (WITH RECURSIVE pigeon_count AS (SELECT v.pigeon_id, v.location_id, v.section_id, v.type, v.parent_id\n" +
+            "                                        FROM (SELECT p.id       AS pigeon_id,\n" +
+            "                                                     section_id AS location_id,\n" +
+            "                                                     s.id       AS section_id,\n" +
+            "                                                     type,\n" +
+            "                                                     parent_id\n" +
+            "                                              FROM pigeon p\n" +
+            "                                                       LEFT JOIN section s ON FALSE\n" +
+            "                                              UNION\n" +
+            "                                              SELECT p.id       AS pigeon_id,\n" +
+            "                                                     section_id AS location_id,\n" +
+            "                                                     s.id       AS section_id,\n" +
+            "                                                     type,\n" +
+            "                                                     parent_id\n" +
+            "                                              FROM pigeon p\n" +
+            "                                                       RIGHT JOIN section s ON FALSE)\n" +
+            "                                                 AS v\n" +
+            "                                        WHERE v.location_id = ms.id\n" +
+            "                                           OR v.parent_id = ms.id\n" +
+            "\n" +
+            "                                        UNION ALL\n" +
+            "\n" +
+            "                                        SELECT w.pigeon_id, w.location_id, w.section_id, w.type, w.parent_id\n" +
+            "                                        FROM (SELECT p.id       AS pigeon_id,\n" +
+            "                                                     section_id AS location_id,\n" +
+            "                                                     s.id       AS section_id,\n" +
+            "                                                     type,\n" +
+            "                                                     parent_id\n" +
+            "                                              FROM pigeon p\n" +
+            "                                                       LEFT JOIN section s ON FALSE\n" +
+            "                                              UNION\n" +
+            "                                              SELECT p.id       AS pigeon_id,\n" +
+            "                                                     section_id AS location_id,\n" +
+            "                                                     s.id       AS section_id,\n" +
+            "                                                     type,\n" +
+            "                                                     parent_id\n" +
+            "                                              FROM pigeon p\n" +
+            "                                                       RIGHT JOIN section s ON FALSE)\n" +
+            "                                                 AS w\n" +
+            "                                                 INNER JOIN pigeon_count\n" +
+            "                                                            ON (w.pigeon_id IS NOT NULL AND\n" +
+            "                                                                w.location_id = pigeon_count.section_id AND\n" +
+            "                                                                pigeon_count.pigeon_id IS NULL)\n" +
+            "                                                                OR (w.parent_id = pigeon_count.section_id AND\n" +
+            "                                                                    w.pigeon_id IS NULL AND\n" +
+            "                                                                    pigeon_count.pigeon_id IS NULL))\n" +
+            "        SELECT COUNT(*)\n" +
+            "        FROM pigeon_count\n" +
+            "        WHERE pigeon_id IS NOT NULL) AS pigeon_number\n" +
+            "FROM section ms\n" +
+            "\n" +
+            "WHERE ms.parent_id";
+    public static final String SECTION_DTO_ROOT = " IS NULL";
+    public static final String SECTION_DTO_BY_ID = " = :id";
+
 
     static {
         FIELDS_MAPPING.put("ringNumber", "Кольцо");

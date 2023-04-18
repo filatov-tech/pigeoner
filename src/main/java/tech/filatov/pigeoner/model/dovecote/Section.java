@@ -2,6 +2,7 @@ package tech.filatov.pigeoner.model.dovecote;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import tech.filatov.pigeoner.dto.SectionDto;
 import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 import tech.filatov.pigeoner.model.feeding.FeedingMode;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
@@ -9,6 +10,28 @@ import tech.filatov.pigeoner.model.pigeon.Pigeon;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
+
+import static tech.filatov.pigeoner.constant.Constants.*;
+
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "Section.getTopLevelCommonSectionInfo",
+                query = SECTION_DTO_COMMON_NATIVE_QUERY + SECTION_DTO_ROOT,
+                resultSetMapping = "Mapping.SectionDto"
+        ),
+        @NamedNativeQuery(
+                name = "Section.getCommonSectionInfoById",
+                query = SECTION_DTO_COMMON_NATIVE_QUERY + SECTION_DTO_BY_ID,
+                resultSetMapping = "Mapping.SectionDto"
+        )}
+)
+@SqlResultSetMapping(
+        name = "Mapping.SectionDto",
+        classes = @ConstructorResult(targetClass = SectionDto.class,
+                columns = {@ColumnResult(name = "sect_id", type = Long.class),
+                        @ColumnResult(name = "sect_name", type = String.class),
+                        @ColumnResult(name = "sect_type", type = String.class),
+                        @ColumnResult(name = "pigeon_number", type = Integer.class)}))
 
 @Entity
 @Table(name = "SECTION")
