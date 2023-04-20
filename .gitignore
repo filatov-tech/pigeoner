@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 src/main/resources/static/**
+src/main/resources/tests
 /src/main/java/tech/filatov/pigeoner/Tests.java
 
 
