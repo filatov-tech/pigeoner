@@ -28,25 +28,49 @@ VALUES
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2017, 3, 1), 'DISEASED', false, true, 'Бабушка по маме', '23142215',
      100000, 100001, null, 100006, null, 100012, null), --100011
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2017, 1, 1), 'HEALTH', true, true, 'Дедушка по маме', '23144215',
-     100000, 100001, null, 100006, null, 100011, null), --100012
+     100000, 100001, null, 100007, null, 100011, null), --100012
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2018, 6, 1), 'HEALTH', true, true, 'Папа', '23114215',
-     100000, 100001, 100010, 100006, null, 100014, null), --100013
+     100000, 100001, 100010, 100007, null, 100014, null), --100013
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2018, 12, 1), 'HEALTH', false, true, 'Мама', '26314215',
-     100000, 100001, 100012, 100006, null, 100013, 100011), --100014
+     100000, 100001, 100012, 100008, null, 100013, 100011), --100014
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2018, 12, 1), 'HEALTH', false, true, 'Сестра папы', '23145215',
-     100000, 100001, 100010, 100006, null, null, null), --100015
+     100000, 100001, 100010, 100008, null, null, null), --100015
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2018, 12, 1), 'HEALTH', true, true, 'Брат папы', '23142155',
-     100000, 100001, 100010, 100006, null, null, null), --100016
+     100000, 100001, 100010, 100009, null, null, null), --100016
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'LOST', true, true, 'Сын', '23142152',
-     100000, 100001, 100013, 100006, null, null, 100014), --100017
+     100000, 100001, 100013, 100009, null, null, 100014), --100017
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'HEALTH', false, true, 'Дочь', '231134215',
-     100000, 100001, 100013, 100006, null, null, 100014), --100018
+     100000, 100001, 100013, 100004, null, null, 100014), --100018
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'HEALTH', false, true, 'Дочь', '314215',
-     100000, 100001, 100013, 100006, null, null, 100014), --100019
+     100000, 100001, 100013, 100004, null, null, 100014), --100019
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'HEALTH', true, true, 'Сын брата папы', '24215',
-     100000, 100001, 100016, 100006, null, null, null), --100020
+     100000, 100001, 100016, 100005, null, null, null), --100020
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2018, 12, 1), 'DEAD', true, true, 'Друг семьи', '244215',
-     100000, 100001, null, 100006, null, null, null)  --100021
+     100000, 100001, null, 100005, null, null, null)  --100021
+;
+
+INSERT INTO section (id, created, updated, name, type, user_id, parent_id)
+VALUES
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Конюшня', 'DOVECOTE', 100000, NULL),       --100022
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Основная секция', 'ROOM', 100000, 100022), --100023
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Гнездо 1', 'NEST', 100000, 100023),        --100024
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Гнездо 2', 'NEST', 100000, 100023),        --100025
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Гнездо 3', 'NEST', 100000, 100023),        --100026
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Гнездо 4', 'NEST', 100000, 100023),        --100027
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Гнездо 5', 'NEST', 100000, 100023)         --100028
+;
+
+INSERT INTO pigeon (id, created, updated, birthdate, condition_status, is_male, is_native, name, ring_number,
+                    user_id, color_id, father_id, section_id, photo_id, mate_id, mother_id)
+VALUES
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2018, 12, 30), 'HEALTH', true, true, null, '31234',
+     100000, 100001, null, 100024, null, 100031, null), --100029
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2017, 3, 14), 'DISEASED', false, true, null, '3423566',
+     100000, 100001, null, 100023, null, null, null), --100030
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2017, 4, 15), 'HEALTH', false, true, null, '3264623',
+     100000, 100001, null, 100024, null, 100029, null), --100031
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2018, 6, 13), 'HEALTH', true, true, null, '134156',
+     100000, 100001, null, 100027, null, null, null) --100032
 ;
 
 -- INSERT INTO flight (id, created, updated, departure, distance, is_training, user_id, location_id)
