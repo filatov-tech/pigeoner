@@ -2,7 +2,9 @@ package tech.filatov.pigeoner.web.section;
 
 import org.springframework.web.bind.annotation.*;
 import tech.filatov.pigeoner.dto.SectionDto;
+import tech.filatov.pigeoner.dto.SectionHierarchicalDto;
 import tech.filatov.pigeoner.repository.SectionRepository;
+import tech.filatov.pigeoner.service.SectionService;
 
 import java.util.List;
 
@@ -11,9 +13,11 @@ import java.util.List;
 public class SectionRestController {
 
     private final SectionRepository repository;
+    private final SectionService service;
 
-    public SectionRestController(SectionRepository repository) {
+    public SectionRestController(SectionRepository repository, SectionService service) {
         this.repository = repository;
+        this.service = service;
     }
 
     @GetMapping("/info")
@@ -24,5 +28,10 @@ public class SectionRestController {
     @GetMapping("/info/{id}")
     public List<SectionDto> getSectionInfo(@PathVariable int id) {
         return repository.getCommonSectionInfoById(id);
+    }
+
+    @GetMapping("/hierarchy")
+    public List<SectionHierarchicalDto> getHierarchicalStructure() {
+        return service.getHierarchicalStructure();
     }
 }
