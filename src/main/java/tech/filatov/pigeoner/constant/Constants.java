@@ -3,9 +3,7 @@ package tech.filatov.pigeoner.constant;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Constants {
-    private static final Map<String, String> FIELDS_MAPPING = new HashMap<>();
-    public static final String SEP = ";";
+final public class Constants {
     public static final String RING_NUMBER = "ringNumber";
     public static final String PIGEON_NAME = "name";
     public static final String CONDITION = "condition";
@@ -76,19 +74,4 @@ public class Constants {
             "WHERE ms.parent_id";
     public static final String SECTION_DTO_ROOT = " IS NULL";
     public static final String SECTION_DTO_BY_ID = " = :id";
-
-
-    static {
-        FIELDS_MAPPING.put("ringNumber", "Кольцо");
-        FIELDS_MAPPING.put("color", "Окрас");
-        FIELDS_MAPPING.put("sex", "Пол");
-        FIELDS_MAPPING.put("birthday", "Родился");
-        FIELDS_MAPPING.put("age", "Возраст");
-        FIELDS_MAPPING.put("mate", "Пара");
-        FIELDS_MAPPING.put("status", "Состояние");
-    }
-
-    public static String getUiName(String fieldName) {
-        return FIELDS_MAPPING.get(fieldName);
-    }
 }
