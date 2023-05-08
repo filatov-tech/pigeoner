@@ -23,7 +23,6 @@ class MyAccordion extends React.Component {
         this.state = {
             error: null,
             isLoaded: false,
-            isRoot: false,
             sections: [],
             pigeons: [],
             isChildsLoaded: false
@@ -53,7 +52,6 @@ class MyAccordion extends React.Component {
                     this.setState(() => {
                         return {
                             isLoaded: true,
-                            isRoot: true,
                             parentId: 1,
                             sections: result
                         }
@@ -88,7 +86,7 @@ class MyAccordion extends React.Component {
     }
 
     render() {
-        const {error, isLoaded, sections, parentId, isRoot} = this.state;
+        const {error, isLoaded, sections, parentId} = this.state;
         if (error) {
             return <div>Ошибка! {error.message}</div>;
         } else if (!isLoaded) {
