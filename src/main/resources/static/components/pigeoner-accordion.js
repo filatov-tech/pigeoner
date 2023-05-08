@@ -25,7 +25,7 @@ class MyAccordion extends React.Component {
             isLoaded: false,
             sections: [],
             pigeons: [],
-            isChildsLoaded: false
+            isChildrenLoaded: false
         }
         this.handleClick = this.handleClick.bind(this);
     }
@@ -67,20 +67,20 @@ class MyAccordion extends React.Component {
     }
 
     handleClick() {
-        if (this.state.isChildsLoaded) {
+        if (this.state.isChildrenLoaded) {
             return;
         }
-        let parentsWhoNeedsChilds = JSON.parse(JSON.stringify(this.state.sections));
-        let childsRequests = parentsWhoNeedsChilds.map(section => fetch(MyAccordion.defaultProps.baseUrl + `${section.id}`));
-        Promise.all(childsRequests)
+        let parentsWhoNeedsChildren = JSON.parse(JSON.stringify(this.state.sections));
+        let childrenRequests = parentsWhoNeedsChildren.map(section => fetch(MyAccordion.defaultProps.baseUrl + `${section.id}`));
+        Promise.all(childrenRequests)
             .then(responses => Promise.all(responses.map(resp => resp.json())))
             .then(childSections => {
                 for(let i = 0; i < childSections.length; i++) {
-                    parentsWhoNeedsChilds[i].childs = childSections[i];
+                    parentsWhoNeedsChildren[i].childs = childSections[i];
                 }
                 this.setState({
-                    isChildsLoaded: true,
-                    sections: parentsWhoNeedsChilds
+                    isChildrenLoaded: true,
+                    sections: parentsWhoNeedsChildren
                 });
             })
     }
