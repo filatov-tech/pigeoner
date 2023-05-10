@@ -1,6 +1,7 @@
 package tech.filatov.pigeoner.util;
 
 import tech.filatov.pigeoner.dto.SectionHierarchicalDto;
+import tech.filatov.pigeoner.model.dovecote.Section;
 
 import java.util.List;
 import java.util.Map;
@@ -33,5 +34,11 @@ public class SectionUtil {
         }
 
         return sections;
+    }
+
+    public static List<Section> makeSectionsFrom(List<Long> id) {
+        return id.stream()
+                .map(Section::new)
+                .collect(Collectors.toList());
     }
 }

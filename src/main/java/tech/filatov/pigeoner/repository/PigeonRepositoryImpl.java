@@ -1,6 +1,7 @@
 package tech.filatov.pigeoner.repository;
 
 import org.springframework.stereotype.Repository;
+import tech.filatov.pigeoner.model.dovecote.Section;
 import tech.filatov.pigeoner.model.pigeon.Condition;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
@@ -16,14 +17,17 @@ import java.time.temporal.TemporalAmount;
 import java.util.*;
 
 import static tech.filatov.pigeoner.constant.Constants.*;
+import static tech.filatov.pigeoner.util.SectionUtil.*;
 
 @Repository
 public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
 
     EntityManager em;
+    private final SectionRepository sectionRepository;
 
-    public PigeonRepositoryImpl(EntityManager em) {
+    public PigeonRepositoryImpl(EntityManager em, SectionRepository sectionRepository) {
         this.em = em;
+        this.sectionRepository = sectionRepository;
     }
 
     @Override
@@ -56,7 +60,13 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
             );
         }
         if (!filterParameters.get(LOCATION).isEmpty()) {
-            predicates.add(cb.equal(pigeonRoot.get(LOCATION), filterParameters.get(LOCATION)));
+            long currentSectionId = Long.parseLong(filterParameters.get(LOCATION));
+            List<Long> idList = sectionRepository.getIdListOfAllDescendantsById(currentSectionId);
+            CriteriaBuilder.In<Section> inSections = cb.in(pigeonRoot.get(LOCATION));
+            for (Section section : makeSectionsFrom(idList)) {
+                inSections.value(section);
+            }
+            predicates.add(inSections);
         }
         if (!filterParameters.get(PIGEON_NAME).isEmpty()) {
             predicates.add(cb.equal(pigeonRoot.get(PIGEON_NAME), filterParameters.get(PIGEON_NAME)));

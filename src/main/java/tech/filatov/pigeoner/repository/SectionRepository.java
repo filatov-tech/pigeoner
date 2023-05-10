@@ -24,4 +24,7 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
             "tech.filatov.pigeoner.model.dovecote.SectionType.DOVECOTE, " +
             "tech.filatov.pigeoner.model.dovecote.SectionType.ROOM)")
     List<SectionHierarchicalDto> getAllHierarchical();
+
+    @Query(nativeQuery = true)
+    List<Long> getIdListOfAllDescendantsById(long id);
 }

@@ -74,4 +74,16 @@ final public class Constants {
             "WHERE ms.parent_id";
     public static final String SECTION_DTO_ROOT = " IS NULL";
     public static final String SECTION_DTO_BY_ID = " = :id";
+    public static final String SECTION_WITH_DEEP_CHILDREN = "WITH RECURSIVE recursive_sections\n" +
+            "                   AS (SELECT s.id, s.parent_id\n" +
+            "                       FROM section AS s\n" +
+            "                       WHERE s.parent_id = :id\n" +
+            "\n" +
+            "                       UNION ALL\n" +
+            "\n" +
+            "                       SELECT sj.id, sj.parent_id\n" +
+            "                       FROM section AS sj\n" +
+            "                                INNER JOIN recursive_sections AS rs ON rs.id = sj.parent_id)\n" +
+            "SELECT rec.id\n" +
+            "FROM recursive_sections rec";
 }

@@ -2,6 +2,7 @@ package tech.filatov.pigeoner.model.dovecote;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import tech.filatov.pigeoner.dto.SectionDto;
 import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 import tech.filatov.pigeoner.model.feeding.FeedingMode;
@@ -23,6 +24,10 @@ import static tech.filatov.pigeoner.constant.Constants.*;
                 name = "Section.getCommonSectionInfoById",
                 query = SECTION_DTO_COMMON_NATIVE_QUERY + SECTION_DTO_BY_ID,
                 resultSetMapping = "Mapping.SectionDto"
+        ),
+        @NamedNativeQuery(
+                name = "Section.getIdListOfAllDescendantsById",
+                query = SECTION_WITH_DEEP_CHILDREN
         )}
 )
 @SqlResultSetMapping(
@@ -36,6 +41,7 @@ import static tech.filatov.pigeoner.constant.Constants.*;
 @Entity
 @Table(name = "SECTION")
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Section extends AbstractOwnedEntity {
 
@@ -57,4 +63,8 @@ public class Section extends AbstractOwnedEntity {
 
     @OneToMany(mappedBy = "location")
     private Set<Pigeon> pigeons;
+
+    public Section(long id) {
+        this.setId(id);
+    }
 }
