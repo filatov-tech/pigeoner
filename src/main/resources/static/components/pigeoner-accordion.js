@@ -80,8 +80,6 @@ class MyAccordion extends React.Component {
                                     <div className="accordion-body">
                                         {!(section.sectionType === "NEST") && <strong>Секции:</strong>}
                                         {section.children && <MyAccordion sections={section.children} parentId={section.id}/>}
-                                        <br/>
-                                        <br/>
                                         {section.pigeons.length > 0 &&
                                             <React.Fragment>
                                                 <strong>Голуби:</strong>
@@ -103,7 +101,7 @@ class PigeonList extends React.Component {
         const pigeons = this.props.pigeons;
         return (<React.Fragment>
             {pigeons && pigeons.map(pigeon => (
-                <p>{pigeon.ringNumber} {pigeon.isMale ? "M" : "Ж"}</p>
+                <p>{pigeon.ringNumber} {pigeon.male ? "M" : "Ж"}</p>
             ))}
         </React.Fragment>)
     }
