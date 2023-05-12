@@ -54,11 +54,11 @@ class SectionOption extends React.Component {
     render() {
         const section = this.props.section;
         const currentLevelPrefix = this.props.hierarchyLevel;
-        if (section.childSections.length > 0) {
+        if (section.children.length > 0) {
             const nextLevelPrefix = currentLevelPrefix + SectionOption.defaultProps.prefixElement;
             return <React.Fragment>
                     <option value={section.id}>{currentLevelPrefix}   {section.name}</option>
-                    {section.childSections.map(section =>(
+                    {section.children.map(section =>(
                         <SectionOption section={section} hierarchyLevel={nextLevelPrefix}/>
                     ))}
                 </React.Fragment>;
