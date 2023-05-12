@@ -20,6 +20,7 @@ final public class Constants {
     public static final String SECTION_DTO_COMMON_NATIVE_QUERY = "SELECT ms.id AS sect_id,\n" +
             "       ms.name AS sect_name,\n" +
             "       type AS sect_type,\n" +
+            "       ms.parent_id AS parent_id,\n" +
             "       (WITH RECURSIVE pigeon_count AS (SELECT v.pigeon_id, v.location_id, v.section_id, v.type, v.parent_id\n" +
             "                                        FROM (SELECT p.id       AS pigeon_id,\n" +
             "                                                     section_id AS location_id,\n" +
@@ -69,11 +70,9 @@ final public class Constants {
             "        SELECT COUNT(*)\n" +
             "        FROM pigeon_count\n" +
             "        WHERE pigeon_id IS NOT NULL) AS pigeon_number\n" +
-            "FROM section ms\n" +
-            "\n" +
-            "WHERE ms.parent_id";
-    public static final String SECTION_DTO_ROOT = " IS NULL";
-    public static final String SECTION_DTO_BY_ID = " = :id";
+            "FROM section ms";
+    public static final String SECTION_DTO_ROOT = " WHERE ms.parent_id IS NULL";
+    public static final String SECTION_DTO_BY_ID = " WHERE ms.parent_id = :id";
     public static final String SECTION_WITH_DEEP_CHILDREN = "WITH RECURSIVE recursive_sections\n" +
             "                   AS (SELECT s.id, s.parent_id\n" +
             "                       FROM section AS s\n" +

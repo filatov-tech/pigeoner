@@ -27,4 +27,7 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
 
     @Query(nativeQuery = true)
     List<Long> getIdListOfAllDescendantsById(long id);
+
+    @Query(nativeQuery = true)
+    List<SectionDto> getAllWithInfo();
 }

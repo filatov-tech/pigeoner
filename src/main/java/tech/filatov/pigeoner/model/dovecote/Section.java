@@ -26,6 +26,11 @@ import static tech.filatov.pigeoner.constant.Constants.*;
                 resultSetMapping = "Mapping.SectionDto"
         ),
         @NamedNativeQuery(
+                name = "Section.getAllWithInfo",
+                query = SECTION_DTO_COMMON_NATIVE_QUERY,
+                resultSetMapping = "Mapping.SectionDto"
+        ),
+        @NamedNativeQuery(
                 name = "Section.getIdListOfAllDescendantsById",
                 query = SECTION_WITH_DEEP_CHILDREN
         )}
@@ -36,6 +41,7 @@ import static tech.filatov.pigeoner.constant.Constants.*;
                 columns = {@ColumnResult(name = "sect_id", type = Long.class),
                         @ColumnResult(name = "sect_name", type = String.class),
                         @ColumnResult(name = "sect_type", type = String.class),
+                        @ColumnResult(name = "parent_id", type = Long.class),
                         @ColumnResult(name = "pigeon_number", type = Integer.class)}))
 
 @Entity
