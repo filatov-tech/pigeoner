@@ -84,23 +84,19 @@ class MyAccordion extends React.Component {
                                     <div className="accordion-body">
                                         {(section.children.length > 0 && section.children[0].sectionType === "NEST")
                                             ?
-                                            <div className="row g-2">
+                                            <div className="row g-1 g-sm-2">
                                                 {section.children.map(nest => (
-                                                    <MyCard pigeons={nest.pigeons} name={nest.name}/>
+                                                    <div className="col-6 col-md-3 col-lg-2 text-center" key={nest.id}>
+                                                        <Nest pigeons={nest.pigeons} name={nest.name}/>
+                                                    </div>
                                                 ))}
+                                                <OutsideTheNests pigeons={section.pigeons} />
                                             </div>
                                             :
                                             (<React.Fragment>
                                                 <strong>Секции:</strong>
                                                 <MyAccordion sections={section.children} parentId={section.id}/>
                                             </React.Fragment>)}
-                                        {section.pigeons.length > 0 &&
-                                            <React.Fragment>
-                                                <br/>
-                                                <br/>
-                                                <strong>Голуби:</strong>
-                                                <PigeonList pigeons={section.pigeons} />
-                                            </React.Fragment>}
                                     </div>
                                 </div>
                             </div>
@@ -112,47 +108,68 @@ class MyAccordion extends React.Component {
     }
 }
 
-class PigeonList extends React.Component {
-    render() {
-        const pigeons = this.props.pigeons;
-        return (<React.Fragment>
-            {pigeons && pigeons.map(pigeon => (
-                <p>{pigeon.ringNumber} {pigeon.isMale ? "M" : "Ж"}</p>
-            ))}
-        </React.Fragment>)
-    }
-}
-
-class MyCard extends React.Component {
+class Nest extends React.Component {
     render() {
         const pigeons = this.props.pigeons;
         const name = this.props.name;
         return (
-            <div className="col-md-3 nest">
-                <div className="card">
-                    <div className="card-header">
-                        <h5 className="mb-0">{name}</h5>
-                    </div>
-                    <div className="card-body">
-                        <div className="row">
-                            <MyLabel pigeon={pigeons[0]} />
-                            <MyLabel pigeon={pigeons[1]} />
-                        </div>
+
+            <div className="card nest">
+                <div className="card-header">
+                    <h5 className="mb-0">{name}</h5>
+                </div>
+                <div className="card-body">
+                    <div className="row g-2">
+                        <PigeonLabel pigeon={pigeons[0]} />
+                        <PigeonLabel pigeon={pigeons[1]} />
                     </div>
                 </div>
             </div>
+
         )
     }
 }
 
-class MyLabel extends React.Component {
+class PigeonLabel extends React.Component {
     render() {
         const pigeon = this.props.pigeon;
+        const col = this.props.isOutside ? "col-6 col-md-2" : "col-12";
         return (
-            <div className={"col-6 text-center"}>
+            <>
                 {pigeon
-                    ? <div className={pigeon.male ? "label label-male" : "label label-female"}>{pigeon.ringNumber}</div>
-                    : <div className={"label label-vacant"}>Cвободно</div>}
+                    ? <div className={pigeon.male ? `m-2 ${col} label label-male` : `m-2 ${col} label label-female`}>{pigeon.ringNumber}</div>
+                    : <div className={`m-2 ${col} label label-vacant`}>Cвободно</div>}
+            </>
+        );
+    }
+}
+
+class OutsideTheNests extends React.Component {
+    render() {
+        const pigeons = this.props.pigeons;
+        console.log(pigeons)
+        return (
+            <div className="col-12">
+                <div className="card">
+                    <div className="card-header">
+                        <h5 className="mb-0">Голуби вне гнёзд</h5>
+                    </div>
+                    <div className="card-body">
+                        {pigeons.length > 0
+                            ?
+                            <div className="row">
+                                {pigeons.map(pigeon => (
+                                    <PigeonLabel pigeon={pigeon} isOutside={true} key={pigeon.id}/>
+                                ))}
+                                <PigeonLabel isOutside={true} />
+                            </div>
+                            :
+                            <div>
+                                Нет голубей <strong>вне</strong> гнёзд
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         );
     }
