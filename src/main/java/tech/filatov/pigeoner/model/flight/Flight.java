@@ -17,6 +17,8 @@ public class Flight extends AbstractOwnedEntity {
 
     private LocalDateTime departure;
 
+    private int totalParticipants;
+
     @OneToMany(mappedBy = "flight")
     private List<FlightResult> participants;
 

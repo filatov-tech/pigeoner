@@ -1,10 +1,8 @@
 package tech.filatov.pigeoner.web.pigeon;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tech.filatov.pigeoner.dto.PigeonTableDto;
+import tech.filatov.pigeoner.dto.PigeonWithAncestorsDto;
 import tech.filatov.pigeoner.service.PigeonService;
 
 import java.util.List;
@@ -31,5 +29,10 @@ public class PigeonRestController {
     public List<PigeonTableDto> getFiltered(@RequestParam(required = false) Map<String, String> filterParameters) {
         validateDataFromFilter(filterParameters);
         return service.getAll(filterParameters);
+    }
+
+    @GetMapping("/{id}/with-ancestors")
+    public PigeonWithAncestorsDto getWithAncestors(@PathVariable int id) {
+        return service.getWithAncestorsAndFlights(id);
     }
 }

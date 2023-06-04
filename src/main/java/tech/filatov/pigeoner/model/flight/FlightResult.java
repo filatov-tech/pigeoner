@@ -22,13 +22,11 @@ public class FlightResult extends AbstractOwnedEntity {
     @JoinColumn(name = "FLIGHT_ID")
     private Flight flight;
 
-    private LocalDateTime departure;
-
-    private LocalDateTime arrival;
+    private LocalDateTime arrivalTime;
 
     private boolean isPass;
 
-    private int resultPlace;
+    private int position;
 
     private BigInteger winPoints;
 

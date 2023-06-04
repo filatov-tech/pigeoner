@@ -1,8 +1,12 @@
 package tech.filatov.pigeoner.service;
 
 import org.springframework.stereotype.Service;
+import tech.filatov.pigeoner.dto.FlightResultDto;
 import tech.filatov.pigeoner.dto.PigeonTableDto;
+import tech.filatov.pigeoner.dto.PigeonWithAncestorsDto;
+import tech.filatov.pigeoner.repository.FlightResultRepository;
 import tech.filatov.pigeoner.repository.PigeonRepository;
+import tech.filatov.pigeoner.util.PigeonUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -13,9 +17,11 @@ import static tech.filatov.pigeoner.util.PigeonUtil.*;
 public class PigeonService {
 
     private final PigeonRepository repository;
+    private final FlightResultRepository flightResultRepository;
 
-    public PigeonService(PigeonRepository repository) {
+    public PigeonService(PigeonRepository repository, FlightResultRepository flightResultRepository) {
         this.repository = repository;
+        this.flightResultRepository = flightResultRepository;
     }
 
     public List<PigeonTableDto> getAll()  {
@@ -24,5 +30,15 @@ public class PigeonService {
 
     public List<PigeonTableDto> getAll(Map<String, String> filterParameters) {
         return getDtos(repository.getFiltered(filterParameters));
+    }
+
+    public PigeonWithAncestorsDto getWithAncestorsAndFlights(int id) {
+        List<PigeonWithAncestorsDto> pigeons = repository.getWithAncestorsById(id);
+        PigeonWithAncestorsDto pigeon = PigeonUtil.buildPedigree(pigeons);
+
+        List<FlightResultDto> flights = flightResultRepository.getAllByPigeonId(id);
+        pigeon.setFlights(flights);
+
+        return pigeon;
     }
 }

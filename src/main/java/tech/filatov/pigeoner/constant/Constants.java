@@ -85,4 +85,17 @@ final public class Constants {
             "                                INNER JOIN recursive_sections AS rs ON rs.id = sj.parent_id)\n" +
             "SELECT rec.id\n" +
             "FROM recursive_sections rec";
+    public static final String PIGEON_WITH_3_LEVEL_ANCESTORS = "WITH RECURSIVE pedigree AS (\n" +
+            "    SELECT id, ring_number, name, is_male, birthdate, condition_status, father_id, mother_id, 0 AS depth\n" +
+            "    FROM pigeon\n" +
+            "    WHERE id = :id\n" +
+            "\n" +
+            "    UNION\n" +
+            "    \n" +
+            "    SELECT p.id, p.ring_number, p.name, p.is_male, p.birthdate, p.condition_status, p.father_id, p.mother_id, depth+1\n" +
+            "    FROM pigeon p\n" +
+            "    JOIN pedigree ped ON ped.father_id = p.id OR ped.mother_id = p.id\n" +
+            "    WHERE depth < 3\n" +
+            ") \n" +
+            "SELECT * FROM pedigree";
 }
