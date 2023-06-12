@@ -7,15 +7,19 @@ public enum Condition {
     DEAD("Умер"),
     LOST("Потерян");
 
-    public final String label;
+    private final String title;
 
-    Condition(String label) {
-        this.label = label;
+    Condition(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public static Condition valueOfLabel(String label) {
         for (Condition c : values()) {
-            if (c.label.equals(label)) {
+            if (c.title.equals(label)) {
                 return c;
             }
         }
