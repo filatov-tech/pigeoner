@@ -3,6 +3,7 @@ package tech.filatov.pigeoner.util;
 import tech.filatov.pigeoner.dto.PigeonTableDto;
 import tech.filatov.pigeoner.dto.PigeonWithAncestorsDto;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
+import tech.filatov.pigeoner.model.pigeon.Sex;
 
 import java.util.*;
 
@@ -21,11 +22,11 @@ public class PigeonUtil {
                 pigeon.getId(),
                 pigeon.getRingNumber(),
                 pigeon.getColor().getName(),
-                pigeon.isMale() ? "М" : "Ж",
+                pigeon.getSex().equals(Sex.MALE) ? "М" : "Ж",
                 pigeon.getBirthdate(),
                 TimeUtil.getAgeFromBirthday(pigeon.getBirthdate()),
                 "nullstub",
-                pigeon.getConditionStatus().label
+                pigeon.getConditionStatus().getTitle()
         );
     }
 

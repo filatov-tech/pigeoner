@@ -24,9 +24,10 @@ import static tech.filatov.pigeoner.constant.Constants.*;
                 columns = {@ColumnResult(name = "id", type = Long.class),
                         @ColumnResult(name = "ring_number", type = String.class),
                         @ColumnResult(name = "name", type = String.class),
-                        @ColumnResult(name = "is_male", type = Boolean.class),
+                        @ColumnResult(name = "sex", type = String.class),
                         @ColumnResult(name = "birthdate", type = LocalDate.class),
                         @ColumnResult(name = "condition_status", type = String.class),
+                        @ColumnResult(name = "is_native", type = Boolean.class),
                         @ColumnResult(name = "father_id", type = Long.class),
                         @ColumnResult(name = "mother_id", type = Long.class),
                         @ColumnResult(name = "depth", type = Integer.class),
@@ -43,7 +44,8 @@ public class Pigeon extends AbstractOwnedEntity {
 
     private String name;
 
-    private boolean isMale;
+    @Enumerated(EnumType.STRING)
+    private Sex sex;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MOTHER_ID")
