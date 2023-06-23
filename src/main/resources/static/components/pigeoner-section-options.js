@@ -36,7 +36,7 @@ class SectionHierarchy extends React.Component {
         } else {
             return (
                 <select id="location" className="form-select" name="location">
-                    <option>Выберите голубятню</option>
+                    <option value="">Выберите голубятню</option>
                     {sections.map(section => (
                         <SectionOption section={section} hierarchyLevel={rootLevel}/>
                     ))}
