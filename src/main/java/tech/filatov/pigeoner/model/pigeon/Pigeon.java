@@ -3,6 +3,7 @@ package tech.filatov.pigeoner.model.pigeon;
 import lombok.*;
 import tech.filatov.pigeoner.dto.PigeonWithAncestorsDto;
 import tech.filatov.pigeoner.model.AbstractOwnedEntity;
+import tech.filatov.pigeoner.model.Keeper;
 import tech.filatov.pigeoner.model.flight.FlightResult;
 import tech.filatov.pigeoner.model.dovecote.Section;
 
@@ -89,5 +90,9 @@ public class Pigeon extends AbstractOwnedEntity {
 
     @OneToMany(mappedBy = "pigeon")
     private Set<Image> images;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "KEEPER_ID")
+    private Keeper keeper;
 
 }
