@@ -32,6 +32,7 @@ import static tech.filatov.pigeoner.constant.Constants.*;
                         @ColumnResult(name = "father_id", type = Long.class),
                         @ColumnResult(name = "mother_id", type = Long.class),
                         @ColumnResult(name = "depth", type = Integer.class),
+                        @ColumnResult(name = "keeper", type = String.class),
                 }
         )
 )

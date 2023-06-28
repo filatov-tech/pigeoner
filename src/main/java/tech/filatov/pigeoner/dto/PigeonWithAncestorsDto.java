@@ -24,6 +24,7 @@ public class PigeonWithAncestorsDto {
     private Boolean isNative;
     private Long fatherId;
     private Long motherId;
+    private String keeper;
     private Integer depth;
     private PigeonWithAncestorsDto father;
     private PigeonWithAncestorsDto mother;
@@ -39,7 +40,8 @@ public class PigeonWithAncestorsDto {
                                   Boolean isNative,
                                   Long fatherId,
                                   Long motherId,
-                                  Integer depth) {
+                                  Integer depth,
+                                  String keeper) {
         this.id = id;
         this.ringNumber = ringNumber;
         this.name = name;
@@ -50,6 +52,7 @@ public class PigeonWithAncestorsDto {
         this.fatherId = fatherId;
         this.motherId = motherId;
         this.depth = depth;
+        this.keeper = keeper;
     }
 
     public void setFlights(List<FlightResultDto> flights) {
