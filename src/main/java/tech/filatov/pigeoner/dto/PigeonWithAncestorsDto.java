@@ -63,9 +63,16 @@ public class PigeonWithAncestorsDto {
     private void setTopFlights(List<FlightResultDto> flights) {
         List<FlightResultDto> flightsCopy = flights.stream()
                 .map(FlightResultDto::new).sorted((o1, o2) -> {
-            int relativePosition1 = (o1.getPosition() * 100) / o1.getTotalParticipants();
-            int relativePosition2 = (o2.getPosition() * 100) / o2.getTotalParticipants();
-            return relativePosition1 - relativePosition2;
+                    int relativePosition1;
+                    int relativePosition2;
+                    if (o1.getTotalParticipants() == 0 || o2.getTotalParticipants() == 0) {
+                        relativePosition1 = o1.getPosition();
+                        relativePosition2 = o2.getPosition();
+                    } else {
+                        relativePosition1 = (o1.getPosition() * 100) / o1.getTotalParticipants();
+                        relativePosition2 = (o2.getPosition() * 100) / o2.getTotalParticipants();
+                    }
+                    return relativePosition1 - relativePosition2;
         }).toList();
         if (flightsCopy.size() < 3) {
             topFlights = flightsCopy;
