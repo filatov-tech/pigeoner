@@ -24,12 +24,15 @@ public class FlightResult extends AbstractOwnedEntity {
 
     private LocalDateTime arrivalTime;
 
-    private boolean isPass;
+    @Column(columnDefinition = "boolean default false")
+    private boolean isPass = false;
 
-    private int position;
+    private int position = 0;
 
-    private BigInteger winPoints;
+    private BigInteger winPoints = BigInteger.ZERO;
+
+    private BigInteger averageSpeed = BigInteger.ZERO;
 
     @Enumerated(EnumType.STRING)
-    private AfterFlightCondition condition;
+    private AfterFlightCondition condition = AfterFlightCondition.NORMAL;
 }
