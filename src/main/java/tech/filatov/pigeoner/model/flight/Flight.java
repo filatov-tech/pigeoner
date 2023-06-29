@@ -13,14 +13,19 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Flight extends AbstractOwnedEntity {
 
+    private String locationName;
+
     private int distance;
 
     private LocalDateTime departure;
 
-    private int totalParticipants;
-
     @OneToMany(mappedBy = "flight")
-    private List<FlightResult> participants;
+    private List<FlightResult> myParticipants;
 
-    private String locationName;
+    private Integer totalParticipants;
+
+    private Integer passingThreshold;
+
+    private Integer myPassed;
+
 }
