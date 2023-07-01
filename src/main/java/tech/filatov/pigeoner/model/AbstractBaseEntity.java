@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -33,4 +32,5 @@ public abstract class AbstractBaseEntity implements Persistable<Long> {
     public boolean isNew() {
         return getId() == null;
     }
+
 }
