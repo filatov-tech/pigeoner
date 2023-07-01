@@ -14,4 +14,10 @@ public interface FlightResultRepository extends JpaRepository<FlightResult, Long
             "FROM FlightResult fr JOIN Flight fl ON fr.flight.id = fl.id " +
             "WHERE fr.pigeon.id = :id")
     List<FlightResultDto> getAllByPigeonId(long id);
+
+    @Query("SELECT new tech.filatov.pigeoner.dto.FlightResultDto(" +
+            "fr.id, p.id, p.ringNumber, fr.position, fr.arrivalTime, fr.isPass, fr.winPoints, fr.averageSpeed, fr.condition, p.keeper.name) " +
+            "FROM FlightResult fr JOIN Pigeon p ON fr.pigeon.id = p.id " +
+            "WHERE fr.flight.id = :id AND fr.owner.id = :userId AND p.owner.id = :userId")
+    List<FlightResultDto> getAllByFlightId(long id, long userId);
 }

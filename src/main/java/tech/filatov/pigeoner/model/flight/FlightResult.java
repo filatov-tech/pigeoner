@@ -6,7 +6,6 @@ import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,14 +23,13 @@ public class FlightResult extends AbstractOwnedEntity {
 
     private LocalDateTime arrivalTime;
 
-    @Column(columnDefinition = "boolean default false")
-    private boolean isPass = false;
+    private Boolean isPass ;
 
     private int position = 0;
 
-    private BigInteger winPoints = BigInteger.ZERO;
+    private Double winPoints;
 
-    private BigInteger averageSpeed = BigInteger.ZERO;
+    private Double averageSpeed;
 
     @Enumerated(EnumType.STRING)
     private AfterFlightCondition condition = AfterFlightCondition.NORMAL;
