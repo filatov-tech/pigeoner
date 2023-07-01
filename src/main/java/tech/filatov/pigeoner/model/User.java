@@ -16,4 +16,9 @@ public class User extends AbstractBaseEntity {
 
     private String password;
 
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
+
 }
