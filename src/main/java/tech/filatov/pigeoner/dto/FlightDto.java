@@ -9,11 +9,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class FlightTableDto {
+public class FlightDto {
+    private Long id;
     private String locationName;
     private int distance;
     private Long numberParticipants;
     private Integer totalParticipants;
     private Integer myPassed;
     private LocalDateTime departure;
+    private Integer passingThreshold;
 }

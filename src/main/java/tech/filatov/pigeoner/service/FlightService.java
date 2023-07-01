@@ -1,7 +1,7 @@
 package tech.filatov.pigeoner.service;
 
 import org.springframework.stereotype.Service;
-import tech.filatov.pigeoner.dto.FlightTableDto;
+import tech.filatov.pigeoner.dto.FlightDto;
 import tech.filatov.pigeoner.repository.FlightRepository;
 
 import java.util.List;
@@ -14,8 +14,11 @@ public class FlightService {
         this.repository = repository;
     }
 
+    public List<FlightDto> getAllFlightDto(long userId) {
+        return repository.getAllFlightDto(userId);
+    }
 
-    public List<FlightTableDto> getAllWithNumberOfMyPigeons(long id) {
-        return repository.getAllFlightTableDto(id);
+    public FlightDto getFlightDto(long id, long userId) {
+        return repository.getFlightDtoById(id, userId);
     }
 }
