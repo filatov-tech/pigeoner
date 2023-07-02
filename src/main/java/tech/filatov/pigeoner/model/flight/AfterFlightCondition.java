@@ -4,18 +4,22 @@ public enum AfterFlightCondition {
     NORMAL("Нормальное"),
     TIRED("Уставший");
 
-    public final String label;
+    private final String title;
 
-    AfterFlightCondition(String label) {
-        this.label = label;
+    AfterFlightCondition(String title) {
+        this.title = title;
     }
 
     public static AfterFlightCondition valueOfLabel(String label) {
         for (AfterFlightCondition c : values()) {
-            if (c.label.equals(label)) {
+            if (c.title.equals(label)) {
                 return c;
             }
         }
         return null;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

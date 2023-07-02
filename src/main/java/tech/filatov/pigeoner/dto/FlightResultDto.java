@@ -55,7 +55,7 @@ public class FlightResultDto {
         this.isPass = isPass;
         this.winPoints = winPoints;
         this.averageSpeed = averageSpeed;
-        this.afterFlightCondition = afterFlightCondition.label;
+        this.afterFlightCondition = afterFlightCondition.getTitle();
         this.keeper = keeper;
     }
 }
