@@ -73,14 +73,14 @@ VALUES
      100000, 100001, null, 100027, null, null, null) --100032
 ;
 
-INSERT INTO flight (id, created, updated, departure, distance, location_name, user_id)
+INSERT INTO flight (id, created, updated, flight_type, departure, distance, location_name, user_id)
 VALUES
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_timestamp(2023, 5, 28, 6, 10, 0), 252, 'Якушино', 100000), --100033
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_timestamp(2023, 6, 4, 7, 0, 0), 348, 'Зайцево', 100000),   --100034
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_timestamp(2023, 6, 11, 6, 0, 0), 417, 'Бадуны', 100000),   --100035
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_timestamp(2023, 6, 18, 5, 0, 0), 532, 'Калюги', 100000),   --100036
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_timestamp(2023, 6, 18, 5, 0, 0), 348, 'Зайцево', 100000),  --100037
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_timestamp(2023, 6, 25, 6, 0, 0), 348, 'Зайцево', 100000)   --100038
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'COMPETITION', make_timestamp(2023, 5, 28, 6, 10, 0), 252, 'Якушино', 100000), --100033
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'COMPETITION', make_timestamp(2023, 6, 4, 7, 0, 0), 348, 'Зайцево', 100000),   --100034
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'COMPETITION', make_timestamp(2023, 6, 11, 6, 0, 0), 417, 'Бадуны', 100000),   --100035
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'COMPETITION', make_timestamp(2023, 6, 18, 5, 0, 0), 532, 'Калюги', 100000),   --100036
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'COMPETITION', make_timestamp(2023, 6, 18, 5, 0, 0), 348, 'Зайцево', 100000),  --100037
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'COMPETITION', make_timestamp(2023, 6, 25, 6, 0, 0), 348, 'Зайцево', 100000)   --100038
 ;
 
 INSERT INTO keeper (id, created, updated, user_id, name)
