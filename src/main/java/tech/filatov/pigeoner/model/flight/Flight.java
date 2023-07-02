@@ -28,4 +28,7 @@ public class Flight extends AbstractOwnedEntity {
 
     private Integer myPassed;
 
+    @Enumerated(EnumType.STRING)
+    private FlightType flightType;
+
 }
