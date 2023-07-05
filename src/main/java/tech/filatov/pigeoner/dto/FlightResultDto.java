@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import tech.filatov.pigeoner.model.flight.AfterFlightCondition;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,12 +19,13 @@ public class FlightResultDto {
     private int distance;
     private Integer position;
     private Integer totalParticipants;
-    private LocalDateTime arrivalTime;
+    private String arrivalTime;
     private Boolean isPass;
     private Double winPoints;
     private Double averageSpeed;
     private String afterFlightCondition;
     private String keeper;
+    private final static DateTimeFormatter DTF = DateTimeFormatter.ofPattern("HH:mm:ss.S");
 
     public FlightResultDto(FlightResultDto fr) {
         this(fr.getPigeonId(),
@@ -42,6 +44,16 @@ public class FlightResultDto {
         this.distance = distance;
         this.position = position;
         this.totalParticipants = totalParticipants;
+        this.arrivalTime = arrivalTime.format(DTF);
+        this.isPass = isPass;
+    }
+
+    public FlightResultDto(Long pigeonId, String location, int distance, int position, int totalParticipants, String arrivalTime, boolean isPass) {
+        this.pigeonId = pigeonId;
+        this.location = location;
+        this.distance = distance;
+        this.position = position;
+        this.totalParticipants = totalParticipants;
         this.arrivalTime = arrivalTime;
         this.isPass = isPass;
     }
@@ -51,7 +63,7 @@ public class FlightResultDto {
         this.pigeonId = pigeonId;
         this.ringNumber = ringNumber;
         this.position = position;
-        this.arrivalTime = arrivalTime;
+        this.arrivalTime = arrivalTime.format(DTF);
         this.isPass = isPass;
         this.winPoints = winPoints;
         this.averageSpeed = averageSpeed;
