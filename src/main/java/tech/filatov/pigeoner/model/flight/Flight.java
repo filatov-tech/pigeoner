@@ -13,9 +13,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Flight extends AbstractOwnedEntity {
 
-    private String locationName;
-
-    private int distance;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private LaunchPoint launchPoint;
 
     private LocalDateTime departure;
 

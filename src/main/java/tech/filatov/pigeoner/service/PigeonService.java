@@ -32,11 +32,11 @@ public class PigeonService {
         return getDtos(repository.getFiltered(filterParameters));
     }
 
-    public PigeonWithAncestorsDto getWithAncestorsAndFlights(int id) {
+    public PigeonWithAncestorsDto getWithAncestorsAndFlights(int id, long userId) {
         List<PigeonWithAncestorsDto> pigeons = repository.getWithAncestorsById(id);
         PigeonWithAncestorsDto pigeon = PigeonUtil.buildPedigree(pigeons);
 
-        List<FlightResultDto> flights = flightResultRepository.getAllByPigeonId(id);
+        List<FlightResultDto> flights = flightResultRepository.getAllByPigeonId(id, userId);
         pigeon.setFlights(flights);
 
         return pigeon;

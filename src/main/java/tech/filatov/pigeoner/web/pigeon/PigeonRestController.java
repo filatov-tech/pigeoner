@@ -1,6 +1,7 @@
 package tech.filatov.pigeoner.web.pigeon;
 
 import org.springframework.web.bind.annotation.*;
+import tech.filatov.pigeoner.AuthorizedUser;
 import tech.filatov.pigeoner.dto.PigeonTableDto;
 import tech.filatov.pigeoner.dto.PigeonWithAncestorsDto;
 import tech.filatov.pigeoner.service.PigeonService;
@@ -14,6 +15,7 @@ import static tech.filatov.pigeoner.util.ValidationUtil.validateDataFromFilter;
 @RequestMapping("/api/v1/pigeons")
 public class PigeonRestController {
 
+    private final AuthorizedUser authUser = new AuthorizedUser();
     private final PigeonService service;
 
     public PigeonRestController(PigeonService service) {
@@ -33,6 +35,6 @@ public class PigeonRestController {
 
     @GetMapping("/{id}/with-ancestors")
     public PigeonWithAncestorsDto getWithAncestors(@PathVariable int id) {
-        return service.getWithAncestorsAndFlights(id);
+        return service.getWithAncestorsAndFlights(id, authUser.getId());
     }
 }
