@@ -38,7 +38,13 @@ public class FlightResultDto {
         );
     }
 
-    public FlightResultDto(Long pigeonId, String location, int distance, int position, int totalParticipants, LocalDateTime arrivalTime, boolean isPass) {
+    public FlightResultDto(Long pigeonId,
+                           String location,
+                           int distance,
+                           int position,
+                           int totalParticipants,
+                           LocalDateTime arrivalTime,
+                           boolean isPass) {
         this.pigeonId = pigeonId;
         this.location = location;
         this.distance = distance;
@@ -48,7 +54,13 @@ public class FlightResultDto {
         this.isPass = isPass;
     }
 
-    public FlightResultDto(Long pigeonId, String location, int distance, int position, int totalParticipants, String arrivalTime, boolean isPass) {
+    public FlightResultDto(Long pigeonId,
+                           String location,
+                           int distance,
+                           int position,
+                           int totalParticipants,
+                           String arrivalTime, boolean
+                                   isPass) {
         this.pigeonId = pigeonId;
         this.location = location;
         this.distance = distance;
@@ -58,7 +70,16 @@ public class FlightResultDto {
         this.isPass = isPass;
     }
 
-    public FlightResultDto(Long id, Long pigeonId, String ringNumber, Integer position, LocalDateTime arrivalTime, Boolean isPass, Double winPoints, Double averageSpeed, AfterFlightCondition afterFlightCondition, String keeper) {
+    public FlightResultDto(Long id,
+                           Long pigeonId,
+                           String ringNumber,
+                           Integer position,
+                           LocalDateTime arrivalTime,
+                           Boolean isPass,
+                           Double winPoints,
+                           Double averageSpeed,
+                           AfterFlightCondition afterFlightCondition,
+                           String keeper) {
         this.id = id;
         this.pigeonId = pigeonId;
         this.ringNumber = ringNumber;
