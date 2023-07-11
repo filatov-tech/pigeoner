@@ -21,4 +21,7 @@ public class User extends AbstractBaseEntity {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    @OneToOne
+    private Keeper keeper;
+
 }

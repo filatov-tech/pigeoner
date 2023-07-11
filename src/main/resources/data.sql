@@ -90,6 +90,7 @@ VALUES
 ;
 
 UPDATE pigeon SET keeper_id = 100039;
+UPDATE users SET keeper_id = 100039 WHERE users.id = 100000;
 
 INSERT INTO flight_result (id, created, updated, arrival_time, position, user_id, flight_id, pigeon_id, condition)
 VALUES
