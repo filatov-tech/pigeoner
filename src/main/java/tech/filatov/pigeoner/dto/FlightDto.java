@@ -1,6 +1,5 @@
 package tech.filatov.pigeoner.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tech.filatov.pigeoner.model.flight.FlightType;

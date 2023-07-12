@@ -1,8 +1,5 @@
 package tech.filatov.pigeoner.constant;
 
-import java.util.HashMap;
-import java.util.Map;
-
 final public class Constants {
     public static final String RING_NUMBER = "ringNumber";
     public static final String PIGEON_NAME = "name";
