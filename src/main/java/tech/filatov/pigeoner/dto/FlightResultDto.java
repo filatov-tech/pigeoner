@@ -16,7 +16,7 @@ public class FlightResultDto {
     private Long pigeonId;
     private String ringNumber;
     private String location;
-    private int distance;
+    private Integer distance;
     private Integer position;
     private Integer totalParticipants;
     private String arrivalTime;
@@ -40,27 +40,27 @@ public class FlightResultDto {
 
     public FlightResultDto(Long pigeonId,
                            String location,
-                           int distance,
-                           int position,
-                           int totalParticipants,
+                           Integer distance,
+                           Integer position,
+                           Integer totalParticipants,
                            LocalDateTime arrivalTime,
-                           boolean isPass) {
+                           Boolean isPass) {
         this.pigeonId = pigeonId;
         this.location = location;
         this.distance = distance;
         this.position = position;
-        this.totalParticipants = totalParticipants;
+        this.totalParticipants = totalParticipants == null ? 0 : totalParticipants;
         this.arrivalTime = arrivalTime.format(DTF);
         this.isPass = isPass;
     }
 
     public FlightResultDto(Long pigeonId,
                            String location,
-                           int distance,
-                           int position,
-                           int totalParticipants,
-                           String arrivalTime, boolean
-                                   isPass) {
+                           Integer distance,
+                           Integer position,
+                           Integer totalParticipants,
+                           String arrivalTime,
+                           Boolean isPass) {
         this.pigeonId = pigeonId;
         this.location = location;
         this.distance = distance;
