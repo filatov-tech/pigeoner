@@ -5,6 +5,7 @@ import tech.filatov.pigeoner.dto.FilterParams;
 import tech.filatov.pigeoner.model.Keeper;
 import tech.filatov.pigeoner.model.dovecote.Section;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
+import tech.filatov.pigeoner.model.pigeon.Pigeon_;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -48,12 +49,12 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
     private Predicate[] preparePredicates(FilterParams params, CriteriaBuilder cb, Root<Pigeon> pigeonRoot) {
         List<Predicate> predicates = new ArrayList<>();
         if (params.getRingNumber() != null) {
-            predicates.add(cb.equal(pigeonRoot.get(RING_NUMBER), params.getRingNumber()));
+            predicates.add(cb.equal(pigeonRoot.get(Pigeon_.ringNumber), params.getRingNumber()));
         }
         if (params.getCondition() != null) {
             predicates.add(
                     cb.equal(
-                            pigeonRoot.get("conditionStatus"),
+                            pigeonRoot.get(Pigeon_.conditionStatus),
                             params.getCondition()
                     )
             );
@@ -61,14 +62,14 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
         if (params.getDovecote() != null) {
             long currentSectionId = params.getDovecote();
             List<Long> idList = sectionRepository.getIdListOfAllDescendantsById(currentSectionId);
-            CriteriaBuilder.In<Section> inSections = cb.in(pigeonRoot.get(LOCATION));
+            CriteriaBuilder.In<Section> inSections = cb.in(pigeonRoot.get(Pigeon_.location));
             for (Section section : makeSectionsFrom(idList)) {
                 inSections.value(section);
             }
             predicates.add(inSections);
         }
         if (params.getName() != null) {
-            predicates.add(cb.equal(pigeonRoot.get(PIGEON_NAME), params.getName()));
+            predicates.add(cb.equal(pigeonRoot.get(Pigeon_.name), params.getName()));
         }
 
         String filterDateType = params.getDateFilterType();
@@ -76,12 +77,12 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
             if (filterDateType.equals(BIRTHDATE_TYPE)) {
                 if (params.getBirthdateFrom() != null) {
                     predicates.add(
-                            cb.greaterThanOrEqualTo(pigeonRoot.get("birthdate"), params.getBirthdateFrom())
+                            cb.greaterThanOrEqualTo(pigeonRoot.get(Pigeon_.birthdate), params.getBirthdateFrom())
                     );
                 }
                 if (params.getBirthdateTo() != null) {
                     predicates.add(
-                            cb.lessThanOrEqualTo(pigeonRoot.get("birthdate"), params.getBirthdateTo())
+                            cb.lessThanOrEqualTo(pigeonRoot.get(Pigeon_.birthdate), params.getBirthdateTo())
                     );
                 }
             } else if (filterDateType.equals(AGE_TYPE)) {
@@ -111,28 +112,28 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
                     to = now.minus(yearsMin).minus(monthsMin);
                 }
                 if (!from.isEqual(now)) {
-                    predicates.add(cb.lessThanOrEqualTo(pigeonRoot.get("birthdate"), from));
+                    predicates.add(cb.lessThanOrEqualTo(pigeonRoot.get(Pigeon_.birthdate), from));
                 }
                 if (!to.isEqual(now)) {
-                    predicates.add(cb.greaterThanOrEqualTo(pigeonRoot.get("birthdate"), to));
+                    predicates.add(cb.greaterThanOrEqualTo(pigeonRoot.get(Pigeon_.birthdate), to));
                 }
             }
         }
         if (params.getSex() != null) {
-            predicates.add(cb.equal(pigeonRoot.get("sex"), params.getSex()));
+            predicates.add(cb.equal(pigeonRoot.get(Pigeon_.sex), params.getSex()));
         }
 
         if (params.getHasMate() != null) {
             if (params.getHasMate()) {
-                predicates.add(cb.notEqual(pigeonRoot.get("mate"), null));
+                predicates.add(cb.notEqual(pigeonRoot.get(Pigeon_.mate), null));
             } else {
-                predicates.add(cb.equal(pigeonRoot.get("mate"), null));
+                predicates.add(cb.equal(pigeonRoot.get(Pigeon_.mate), null));
             }
 
         }
 
         if (params.getKeeper() != null) {
-            predicates.add(cb.equal(pigeonRoot.get("keeper"), new Keeper(params.getKeeper())));
+            predicates.add(cb.equal(pigeonRoot.get(Pigeon_.keeper), new Keeper(params.getKeeper())));
         }
 
         return predicates.toArray(new Predicate[predicates.size()]);
