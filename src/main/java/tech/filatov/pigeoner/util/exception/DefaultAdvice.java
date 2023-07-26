@@ -12,6 +12,7 @@ public class DefaultAdvice {
     @ExceptionHandler(FilterContradictionException.class)
     public ResponseEntity<ErrorInfo> handleException(FilterContradictionException e) {
         ErrorInfo response = new ErrorInfo(e.getMessage());
+        e.printStackTrace();
         return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }
