@@ -2,6 +2,7 @@ package tech.filatov.pigeoner.repository;
 
 import org.springframework.stereotype.Repository;
 import tech.filatov.pigeoner.dto.FilterParams;
+import tech.filatov.pigeoner.model.Keeper;
 import tech.filatov.pigeoner.model.dovecote.Section;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
@@ -37,16 +38,14 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
 
         Root<Pigeon> pigeonRoot = cq.from(Pigeon.class);
         cq.select(pigeonRoot);
-        /*
-         *  TODO: отрефакторить эту простыню
-         *   вариант - создать объект, который будет вначале сконфигурирован билдером имеющимися
-         *   параметрами, такими как CriteriaBuilder, списком фильтров, Root-объектом, списком предикат,
-         *   а затем вернет составленный верно список предикат.
-         *   То есть, вся работа по наполнению запроса динамическими параметрами уйдет в отдельный объект и не будет
-         *   засорять здесь метод
-         */
+        cq.where(preparePredicates(params, cb, pigeonRoot));
 
+        TypedQuery<Pigeon> executableQuery = em.createQuery(cq);
 
+        return executableQuery.getResultList();
+    }
+
+    private Predicate[] preparePredicates(FilterParams params, CriteriaBuilder cb, Root<Pigeon> pigeonRoot) {
         List<Predicate> predicates = new ArrayList<>();
         if (params.getRingNumber() != null) {
             predicates.add(cb.equal(pigeonRoot.get(RING_NUMBER), params.getRingNumber()));
@@ -119,11 +118,23 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
                 }
             }
         }
+        if (params.getSex() != null) {
+            predicates.add(cb.equal(pigeonRoot.get("sex"), params.getSex()));
+        }
 
-        cq.where(predicates.toArray(new Predicate[predicates.size()]));
+        if (params.getHasMate() != null) {
+            if (params.getHasMate()) {
+                predicates.add(cb.notEqual(pigeonRoot.get("mate"), null));
+            } else {
+                predicates.add(cb.equal(pigeonRoot.get("mate"), null));
+            }
 
-        TypedQuery<Pigeon> executableQuery = em.createQuery(cq);
+        }
 
-        return executableQuery.getResultList();
+        if (params.getKeeper() != null) {
+            predicates.add(cb.equal(pigeonRoot.get("keeper"), new Keeper(params.getKeeper())));
+        }
+
+        return predicates.toArray(new Predicate[predicates.size()]);
     }
 }

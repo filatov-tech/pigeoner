@@ -31,6 +31,5 @@ public class FilterParams {
     private LocalDate yearTo;
     private Long keeper;
     private Sex sex;
-    @JsonDeserialize(using = NullStringDeserializer.class)
-    private String mate;
+    private Boolean hasMate;
 }

@@ -39,6 +39,7 @@ import static tech.filatov.pigeoner.constant.Constants.*;
 
 @Entity
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Pigeon extends AbstractOwnedEntity {
 
@@ -96,4 +97,7 @@ public class Pigeon extends AbstractOwnedEntity {
     @JoinColumn(name = "KEEPER_ID")
     private Keeper keeper;
 
+    public Pigeon(long id) {
+        this.setId(id);
+    }
 }
