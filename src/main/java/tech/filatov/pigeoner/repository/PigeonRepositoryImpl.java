@@ -1,8 +1,8 @@
 package tech.filatov.pigeoner.repository;
 
 import org.springframework.stereotype.Repository;
+import tech.filatov.pigeoner.dto.FilterParams;
 import tech.filatov.pigeoner.model.dovecote.Section;
-import tech.filatov.pigeoner.model.pigeon.Condition;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
 import javax.persistence.EntityManager;
@@ -31,7 +31,7 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
     }
 
     @Override
-    public List<Pigeon> getFiltered(Map<String, String> filterParameters) {
+    public List<Pigeon> getFiltered(FilterParams params) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Pigeon> cq = cb.createQuery(Pigeon.class);
 
@@ -48,19 +48,19 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
 
 
         List<Predicate> predicates = new ArrayList<>();
-        if (!filterParameters.get(RING_NUMBER).isEmpty()) {
-            predicates.add(cb.equal(pigeonRoot.get(RING_NUMBER), filterParameters.get(RING_NUMBER)));
+        if (params.getRingNumber() != null) {
+            predicates.add(cb.equal(pigeonRoot.get(RING_NUMBER), params.getRingNumber()));
         }
-        if (!filterParameters.get(CONDITION).isEmpty()) {
+        if (params.getCondition() != null) {
             predicates.add(
                     cb.equal(
                             pigeonRoot.get("conditionStatus"),
-                            Condition.valueOfLabel(filterParameters.get(CONDITION))
+                            params.getCondition()
                     )
             );
         }
-        if (!filterParameters.get(LOCATION).isEmpty()) {
-            long currentSectionId = Long.parseLong(filterParameters.get(LOCATION));
+        if (params.getDovecote() != null) {
+            long currentSectionId = params.getDovecote();
             List<Long> idList = sectionRepository.getIdListOfAllDescendantsById(currentSectionId);
             CriteriaBuilder.In<Section> inSections = cb.in(pigeonRoot.get(LOCATION));
             for (Section section : makeSectionsFrom(idList)) {
@@ -68,61 +68,45 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
             }
             predicates.add(inSections);
         }
-        if (!filterParameters.get(PIGEON_NAME).isEmpty()) {
-            predicates.add(cb.equal(pigeonRoot.get(PIGEON_NAME), filterParameters.get(PIGEON_NAME)));
+        if (params.getName() != null) {
+            predicates.add(cb.equal(pigeonRoot.get(PIGEON_NAME), params.getName()));
         }
 
-        String filterDateType = filterParameters.get(FILTER_DATE_TYPE);
+        String filterDateType = params.getDateFilterType();
         if (!filterDateType.isEmpty()) {
             if (filterDateType.equals(BIRTHDATE_TYPE)) {
-                if (!filterParameters.get(BIRTHDATE_FROM).isEmpty()) {
+                if (params.getBirthdateFrom() != null) {
                     predicates.add(
-                            cb.greaterThanOrEqualTo(pigeonRoot.get("birthdate"), LocalDate.parse(filterParameters.get(BIRTHDATE_FROM)))
+                            cb.greaterThanOrEqualTo(pigeonRoot.get("birthdate"), params.getBirthdateFrom())
                     );
                 }
-                if (!filterParameters.get(BIRTHDATE_TO).isEmpty()) {
+                if (params.getBirthdateTo() != null) {
                     predicates.add(
-                            cb.lessThanOrEqualTo(pigeonRoot.get("birthdate"), LocalDate.parse(filterParameters.get(BIRTHDATE_TO)))
+                            cb.lessThanOrEqualTo(pigeonRoot.get("birthdate"), params.getBirthdateTo())
                     );
                 }
             } else if (filterDateType.equals(AGE_TYPE)) {
                 LocalDate now = LocalDate.now();
 
                 LocalDate from = LocalDate.now();
-                if (!filterParameters.get(AGE_YEAR_FROM).isEmpty() || !filterParameters.get(AGE_MONTH_FROM).isEmpty()) {
+                if (params.getAgeYearFrom() != null || params.getAgeMonthFrom() != null) {
                     int yearsFrom = 0;
                     int monthsFrom = 0;
-                    try {
-                        yearsFrom = Integer.parseInt(filterParameters.get(AGE_YEAR_FROM));
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        monthsFrom = Integer.parseInt(filterParameters.get(AGE_MONTH_FROM));
-                        int monthInclusive = 1;
-                        monthsFrom -= monthInclusive;
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
+                    yearsFrom = params.getAgeYearFrom();
+                    monthsFrom = params.getAgeMonthFrom();
+                    int monthInclusive = 1;
+                    monthsFrom -= monthInclusive;
                     TemporalAmount yearsMinus = Period.ofYears(yearsFrom);
                     TemporalAmount monthsMinus = Period.ofMonths(monthsFrom);
                     from = now.minus(yearsMinus).minus(monthsMinus);
                 }
 
                 LocalDate to = LocalDate.now();
-                if (!filterParameters.get(AGE_YEAR_TO).isEmpty() || !filterParameters.get(AGE_MONTH_TO).isEmpty()) {
+                if (params.getAgeYearTo() != null || params.getAgeMonthTo() != null) {
                     int yearsTo = 0;
                     int monthsTo = 0;
-                    try {
-                        yearsTo = Integer.parseInt(filterParameters.get(AGE_YEAR_TO));
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        monthsTo = Integer.parseInt(filterParameters.get(AGE_MONTH_TO));
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
+                    yearsTo = params.getAgeYearTo();
+                    monthsTo = params.getAgeMonthTo();
                     TemporalAmount yearsMin = Period.ofYears(yearsTo);
                     TemporalAmount monthsMin = Period.ofMonths(monthsTo);
                     to = now.minus(yearsMin).minus(monthsMin);

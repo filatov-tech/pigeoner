@@ -11,9 +11,11 @@ final public class Constants {
     public static final String AGE_MONTH_TO = "ageMonthTo";
     public static final String BIRTHDATE_FROM = "birthdateFrom";
     public static final String BIRTHDATE_TO = "birthdateTo";
-    public static final String FILTER_DATE_TYPE = "filterDateType";
-    public static final String BIRTHDATE_TYPE = "birthdate";
-    public static final String AGE_TYPE = "age";
+    public static final String DATE_FILTER_TYPE = "dateFilterType";
+    public static final String BIRTHDATE_TYPE = "dateType";
+    public static final String AGE_TYPE = "ageType";
+    public static final String YEAR_TYPE = "yearType";
+
     public static final String SECTION_DTO_COMMON_NATIVE_QUERY = "SELECT ms.id AS sect_id,\n" +
             "       ms.name AS sect_name,\n" +
             "       type AS sect_type,\n" +

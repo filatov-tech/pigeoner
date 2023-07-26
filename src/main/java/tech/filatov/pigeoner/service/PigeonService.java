@@ -1,6 +1,7 @@
 package tech.filatov.pigeoner.service;
 
 import org.springframework.stereotype.Service;
+import tech.filatov.pigeoner.dto.FilterParams;
 import tech.filatov.pigeoner.dto.FlightResultDto;
 import tech.filatov.pigeoner.dto.PigeonTableDto;
 import tech.filatov.pigeoner.dto.PigeonWithAncestorsDto;
@@ -28,8 +29,8 @@ public class PigeonService {
         return getDtos(repository.getAll());
     }
 
-    public List<PigeonTableDto> getAll(Map<String, String> filterParameters) {
-        return getDtos(repository.getFiltered(filterParameters));
+    public List<PigeonTableDto> getAll(FilterParams params) {
+        return getDtos(repository.getFiltered(params));
     }
 
     public PigeonWithAncestorsDto getWithAncestorsAndFlights(int id, long userId) {
