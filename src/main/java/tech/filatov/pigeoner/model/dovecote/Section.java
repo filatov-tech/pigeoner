@@ -67,7 +67,7 @@ public class Section extends AbstractOwnedEntity {
     @JoinColumn(name = "FEEDING_MODE_ID")
     private FeedingMode feedingMode;
 
-    @OneToMany(mappedBy = "location")
+    @OneToMany(mappedBy = "section")
     private Set<Pigeon> pigeons;
 
     public Section(long id) {

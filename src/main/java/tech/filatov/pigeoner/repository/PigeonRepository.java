@@ -13,10 +13,10 @@ public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRep
     @Query("SELECT p FROM Pigeon p ORDER BY p.ringNumber")
     List<Pigeon> getAll();
 
-    @Query("SELECT p FROM Pigeon p WHERE p.location.id = :sectionId ORDER BY p.ringNumber")
+    @Query("SELECT p FROM Pigeon p WHERE p.section.id = :sectionId ORDER BY p.ringNumber")
     List<Pigeon> getAllByLocation(long sectionId);
 
-    @Query("SELECT new tech.filatov.pigeoner.dto.PigeonLabelDto(p.id, p.ringNumber, p.sex, p.location.id) FROM Pigeon p")
+    @Query("SELECT new tech.filatov.pigeoner.dto.PigeonLabelDto(p.id, p.ringNumber, p.sex, p.section.id) FROM Pigeon p")
     List<PigeonLabelDto> getAllLabelDto();
 
     @Query(nativeQuery = true)
