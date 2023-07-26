@@ -149,3 +149,12 @@ WHERE id = 100035
 UPDATE flight SET launch_point_id = 100074
 WHERE id = 100036
 ;
+
+INSERT INTO pigeon (id, created, updated, birthdate, condition_status, sex, is_native, name, ring_number,
+                    user_id, color_id, father_id, section_id, photo_id, mate_id, mother_id, keeper_id)
+VALUES
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, null, null, 'MALE', false, 'Чужой', '22154-5',
+     100000, null, null, null, null, null, null, 100040), --100075
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, null, null, 'FEMALE', false, 'Чужая', '7777-8',
+     100000, null, null, null, null, null, null, 100040) --100076
+;
