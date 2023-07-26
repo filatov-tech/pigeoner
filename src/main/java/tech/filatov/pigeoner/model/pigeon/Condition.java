@@ -1,6 +1,8 @@
 package tech.filatov.pigeoner.model.pigeon;
 
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum Condition {
     HEALTH("Здоров"),
     DISEASED("Болен"),
@@ -13,6 +15,7 @@ public enum Condition {
         this.title = title;
     }
 
+    @JsonValue
     public String getTitle() {
         return title;
     }
