@@ -24,8 +24,7 @@ public class PigeonUtil {
                 pigeon.getColor().getName(),
                 pigeon.getSex().equals(Sex.MALE) ? "М" : "Ж",
                 pigeon.getBirthdate(),
-                TimeUtil.getAgeFromBirthday(pigeon.getBirthdate()),
-                "nullstub",
+                123L,
                 pigeon.getConditionStatus().getTitle()
         );
     }

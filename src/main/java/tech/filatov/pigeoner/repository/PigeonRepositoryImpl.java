@@ -2,17 +2,18 @@ package tech.filatov.pigeoner.repository;
 
 import org.springframework.stereotype.Repository;
 import tech.filatov.pigeoner.dto.FilterParams;
+import tech.filatov.pigeoner.dto.PigeonTableDto;
 import tech.filatov.pigeoner.model.Keeper;
 import tech.filatov.pigeoner.model.dovecote.Section;
+import tech.filatov.pigeoner.model.dovecote.Section_;
+import tech.filatov.pigeoner.model.pigeon.Color;
+import tech.filatov.pigeoner.model.pigeon.Color_;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 import tech.filatov.pigeoner.model.pigeon.Pigeon_;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.TemporalAmount;
@@ -33,21 +34,38 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
     }
 
     @Override
-    public List<Pigeon> getFiltered(FilterParams params) {
+    public List<PigeonTableDto> getFiltered(FilterParams params) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Pigeon> cq = cb.createQuery(Pigeon.class);
+        CriteriaQuery<PigeonTableDto> cq = cb.createQuery(PigeonTableDto.class);
 
         Root<Pigeon> pigeonRoot = cq.from(Pigeon.class);
-        cq.select(pigeonRoot);
+        Join<Pigeon, Section> section = pigeonRoot.join(Pigeon_.section, JoinType.LEFT);
+        Join<Pigeon, Pigeon> mate = pigeonRoot.join(Pigeon_.mate, JoinType.LEFT);
+        Join<Pigeon, Color> color = pigeonRoot.join(Pigeon_.color, JoinType.LEFT);
+
+        cq.select(cb.construct(
+                PigeonTableDto.class,
+                pigeonRoot.get(Pigeon_.id),
+                pigeonRoot.get(Pigeon_.ringNumber),
+                color.get(Color_.name),
+                pigeonRoot.get(Pigeon_.sex),
+                pigeonRoot.get(Pigeon_.birthdate),
+                mate.get(Pigeon_.ringNumber),
+                pigeonRoot.get(Pigeon_.conditionStatus),
+                section.get(Section_.id)
+        ));
+
         cq.where(preparePredicates(params, cb, pigeonRoot));
 
-        TypedQuery<Pigeon> executableQuery = em.createQuery(cq);
+        TypedQuery<PigeonTableDto> executableQuery = em.createQuery(cq);
 
         return executableQuery.getResultList();
     }
 
     private Predicate[] preparePredicates(FilterParams params, CriteriaBuilder cb, Root<Pigeon> pigeonRoot) {
         List<Predicate> predicates = new ArrayList<>();
+
+        //TODO добавить в запрос обязательное условия соответсвия owner по userId
         if (params.getRingNumber() != null) {
             predicates.add(cb.equal(pigeonRoot.get(Pigeon_.ringNumber), params.getRingNumber()));
         }
@@ -62,7 +80,7 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
         if (params.getDovecote() != null) {
             long currentSectionId = params.getDovecote();
             List<Long> idList = sectionRepository.getIdListOfAllDescendantsById(currentSectionId);
-            CriteriaBuilder.In<Section> inSections = cb.in(pigeonRoot.get(Pigeon_.location));
+            CriteriaBuilder.In<Section> inSections = cb.in(pigeonRoot.get(Pigeon_.section));
             for (Section section : makeSectionsFrom(idList)) {
                 inSections.value(section);
             }
@@ -73,7 +91,7 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
         }
 
         String filterDateType = params.getDateFilterType();
-        if (!filterDateType.isEmpty()) {
+        if (filterDateType != null && !filterDateType.isEmpty()) {
             if (filterDateType.equals(BIRTHDATE_TYPE)) {
                 if (params.getBirthdateFrom() != null) {
                     predicates.add(

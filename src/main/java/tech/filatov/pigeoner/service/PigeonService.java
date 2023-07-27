@@ -25,12 +25,12 @@ public class PigeonService {
         this.flightResultRepository = flightResultRepository;
     }
 
-    public List<PigeonTableDto> getAll()  {
-        return getDtos(repository.getAll());
+    public List<PigeonTableDto> getAll(long userId)  {
+        return repository.getAll(userId);
     }
 
     public List<PigeonTableDto> getAll(FilterParams params) {
-        return getDtos(repository.getFiltered(params));
+        return repository.getFiltered(params);
     }
 
     public PigeonWithAncestorsDto getWithAncestorsAndFlights(int id, long userId) {

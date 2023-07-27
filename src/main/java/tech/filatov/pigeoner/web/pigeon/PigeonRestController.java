@@ -26,7 +26,7 @@ public class PigeonRestController {
 
     @GetMapping
     public List<PigeonTableDto> getAll() {
-        return service.getAll();
+        return service.getAll(authUser.getId());
     }
 
     @PostMapping("/filter")
