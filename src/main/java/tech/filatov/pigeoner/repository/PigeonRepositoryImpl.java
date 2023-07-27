@@ -147,9 +147,9 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
 
         if (params.getHasMate() != null) {
             if (params.getHasMate()) {
-                predicates.add(cb.notEqual(pigeonRoot.get(Pigeon_.mate), null));
+                predicates.add(cb.isNotNull(pigeonRoot.get(Pigeon_.mate)));
             } else {
-                predicates.add(cb.equal(pigeonRoot.get(Pigeon_.mate), null));
+                predicates.add(cb.isNull(pigeonRoot.get(Pigeon_.mate)));
             }
 
         }
