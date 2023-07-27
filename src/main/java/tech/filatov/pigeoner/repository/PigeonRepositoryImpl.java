@@ -55,7 +55,13 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
                 section.get(Section_.id)
         ));
 
-        cq.where(preparePredicates(params, cb, pigeonRoot, userId));
+
+        if (params != null) {
+            cq.where(preparePredicates(params, cb, pigeonRoot, userId));
+        } else {
+            cq.where(cb.equal(pigeonRoot.get(Pigeon_.owner), userId));
+        }
+
         TypedQuery<PigeonTableDto> executableQuery = em.createQuery(cq);
         return executableQuery.getResultList();
     }

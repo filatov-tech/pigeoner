@@ -10,9 +10,6 @@ import tech.filatov.pigeoner.repository.PigeonRepository;
 import tech.filatov.pigeoner.util.PigeonUtil;
 
 import java.util.List;
-import java.util.Map;
-
-import static tech.filatov.pigeoner.util.PigeonUtil.*;
 
 @Service
 public class PigeonService {
@@ -26,7 +23,7 @@ public class PigeonService {
     }
 
     public List<PigeonTableDto> getAll(long userId)  {
-        return repository.getAll(userId);
+        return repository.getFiltered(null, userId);
     }
 
     public List<PigeonTableDto> getAll(FilterParams params, long userId) {
