@@ -73,7 +73,7 @@ public class Pigeon extends AbstractOwnedEntity {
     @JoinColumn(name = "SECTION_ID")
     private Section section;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MATE_ID")
     private Pigeon mate;
 
