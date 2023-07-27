@@ -29,8 +29,8 @@ public class PigeonService {
         return repository.getAll(userId);
     }
 
-    public List<PigeonTableDto> getAll(FilterParams params) {
-        return repository.getFiltered(params);
+    public List<PigeonTableDto> getAll(FilterParams params, long userId) {
+        return repository.getFiltered(params, userId);
     }
 
     public PigeonWithAncestorsDto getWithAncestorsAndFlights(int id, long userId) {

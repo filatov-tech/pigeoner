@@ -32,7 +32,7 @@ public class PigeonRestController {
     @PostMapping("/filter")
     public ResponseEntity<List<PigeonTableDto>> getFiltered(@RequestBody FilterParams params) {
         validateDataFromFilter(params);
-        return ResponseEntity.ok(service.getAll(params));
+        return ResponseEntity.ok(service.getAll(params, authUser.getId()));
     }
 
     @GetMapping("/{id}/with-ancestors")

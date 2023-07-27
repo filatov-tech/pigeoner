@@ -34,7 +34,7 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
     }
 
     @Override
-    public List<PigeonTableDto> getFiltered(FilterParams params) {
+    public List<PigeonTableDto> getFiltered(FilterParams params, long userId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<PigeonTableDto> cq = cb.createQuery(PigeonTableDto.class);
 
@@ -55,17 +55,15 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
                 section.get(Section_.id)
         ));
 
-        cq.where(preparePredicates(params, cb, pigeonRoot));
-
+        cq.where(preparePredicates(params, cb, pigeonRoot, userId));
         TypedQuery<PigeonTableDto> executableQuery = em.createQuery(cq);
-
         return executableQuery.getResultList();
     }
 
-    private Predicate[] preparePredicates(FilterParams params, CriteriaBuilder cb, Root<Pigeon> pigeonRoot) {
+    private Predicate[] preparePredicates(FilterParams params, CriteriaBuilder cb, Root<Pigeon> pigeonRoot, long userId) {
         List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.equal(pigeonRoot.get(Pigeon_.owner), userId));
 
-        //TODO добавить в запрос обязательное условия соответсвия owner по userId
         if (params.getRingNumber() != null) {
             predicates.add(cb.equal(pigeonRoot.get(Pigeon_.ringNumber), params.getRingNumber()));
         }

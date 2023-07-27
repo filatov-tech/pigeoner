@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface PigeonRepositoryCustom {
 
-    List<PigeonTableDto> getFiltered(FilterParams params);
+    List<PigeonTableDto> getFiltered(FilterParams params, long userId);
 }
