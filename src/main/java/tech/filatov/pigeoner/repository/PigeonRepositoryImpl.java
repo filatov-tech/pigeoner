@@ -10,16 +10,14 @@ import tech.filatov.pigeoner.model.pigeon.Color;
 import tech.filatov.pigeoner.model.pigeon.Color_;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 import tech.filatov.pigeoner.model.pigeon.Pigeon_;
+import tech.filatov.pigeoner.util.DateTimeUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.temporal.TemporalAmount;
 import java.util.*;
 
-import static tech.filatov.pigeoner.constant.Constants.*;
 import static tech.filatov.pigeoner.util.SectionUtil.*;
 
 @Repository
@@ -54,7 +52,6 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
                 pigeonRoot.get(Pigeon_.conditionStatus),
                 section.get(Section_.id)
         ));
-
 
         if (params != null) {
             cq.where(preparePredicates(params, cb, pigeonRoot, userId));
@@ -96,51 +93,17 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
 
         String filterDateType = params.getDateFilterType();
         if (filterDateType != null && !filterDateType.isEmpty()) {
-            if (filterDateType.equals(BIRTHDATE_TYPE)) {
-                if (params.getBirthdateFrom() != null) {
-                    predicates.add(
-                            cb.greaterThanOrEqualTo(pigeonRoot.get(Pigeon_.birthdate), params.getBirthdateFrom())
-                    );
-                }
-                if (params.getBirthdateTo() != null) {
-                    predicates.add(
-                            cb.lessThanOrEqualTo(pigeonRoot.get(Pigeon_.birthdate), params.getBirthdateTo())
-                    );
-                }
-            } else if (filterDateType.equals(AGE_TYPE)) {
-                LocalDate now = LocalDate.now();
-
-                LocalDate from = LocalDate.now();
-                if (params.getAgeYearFrom() != null || params.getAgeMonthFrom() != null) {
-                    int yearsFrom = 0;
-                    int monthsFrom = 0;
-                    yearsFrom = params.getAgeYearFrom();
-                    monthsFrom = params.getAgeMonthFrom();
-                    int monthInclusive = 1;
-                    monthsFrom -= monthInclusive;
-                    TemporalAmount yearsMinus = Period.ofYears(yearsFrom);
-                    TemporalAmount monthsMinus = Period.ofMonths(monthsFrom);
-                    from = now.minus(yearsMinus).minus(monthsMinus);
-                }
-
-                LocalDate to = LocalDate.now();
-                if (params.getAgeYearTo() != null || params.getAgeMonthTo() != null) {
-                    int yearsTo = 0;
-                    int monthsTo = 0;
-                    yearsTo = params.getAgeYearTo();
-                    monthsTo = params.getAgeMonthTo();
-                    TemporalAmount yearsMin = Period.ofYears(yearsTo);
-                    TemporalAmount monthsMin = Period.ofMonths(monthsTo);
-                    to = now.minus(yearsMin).minus(monthsMin);
-                }
-                if (!from.isEqual(now)) {
-                    predicates.add(cb.lessThanOrEqualTo(pigeonRoot.get(Pigeon_.birthdate), from));
-                }
-                if (!to.isEqual(now)) {
-                    predicates.add(cb.greaterThanOrEqualTo(pigeonRoot.get(Pigeon_.birthdate), to));
-                }
+            LocalDate[] dateRange = DateTimeUtil.getDateRangeFrom(params);
+            LocalDate from = dateRange[0];
+            LocalDate to = dateRange[1];
+            if (from != null) {
+                predicates.add(cb.greaterThanOrEqualTo(pigeonRoot.get(Pigeon_.birthdate), from));
+            }
+            if (to != null) {
+                predicates.add(cb.lessThan(pigeonRoot.get(Pigeon_.birthdate), to));
             }
         }
+
         if (params.getSex() != null) {
             predicates.add(cb.equal(pigeonRoot.get(Pigeon_.sex), params.getSex()));
         }
