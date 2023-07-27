@@ -17,7 +17,7 @@ public class ValidationUtil {
         validateFilter(params);
 
         String dateFilterType = params.getDateFilterType();
-        if (!dateFilterType.isEmpty()) {
+        if (dateFilterType != null && !dateFilterType.isEmpty()) {
             switch (dateFilterType) {
                 case (AGE_TYPE) -> validateAgeConstraint(params);
                 case (BIRTHDATE_TYPE) -> validateBirthdateTypeConstraint(params);
