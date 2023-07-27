@@ -121,6 +121,6 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
             predicates.add(cb.equal(pigeonRoot.get(Pigeon_.keeper), new Keeper(params.getKeeper())));
         }
 
-        return predicates.toArray(new Predicate[predicates.size()]);
+        return predicates.toArray(new Predicate[]{});
     }
 }
