@@ -17,7 +17,8 @@ spring:
   sql.init.mode: always
   thymeleaf:
     prefix: classpath:/static/
-#logging:
-#  level:
+logging:
+  level:
+    org.hibernate.type.descriptor.sql: trace
 #    root: debug
 #    org.springframework.web: debug
