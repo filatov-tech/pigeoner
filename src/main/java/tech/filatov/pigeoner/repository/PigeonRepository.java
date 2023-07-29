@@ -3,7 +3,7 @@ package tech.filatov.pigeoner.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import tech.filatov.pigeoner.dto.PigeonLabelDto;
-import tech.filatov.pigeoner.dto.PigeonTableDto;
+
 import tech.filatov.pigeoner.dto.PigeonWithAncestorsDto;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
