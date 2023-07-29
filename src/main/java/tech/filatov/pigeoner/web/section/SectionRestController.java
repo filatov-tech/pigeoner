@@ -1,6 +1,7 @@
 package tech.filatov.pigeoner.web.section;
 
 import org.springframework.web.bind.annotation.*;
+import tech.filatov.pigeoner.AuthorizedUser;
 import tech.filatov.pigeoner.dto.PigeonTableDto;
 import tech.filatov.pigeoner.dto.SectionDto;
 import tech.filatov.pigeoner.dto.SectionHierarchicalDto;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequestMapping("/api/v1/sections")
 public class SectionRestController {
 
+    private final AuthorizedUser authUser = new AuthorizedUser();
     private final SectionRepository repository;
     private final SectionService service;
 
@@ -28,7 +30,7 @@ public class SectionRestController {
 
     @GetMapping
     public List<SectionDto> getSectionsData() {
-        return service.getSectionsTreeWithPigeons();
+        return service.getSectionsTreeWithPigeons(authUser.getId());
     }
 
     @GetMapping("/info")

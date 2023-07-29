@@ -35,9 +35,9 @@ public class SectionService {
         return PigeonUtil.getDtos(pigeonRepository.getAllByLocation(id));
     }
 
-    public List<SectionDto> getSectionsTreeWithPigeons() {
+    public List<SectionDto> getSectionsTreeWithPigeons(long userId) {
         List<SectionDto> sectionsWithoutHierarchy = repository.getAllWithInfo();
-        List<PigeonLabelDto> pigeons = pigeonRepository.getAllLabelDto();
+        List<PigeonLabelDto> pigeons = pigeonRepository.getAllLabelDto(userId);
         insertPigeonsToSections(pigeons, sectionsWithoutHierarchy);
         return SectionUtil.makeHierarchy(sectionsWithoutHierarchy);
     }
