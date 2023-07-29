@@ -20,7 +20,7 @@ VALUES
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Гнездо 1-Б', 'NEST', 100000, 100005)            --100009
 ;
 
-INSERT INTO pigeon (id, created, updated, birthdate, condition_status, sex, is_native, name, ring_number,
+INSERT INTO pigeon (id, created, updated, birthdate, condition_status, sex, is_own, name, ring_number,
                     user_id, color_id, father_id, section_id, photo_id, mate_id, mother_id)
 VALUES
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2017, 12, 1), 'HEALTH', 'MALE', true, 'Дедушка по папе', '2314213',
@@ -60,7 +60,7 @@ VALUES
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Гнездо 5', 'NEST', 100000, 100023)         --100028
 ;
 
-INSERT INTO pigeon (id, created, updated, birthdate, condition_status, sex, is_native, name, ring_number,
+INSERT INTO pigeon (id, created, updated, birthdate, condition_status, sex, is_own, name, ring_number,
                     user_id, color_id, father_id, section_id, photo_id, mate_id, mother_id)
 VALUES
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2018, 12, 30), 'HEALTH', 'MALE', true, null, '31234',
@@ -150,7 +150,7 @@ UPDATE flight SET launch_point_id = 100074
 WHERE id = 100036
 ;
 
-INSERT INTO pigeon (id, created, updated, birthdate, condition_status, sex, is_native, name, ring_number,
+INSERT INTO pigeon (id, created, updated, birthdate, condition_status, sex, is_own, name, ring_number,
                     user_id, color_id, father_id, section_id, photo_id, mate_id, mother_id, keeper_id)
 VALUES
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, null, null, 'MALE', false, 'Чужой', '22154-5',

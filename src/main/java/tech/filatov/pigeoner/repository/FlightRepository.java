@@ -15,7 +15,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
             "JOIN Pigeon p ON fr.pigeon.id = p.id " +
             "JOIN Flight f ON fr.flight.id = f.id " +
             "JOIN LaunchPoint lp ON f.launchPoint.id = lp.id " +
-            "WHERE p.isNative = true AND fr.owner.id = :userId AND f.owner.id = :userId AND p.owner.id = :userId AND lp.owner.id = :userId " +
+            "WHERE p.isOwn = true AND fr.owner.id = :userId AND f.owner.id = :userId AND p.owner.id = :userId AND lp.owner.id = :userId " +
             "GROUP BY f.id, lp.name, lp.distance, f.myPassed, f.totalParticipants, f.id, f.departure, f.passingThreshold, f.flightType")
     List<FlightDto> getAllFlightDto(long userId);
 
@@ -25,7 +25,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
             "JOIN Pigeon p ON fr.pigeon.id = p.id " +
             "JOIN Flight f ON fr.flight.id = f.id " +
             "JOIN LaunchPoint lp ON f.launchPoint.id = lp.id " +
-            "WHERE p.isNative = true AND f.id = :id AND fr.owner.id = :userId AND f.owner.id = :userId AND p.owner.id = :userId AND lp.owner.id = :userId " +
+            "WHERE p.isOwn = true AND f.id = :id AND fr.owner.id = :userId AND f.owner.id = :userId AND p.owner.id = :userId AND lp.owner.id = :userId " +
             "GROUP BY f.id, lp.name, lp.distance, f.myPassed, f.totalParticipants, f.id, f.departure, f.passingThreshold, f.flightType")
     FlightDto getFlightDtoById(long id, long userId);
 

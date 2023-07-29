@@ -58,7 +58,7 @@ public class Pigeon extends AbstractOwnedEntity {
     @JoinColumn(name = "FATHER_ID")
     private Pigeon father;
 
-    private boolean isNative;
+    private boolean isOwn;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COLOR_ID")

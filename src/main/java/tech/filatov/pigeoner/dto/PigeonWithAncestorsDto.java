@@ -21,7 +21,7 @@ public class PigeonWithAncestorsDto {
     private int year;
     private LocalDate birthday;
     private String status;
-    private Boolean isNative;
+    private Boolean isOwn;
     private Long fatherId;
     private Long motherId;
     private String keeper;
@@ -37,7 +37,7 @@ public class PigeonWithAncestorsDto {
                                   String sex,
                                   LocalDate birthdate,
                                   String status,
-                                  Boolean isNative,
+                                  Boolean isOwn,
                                   Long fatherId,
                                   Long motherId,
                                   Integer depth,
@@ -48,7 +48,7 @@ public class PigeonWithAncestorsDto {
         this.sex = Sex.valueOf(sex).getTitle();
         this.year = birthdate.getYear();
         this.status = Condition.valueOf(status).getTitle();
-        this.isNative = isNative;
+        this.isOwn = isOwn;
         this.fatherId = fatherId;
         this.motherId = motherId;
         this.depth = depth;
