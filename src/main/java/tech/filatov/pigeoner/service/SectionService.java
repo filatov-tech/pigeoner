@@ -25,12 +25,17 @@ public class SectionService {
         this.pigeonRepository = pigeonRepository;
     }
 
-    public List<SectionDto> getAllHierarchical(long userId) {
-        return repository.getAllHierarchical(userId);
+    public List<SectionDto> getAll(long userId) {
+        return repository.getAll(userId);
+    }
+
+    public List<SectionDto> getAllWithFullAddress(long userId) {
+        List<SectionDto> sections = getAll(userId);
+        return SectionUtil.fillAddressData(sections);
     }
 
     public List<SectionDto> getHierarchicalStructure() {
-        List<SectionDto> sectionWithoutHierarchy = repository.getAllHierarchicalWithoutNests();
+        List<SectionDto> sectionWithoutHierarchy = repository.getAllWithoutNests();
         return SectionUtil.makeHierarchy(sectionWithoutHierarchy);
     }
 

@@ -15,11 +15,11 @@ import java.util.List;
 @Setter
 public class SectionDto extends BaseDto {
     private String name;
-    private String fullName;
-    private String sectionType;
-    private int pigeonsNumber;
     private Long parentId;
-    private String rootParentName;
+    private String fullAddress;
+    private String sectionType;
+    private Integer pigeonsNumber;
+    private String rootName;
     private List<SectionDto> children = new ArrayList<>();
     private List<PigeonLabelDto> pigeons = new ArrayList<>();
 
@@ -29,14 +29,14 @@ public class SectionDto extends BaseDto {
         this.parentId = parentId;
     }
 
-    public SectionDto(Long id, String name, String sectionType, int pigeonsNumber) {
+    public SectionDto(Long id, String name, String sectionType, Integer pigeonsNumber) {
         this.id = id;
         this.name = name;
         this.sectionType = sectionType;
         this.pigeonsNumber = pigeonsNumber;
     }
 
-    public SectionDto(Long id, String name, String sectionType, Long parentId, int pigeonsNumber) {
+    public SectionDto(Long id, String name, String sectionType, Long parentId, Integer pigeonsNumber) {
         this.id = id;
         this.name = name;
         this.sectionType = sectionType;

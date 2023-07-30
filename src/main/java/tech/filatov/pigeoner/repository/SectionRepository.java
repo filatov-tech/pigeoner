@@ -20,13 +20,13 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
 
     @Query("SELECT new tech.filatov.pigeoner.dto.SectionDto(s.id, s.name, s.parent.id) FROM Section s " +
             "WHERE s.owner.id = :userId")
-    List<SectionDto> getAllHierarchical(long userId);
+    List<SectionDto> getAll(long userId);
 
     @Query("SELECT new tech.filatov.pigeoner.dto.SectionDto(s.id, s.name, s.parent.id) FROM Section s " +
             "WHERE s.type IN (" +
             "tech.filatov.pigeoner.model.dovecote.SectionType.DOVECOTE, " +
             "tech.filatov.pigeoner.model.dovecote.SectionType.ROOM)")
-    List<SectionDto> getAllHierarchicalWithoutNests();
+    List<SectionDto> getAllWithoutNests();
 
     @Query(nativeQuery = true)
     List<Long> getIdListOfAllDescendantsById(long id);
