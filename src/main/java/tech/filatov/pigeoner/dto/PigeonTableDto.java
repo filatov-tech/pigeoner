@@ -19,15 +19,18 @@ public class PigeonTableDto extends BaseDto {
     private static final String SEP = ";";
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    private Long id;
     private String ringNumber;
     private String color;
     private String sex;
     private LocalDate birthday;
+    private Integer year;
     private String age;
     private Long mateId;
     private String mateRingNumber;
     private String status;
+    private Long sectionId;
+    private SectionDto section;
+
 
     public PigeonTableDto(Long id, String ringNumber, String color, Sex sex, LocalDate birthday, Long mateId, String mateRingNumber, Condition status, Long sectionId, String sectionFullName) {
         this.id = id;
@@ -39,11 +42,7 @@ public class PigeonTableDto extends BaseDto {
         this.mateRingNumber = mateRingNumber;
         this.status = status == null ? null : status.getTitle();
         this.sectionId = sectionId;
-        this.sectionFullName = sectionFullName;
     }
-
-    private Long sectionId;
-    private String sectionFullName;
 
     public String toOneRow() {
         return ringNumber + SEP +
@@ -78,6 +77,7 @@ public class PigeonTableDto extends BaseDto {
         this.color = color;
         this.sex = sex.getTitle();
         this.birthday = birthday;
+        this.year = birthday == null ? null : birthday.getYear();
         this.mateRingNumber = mateRingNumber;
         this.status = status == null ? null : status.getTitle();
         this.sectionId = sectionId;
