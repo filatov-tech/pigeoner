@@ -1,8 +1,10 @@
 package tech.filatov.pigeoner.util;
 
-import tech.filatov.pigeoner.dto.HierarchicalDto;
+import tech.filatov.pigeoner.dto.SectionDto;
 import tech.filatov.pigeoner.model.dovecote.Section;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -11,13 +13,12 @@ import java.util.stream.Collectors;
 public class SectionUtil {
     private SectionUtil() {}
 
-    public static <T extends HierarchicalDto<T>> List<T> makeHierarchy(List<T> elements) {
-        Map<Long, T> elementsMap = elements.stream()
-                .collect(Collectors.toMap(T::getId, Function.identity()));
+    public static List<SectionDto> makeHierarchy(List<SectionDto> elements) {
+        Map<Long, SectionDto> elementsMap = getHierarchicalMapFrom(elements);
 
         int numberOfRootObject = 0;
 
-        for (T element : elements) {
+        for (SectionDto element : elements) {
             if (element.getParentId() == null) {
                 numberOfRootObject++;
                 continue;
@@ -26,7 +27,7 @@ public class SectionUtil {
         }
         elements.clear();
 
-        for (T element : elementsMap.values()) {
+        for (SectionDto element : elementsMap.values()) {
             if (element.getParentId() == null) {
                 elements.add(element);
                 if (--numberOfRootObject == 0) break;

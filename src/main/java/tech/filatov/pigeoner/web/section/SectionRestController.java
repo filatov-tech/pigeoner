@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.*;
 import tech.filatov.pigeoner.AuthorizedUser;
 import tech.filatov.pigeoner.dto.PigeonTableDto;
 import tech.filatov.pigeoner.dto.SectionDto;
-import tech.filatov.pigeoner.dto.SectionHierarchicalDto;
 import tech.filatov.pigeoner.repository.SectionRepository;
 import tech.filatov.pigeoner.service.SectionService;
 
@@ -44,7 +43,7 @@ public class SectionRestController {
     }
 
     @GetMapping("/hierarchy")
-    public List<SectionHierarchicalDto> getHierarchicalStructure() {
+    public List<SectionDto> getHierarchicalStructure() {
         return service.getHierarchicalStructure();
     }
 }
