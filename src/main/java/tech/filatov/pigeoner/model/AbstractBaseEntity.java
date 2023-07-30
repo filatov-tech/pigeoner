@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Persistable;
+import tech.filatov.pigeoner.HasId;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
-public abstract class AbstractBaseEntity implements Persistable<Long> {
+public abstract class AbstractBaseEntity implements Persistable<Long>, HasId {
 
     private static final int INITIAL_SEQUENCE_VALUE = 100000;
     @Id
