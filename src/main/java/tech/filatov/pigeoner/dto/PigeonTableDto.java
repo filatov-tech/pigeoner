@@ -3,6 +3,7 @@ package tech.filatov.pigeoner.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import tech.filatov.pigeoner.model.pigeon.Condition;
 import tech.filatov.pigeoner.model.pigeon.Sex;
 
@@ -12,7 +13,8 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class PigeonTableDto {
+@Setter
+public class PigeonTableDto extends BaseDto {
 
     private static final String SEP = ";";
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");

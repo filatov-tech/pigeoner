@@ -3,9 +3,8 @@ package tech.filatov.pigeoner.dto;
 import lombok.Getter;
 
 @Getter
-public class KeeperDto {
+public class KeeperDto extends BaseDto {
 
-    private Long id;
     private String name;
 
     public KeeperDto() {

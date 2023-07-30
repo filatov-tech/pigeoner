@@ -8,8 +8,7 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
-public class FlightDto {
-    private Long id;
+public class FlightDto extends BaseDto {
     private String locationName;
     private int distance;
     private Long numberParticipants;

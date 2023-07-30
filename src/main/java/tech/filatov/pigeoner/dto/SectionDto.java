@@ -13,8 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class SectionDto {
-    private Long id;
+public class SectionDto extends BaseDto {
     private String name;
     private String fullName;
     private String sectionType;

@@ -13,8 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class PigeonWithAncestorsDto {
-    private Long id;
+public class PigeonWithAncestorsDto extends BaseDto {
     private String ringNumber;
     private String name;
     private String sex;

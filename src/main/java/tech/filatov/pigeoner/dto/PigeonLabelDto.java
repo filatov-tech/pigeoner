@@ -8,8 +8,7 @@ import tech.filatov.pigeoner.model.pigeon.Sex;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class PigeonLabelDto {
-    private Long id;
+public class PigeonLabelDto extends BaseDto {
     private String ringNumber;
     private String sex;
     private Long sectionId;

@@ -11,8 +11,7 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class FlightResultDto {
-    private Long id;
+public class FlightResultDto extends BaseDto {
     private Long pigeonId;
     private String ringNumber;
     private String location;
