@@ -2,11 +2,9 @@ package tech.filatov.pigeoner.service;
 
 import org.springframework.stereotype.Service;
 import tech.filatov.pigeoner.dto.PigeonLabelDto;
-import tech.filatov.pigeoner.dto.PigeonTableDto;
 import tech.filatov.pigeoner.dto.SectionDto;
 import tech.filatov.pigeoner.repository.PigeonRepository;
 import tech.filatov.pigeoner.repository.SectionRepository;
-import tech.filatov.pigeoner.util.PigeonUtil;
 import tech.filatov.pigeoner.util.SectionUtil;
 
 import java.util.List;
@@ -37,10 +35,6 @@ public class SectionService {
     public List<SectionDto> getHierarchicalStructure() {
         List<SectionDto> sectionWithoutHierarchy = repository.getAllWithoutNests();
         return SectionUtil.makeHierarchy(sectionWithoutHierarchy);
-    }
-
-    public List<PigeonTableDto> getSectionsPigeons(long id) {
-        return PigeonUtil.getDtos(pigeonRepository.getAllByLocation(id));
     }
 
     public List<SectionDto> getSectionsTreeWithPigeons(long userId) {

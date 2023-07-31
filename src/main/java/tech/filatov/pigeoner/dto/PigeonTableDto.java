@@ -44,16 +44,6 @@ public class PigeonTableDto extends BaseDto {
         this.sectionId = sectionId;
     }
 
-    public String toOneRow() {
-        return ringNumber + SEP +
-                color + SEP +
-                sex + SEP +
-                birthday.format(dtf) + SEP +
-                age + SEP +
-                mateId + SEP +
-                condition + SEP;
-    }
-
     public PigeonTableDto(Long id, String ringNumber, String color, String sex, LocalDate birthday, Long mateId, String condition) {
         this.id = id;
         this.ringNumber = ringNumber;
