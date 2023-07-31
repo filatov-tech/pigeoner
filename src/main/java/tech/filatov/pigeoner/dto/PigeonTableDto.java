@@ -27,12 +27,12 @@ public class PigeonTableDto extends BaseDto {
     private String age;
     private Long mateId;
     private String mateRingNumber;
-    private String status;
+    private String condition;
     private Long sectionId;
     private SectionDto section;
 
 
-    public PigeonTableDto(Long id, String ringNumber, String color, Sex sex, LocalDate birthday, Long mateId, String mateRingNumber, Condition status, Long sectionId, String sectionFullName) {
+    public PigeonTableDto(Long id, String ringNumber, String color, Sex sex, LocalDate birthday, Long mateId, String mateRingNumber, Condition condition, Long sectionId, String sectionFullName) {
         this.id = id;
         this.ringNumber = ringNumber;
         this.color = color;
@@ -40,7 +40,7 @@ public class PigeonTableDto extends BaseDto {
         this.birthday = birthday;
         this.mateId = mateId;
         this.mateRingNumber = mateRingNumber;
-        this.status = status == null ? null : status.getTitle();
+        this.condition = condition == null ? null : condition.getTitle();
         this.sectionId = sectionId;
     }
 
@@ -51,17 +51,17 @@ public class PigeonTableDto extends BaseDto {
                 birthday.format(dtf) + SEP +
                 age + SEP +
                 mateId + SEP +
-                status + SEP;
+                condition + SEP;
     }
 
-    public PigeonTableDto(Long id, String ringNumber, String color, String sex, LocalDate birthday, Long mateId, String status) {
+    public PigeonTableDto(Long id, String ringNumber, String color, String sex, LocalDate birthday, Long mateId, String condition) {
         this.id = id;
         this.ringNumber = ringNumber;
         this.color = color;
         this.sex = sex;
         this.birthday = birthday;
         this.mateId = mateId;
-        this.status = status;
+        this.condition = condition;
     }
 
     public PigeonTableDto(Long id,
@@ -70,7 +70,7 @@ public class PigeonTableDto extends BaseDto {
                           Sex sex,
                           LocalDate birthday,
                           String mateRingNumber,
-                          Condition status,
+                          Condition condition,
                           Long sectionId) {
         this.id = id;
         this.ringNumber = ringNumber;
@@ -79,7 +79,7 @@ public class PigeonTableDto extends BaseDto {
         this.birthday = birthday;
         this.year = birthday == null ? null : birthday.getYear();
         this.mateRingNumber = mateRingNumber;
-        this.status = status == null ? null : status.getTitle();
+        this.condition = condition == null ? null : condition.getTitle();
         this.sectionId = sectionId;
     }
 }
