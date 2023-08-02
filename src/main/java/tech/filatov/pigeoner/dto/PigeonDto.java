@@ -16,19 +16,25 @@ import java.util.List;
 @Getter
 @Setter
 public class PigeonDto extends BaseDto {
-    private String ringNumber;
     private String name;
+    private String ringNumber;
+    private LocalDate birthdate;
+    private String color;
+    private String condition;
     private String sex;
     private int year;
-    private LocalDate birthday;
-    private String status;
     private Boolean isOwn;
+    private Long mateId;
+    private PigeonDto mate;
     private Long fatherId;
-    private Long motherId;
-    private String keeper;
-    private Integer depth;
     private PigeonDto father;
+    private Long motherId;
     private PigeonDto mother;
+    private Long keeperId;
+    private String keeper;
+    private Long sectionId;
+    private SectionDto section;
+    private Integer depth;
     private List<FlightResultDto> flights = new ArrayList<>();
     private List<FlightResultDto> topFlights = new ArrayList<>();
 
@@ -37,7 +43,7 @@ public class PigeonDto extends BaseDto {
                      String name,
                      String sex,
                      LocalDate birthdate,
-                     String status,
+                     String condition,
                      Boolean isOwn,
                      Long fatherId,
                      Long motherId,
@@ -48,7 +54,7 @@ public class PigeonDto extends BaseDto {
         this.name = name;
         this.sex = Sex.valueOf(sex).getTitle();
         this.year = birthdate.getYear();
-        this.status = Condition.valueOf(status).getTitle();
+        this.condition = Condition.valueOf(condition).getTitle();
         this.isOwn = isOwn;
         this.fatherId = fatherId;
         this.motherId = motherId;

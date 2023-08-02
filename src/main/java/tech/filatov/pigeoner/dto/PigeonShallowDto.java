@@ -1,6 +1,5 @@
 package tech.filatov.pigeoner.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,38 +19,41 @@ public class PigeonShallowDto extends BaseDto {
     private static final String SEP = ";";
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
+    private String name;
     private String ringNumber;
+    private LocalDate birthdate;
     private String color;
+    private String condition;
     private String sex;
-    private LocalDate birthday;
     private Integer year;
-    @JsonIgnore
+    private Boolean isOwn;
     private Long mateId;
     private String mateRingNumber;
-    private String condition;
-    @JsonIgnore
+    private Long fatherId;
+    private Long motherId;
+    private Long keeperId;
     private Long sectionId;
     private SectionDto section;
 
 
-    public PigeonShallowDto(Long id, String ringNumber, String color, Sex sex, LocalDate birthday, Long mateId, String mateRingNumber, Condition condition, Long sectionId, String sectionFullName) {
+    public PigeonShallowDto(Long id, String ringNumber, String color, Sex sex, LocalDate birthdate, Long mateId, String mateRingNumber, Condition condition, Long sectionId, String sectionFullName) {
         this.id = id;
         this.ringNumber = ringNumber;
         this.color = color;
         this.sex = sex.getTitle();
-        this.birthday = birthday;
+        this.birthdate = birthdate;
         this.mateId = mateId;
         this.mateRingNumber = mateRingNumber;
         this.condition = condition == null ? null : condition.getTitle();
         this.sectionId = sectionId;
     }
 
-    public PigeonShallowDto(Long id, String ringNumber, String color, String sex, LocalDate birthday, Long mateId, String condition) {
+    public PigeonShallowDto(Long id, String ringNumber, String color, String sex, LocalDate birthdate, Long mateId, String condition) {
         this.id = id;
         this.ringNumber = ringNumber;
         this.color = color;
         this.sex = sex;
-        this.birthday = birthday;
+        this.birthdate = birthdate;
         this.mateId = mateId;
         this.condition = condition;
     }
@@ -60,7 +62,7 @@ public class PigeonShallowDto extends BaseDto {
                             String ringNumber,
                             String color,
                             Sex sex,
-                            LocalDate birthday,
+                            LocalDate birthdate,
                             String mateRingNumber,
                             Condition condition,
                             Long sectionId) {
@@ -68,8 +70,8 @@ public class PigeonShallowDto extends BaseDto {
         this.ringNumber = ringNumber;
         this.color = color;
         this.sex = sex.getTitle();
-        this.birthday = birthday;
-        this.year = birthday == null ? null : birthday.getYear();
+        this.birthdate = birthdate;
+        this.year = birthdate == null ? null : birthdate.getYear();
         this.mateRingNumber = mateRingNumber;
         this.condition = condition == null ? null : condition.getTitle();
         this.sectionId = sectionId;
