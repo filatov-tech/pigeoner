@@ -1,20 +1,20 @@
 package tech.filatov.pigeoner.util;
 
-import tech.filatov.pigeoner.dto.PigeonWithAncestorsDto;
+import tech.filatov.pigeoner.dto.PigeonDto;
 
 import java.util.*;
 
 public class PigeonUtil {
     private PigeonUtil() {}
 
-    public static PigeonWithAncestorsDto buildPedigree(List<PigeonWithAncestorsDto> pigeons) {
+    public static PigeonDto buildPedigree(List<PigeonDto> pigeons) {
 
-        Map<Long, PigeonWithAncestorsDto> pigeonsMap = new HashMap<>();
-        Deque<PigeonWithAncestorsDto> pigeonStack = new ArrayDeque<>(9);
-        PigeonWithAncestorsDto rootPigeon = null;
+        Map<Long, PigeonDto> pigeonsMap = new HashMap<>();
+        Deque<PigeonDto> pigeonStack = new ArrayDeque<>(9);
+        PigeonDto rootPigeon = null;
 
 
-        for (PigeonWithAncestorsDto pigeon : pigeons) {
+        for (PigeonDto pigeon : pigeons) {
             pigeonsMap.put(pigeon.getId(), pigeon);
             if (pigeon.getDepth() == 0) {
                 pigeonStack.addFirst(pigeon);
@@ -23,9 +23,9 @@ public class PigeonUtil {
         }
 
         while (!pigeonStack.isEmpty()) {
-            PigeonWithAncestorsDto processedPigeon = pigeonStack.pop();
-            PigeonWithAncestorsDto father = pigeonsMap.get(processedPigeon.getFatherId());
-            PigeonWithAncestorsDto mother = pigeonsMap.get(processedPigeon.getMotherId());
+            PigeonDto processedPigeon = pigeonStack.pop();
+            PigeonDto father = pigeonsMap.get(processedPigeon.getFatherId());
+            PigeonDto mother = pigeonsMap.get(processedPigeon.getMotherId());
             if (father != null) {
                 processedPigeon.setFather(father);
                 pigeonStack.addFirst(father);

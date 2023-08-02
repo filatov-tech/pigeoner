@@ -3,6 +3,7 @@ package tech.filatov.pigeoner.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import tech.filatov.pigeoner.model.pigeon.Condition;
 import tech.filatov.pigeoner.model.pigeon.Sex;
 
@@ -13,7 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class PigeonWithAncestorsDto extends BaseDto {
+@Setter
+public class PigeonDto extends BaseDto {
     private String ringNumber;
     private String name;
     private String sex;
@@ -25,22 +27,22 @@ public class PigeonWithAncestorsDto extends BaseDto {
     private Long motherId;
     private String keeper;
     private Integer depth;
-    private PigeonWithAncestorsDto father;
-    private PigeonWithAncestorsDto mother;
+    private PigeonDto father;
+    private PigeonDto mother;
     private List<FlightResultDto> flights = new ArrayList<>();
     private List<FlightResultDto> topFlights = new ArrayList<>();
 
-    public PigeonWithAncestorsDto(Long id,
-                                  String ringNumber,
-                                  String name,
-                                  String sex,
-                                  LocalDate birthdate,
-                                  String status,
-                                  Boolean isOwn,
-                                  Long fatherId,
-                                  Long motherId,
-                                  Integer depth,
-                                  String keeper) {
+    public PigeonDto(Long id,
+                     String ringNumber,
+                     String name,
+                     String sex,
+                     LocalDate birthdate,
+                     String status,
+                     Boolean isOwn,
+                     Long fatherId,
+                     Long motherId,
+                     Integer depth,
+                     String keeper) {
         this.id = id;
         this.ringNumber = ringNumber;
         this.name = name;
@@ -82,11 +84,11 @@ public class PigeonWithAncestorsDto extends BaseDto {
         }
     }
 
-    public void setFather(PigeonWithAncestorsDto father) {
+    public void setFather(PigeonDto father) {
         this.father = father;
     }
 
-    public void setMother(PigeonWithAncestorsDto mother) {
+    public void setMother(PigeonDto mother) {
         this.mother = mother;
     }
 }

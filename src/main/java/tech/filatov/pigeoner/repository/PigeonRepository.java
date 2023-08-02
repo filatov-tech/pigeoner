@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import tech.filatov.pigeoner.dto.PigeonLabelDto;
 
-import tech.filatov.pigeoner.dto.PigeonWithAncestorsDto;
+import tech.filatov.pigeoner.dto.PigeonDto;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
 import java.util.List;
@@ -17,5 +17,5 @@ public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRep
     List<PigeonLabelDto> getAllLabelDto(long userId);
 
     @Query(nativeQuery = true)
-    List<PigeonWithAncestorsDto> getWithAncestorsById(long id);
+    List<PigeonDto> getWithAncestorsById(long id);
 }

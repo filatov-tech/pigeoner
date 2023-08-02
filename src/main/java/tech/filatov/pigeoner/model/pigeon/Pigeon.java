@@ -1,7 +1,7 @@
 package tech.filatov.pigeoner.model.pigeon;
 
 import lombok.*;
-import tech.filatov.pigeoner.dto.PigeonWithAncestorsDto;
+import tech.filatov.pigeoner.dto.PigeonDto;
 import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 import tech.filatov.pigeoner.model.Keeper;
 import tech.filatov.pigeoner.model.flight.FlightResult;
@@ -16,19 +16,19 @@ import static tech.filatov.pigeoner.constant.Constants.*;
 @NamedNativeQuery(
         name = "Pigeon.getWithAncestorsById",
         query = PIGEON_WITH_3_LEVEL_ANCESTORS,
-        resultSetMapping = "Mapping.pigeonWithAncestorsDto"
+        resultSetMapping = "Mapping.pigeonDto"
 )
 
 @SqlResultSetMapping(
-        name = "Mapping.pigeonWithAncestorsDto",
-        classes = @ConstructorResult(targetClass = PigeonWithAncestorsDto.class,
+        name = "Mapping.pigeonDto",
+        classes = @ConstructorResult(targetClass = PigeonDto.class,
                 columns = {@ColumnResult(name = "id", type = Long.class),
                         @ColumnResult(name = "ring_number", type = String.class),
                         @ColumnResult(name = "name", type = String.class),
                         @ColumnResult(name = "sex", type = String.class),
                         @ColumnResult(name = "birthdate", type = LocalDate.class),
                         @ColumnResult(name = "condition_status", type = String.class),
-                        @ColumnResult(name = "is_native", type = Boolean.class),
+                        @ColumnResult(name = "is_own", type = Boolean.class),
                         @ColumnResult(name = "father_id", type = Long.class),
                         @ColumnResult(name = "mother_id", type = Long.class),
                         @ColumnResult(name = "depth", type = Integer.class),

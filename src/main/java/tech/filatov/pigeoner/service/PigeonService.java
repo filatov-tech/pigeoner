@@ -23,29 +23,29 @@ public class PigeonService {
         this.flightResultRepository = flightResultRepository;
     }
 
-    public List<PigeonTableDto> getAll(long userId)  {
+    public List<PigeonShallowDto> getAll(long userId)  {
         return getAll(null, userId);
     }
 
-    public List<PigeonTableDto> getAll(FilterParams params, long userId) {
-        List<PigeonTableDto> pigeons = repository.getFiltered(params, userId);
+    public List<PigeonShallowDto> getAll(FilterParams params, long userId) {
+        List<PigeonShallowDto> pigeons = repository.getFiltered(params, userId);
         return addSectionsTo(pigeons, userId);
     }
 
-    private List<PigeonTableDto> addSectionsTo(List<PigeonTableDto> pigeons, long userId) {
+    private List<PigeonShallowDto> addSectionsTo(List<PigeonShallowDto> pigeons, long userId) {
         Map<Long, SectionDto> sections = CommonUtil.getLookupMapFrom(
                 sectionService.getAllWithFullAddress(userId)
         );
-        for (PigeonTableDto pigeon : pigeons) {
+        for (PigeonShallowDto pigeon : pigeons) {
             if (pigeon.getSectionId() == null) continue;
             pigeon.setSection(sections.get(pigeon.getSectionId()));
         }
         return pigeons;
     }
 
-    public PigeonWithAncestorsDto getWithAncestorsAndFlights(int id, long userId) {
-        List<PigeonWithAncestorsDto> pigeons = repository.getWithAncestorsById(id);
-        PigeonWithAncestorsDto pigeon = PigeonUtil.buildPedigree(pigeons);
+    public PigeonDto getWithAncestorsAndFlights(int id, long userId) {
+        List<PigeonDto> pigeons = repository.getWithAncestorsById(id);
+        PigeonDto pigeon = PigeonUtil.buildPedigree(pigeons);
 
         List<FlightResultDto> flights = flightResultRepository.getAllByPigeonId(id, userId);
         pigeon.setFlights(flights);

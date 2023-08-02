@@ -4,12 +4,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.filatov.pigeoner.AuthorizedUser;
 import tech.filatov.pigeoner.dto.FilterParams;
-import tech.filatov.pigeoner.dto.PigeonTableDto;
-import tech.filatov.pigeoner.dto.PigeonWithAncestorsDto;
+import tech.filatov.pigeoner.dto.PigeonShallowDto;
+import tech.filatov.pigeoner.dto.PigeonDto;
 import tech.filatov.pigeoner.service.PigeonService;
 
 import java.util.List;
-import java.util.Map;
 
 import static tech.filatov.pigeoner.util.ValidationUtil.validateDataFromFilter;
 
@@ -25,18 +24,18 @@ public class PigeonRestController {
     }
 
     @GetMapping
-    public List<PigeonTableDto> getAll() {
+    public List<PigeonShallowDto> getAll() {
         return service.getAll(authUser.getId());
     }
 
     @PostMapping("/filter")
-    public ResponseEntity<List<PigeonTableDto>> getFiltered(@RequestBody FilterParams params) {
+    public ResponseEntity<List<PigeonShallowDto>> getFiltered(@RequestBody FilterParams params) {
         validateDataFromFilter(params);
         return ResponseEntity.ok(service.getAll(params, authUser.getId()));
     }
 
     @GetMapping("/{id}/with-ancestors")
-    public PigeonWithAncestorsDto getWithAncestors(@PathVariable int id) {
+    public PigeonDto getWithAncestors(@PathVariable int id) {
         return service.getWithAncestorsAndFlights(id, authUser.getId());
     }
 }

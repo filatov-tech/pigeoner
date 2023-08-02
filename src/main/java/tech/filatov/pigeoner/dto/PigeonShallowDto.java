@@ -1,5 +1,6 @@
 package tech.filatov.pigeoner.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PigeonTableDto extends BaseDto {
+public class PigeonShallowDto extends BaseDto {
 
     private static final String SEP = ";";
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -24,15 +25,16 @@ public class PigeonTableDto extends BaseDto {
     private String sex;
     private LocalDate birthday;
     private Integer year;
-    private String age;
+    @JsonIgnore
     private Long mateId;
     private String mateRingNumber;
     private String condition;
+    @JsonIgnore
     private Long sectionId;
     private SectionDto section;
 
 
-    public PigeonTableDto(Long id, String ringNumber, String color, Sex sex, LocalDate birthday, Long mateId, String mateRingNumber, Condition condition, Long sectionId, String sectionFullName) {
+    public PigeonShallowDto(Long id, String ringNumber, String color, Sex sex, LocalDate birthday, Long mateId, String mateRingNumber, Condition condition, Long sectionId, String sectionFullName) {
         this.id = id;
         this.ringNumber = ringNumber;
         this.color = color;
@@ -44,7 +46,7 @@ public class PigeonTableDto extends BaseDto {
         this.sectionId = sectionId;
     }
 
-    public PigeonTableDto(Long id, String ringNumber, String color, String sex, LocalDate birthday, Long mateId, String condition) {
+    public PigeonShallowDto(Long id, String ringNumber, String color, String sex, LocalDate birthday, Long mateId, String condition) {
         this.id = id;
         this.ringNumber = ringNumber;
         this.color = color;
@@ -54,14 +56,14 @@ public class PigeonTableDto extends BaseDto {
         this.condition = condition;
     }
 
-    public PigeonTableDto(Long id,
-                          String ringNumber,
-                          String color,
-                          Sex sex,
-                          LocalDate birthday,
-                          String mateRingNumber,
-                          Condition condition,
-                          Long sectionId) {
+    public PigeonShallowDto(Long id,
+                            String ringNumber,
+                            String color,
+                            Sex sex,
+                            LocalDate birthday,
+                            String mateRingNumber,
+                            Condition condition,
+                            Long sectionId) {
         this.id = id;
         this.ringNumber = ringNumber;
         this.color = color;

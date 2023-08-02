@@ -2,7 +2,7 @@ package tech.filatov.pigeoner.repository;
 
 import org.springframework.stereotype.Repository;
 import tech.filatov.pigeoner.dto.FilterParams;
-import tech.filatov.pigeoner.dto.PigeonTableDto;
+import tech.filatov.pigeoner.dto.PigeonShallowDto;
 import tech.filatov.pigeoner.model.Keeper;
 import tech.filatov.pigeoner.model.dovecote.Section;
 import tech.filatov.pigeoner.model.dovecote.Section_;
@@ -32,9 +32,9 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
     }
 
     @Override
-    public List<PigeonTableDto> getFiltered(FilterParams params, long userId) {
+    public List<PigeonShallowDto> getFiltered(FilterParams params, long userId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<PigeonTableDto> cq = cb.createQuery(PigeonTableDto.class);
+        CriteriaQuery<PigeonShallowDto> cq = cb.createQuery(PigeonShallowDto.class);
 
         Root<Pigeon> pigeonRoot = cq.from(Pigeon.class);
         Join<Pigeon, Section> section = pigeonRoot.join(Pigeon_.section, JoinType.LEFT);
@@ -42,7 +42,7 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
         Join<Pigeon, Color> color = pigeonRoot.join(Pigeon_.color, JoinType.LEFT);
 
         cq.select(cb.construct(
-                PigeonTableDto.class,
+                PigeonShallowDto.class,
                 pigeonRoot.get(Pigeon_.id),
                 pigeonRoot.get(Pigeon_.ringNumber),
                 color.get(Color_.name),
@@ -59,7 +59,7 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
             cq.where(cb.equal(pigeonRoot.get(Pigeon_.owner), userId));
         }
 
-        TypedQuery<PigeonTableDto> executableQuery = em.createQuery(cq);
+        TypedQuery<PigeonShallowDto> executableQuery = em.createQuery(cq);
         return executableQuery.getResultList();
     }
 
