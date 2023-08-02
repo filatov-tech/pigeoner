@@ -24,10 +24,11 @@ public class PigeonService {
     }
 
     public List<PigeonShallowDto> getAll(long userId)  {
-        return getAll(null, userId);
+        List<PigeonShallowDto> pigeons = repository.getAll(userId);
+        return addSectionsTo(pigeons, userId);
     }
 
-    public List<PigeonShallowDto> getAll(FilterParams params, long userId) {
+    public List<PigeonShallowDto> getAllFiltered(FilterParams params, long userId) {
         List<PigeonShallowDto> pigeons = repository.getFiltered(params, userId);
         return addSectionsTo(pigeons, userId);
     }
@@ -43,9 +44,9 @@ public class PigeonService {
         return pigeons;
     }
 
-    public PigeonDto getWithAncestorsAndFlights(int id, long userId) {
-        List<PigeonDto> pigeons = repository.getWithAncestorsById(id);
-        PigeonDto pigeon = PigeonUtil.buildPedigree(pigeons);
+    public PigeonDto getWithAncestorsAndFlights(long id, long userId) {
+        List<PigeonDto> pigeons = repository.getWithAncestorsById(id, userId);
+        PigeonDto pigeon = PigeonUtil.buildPedigree(pigeons, id);
 
         List<FlightResultDto> flights = flightResultRepository.getAllByPigeonId(id, userId);
         pigeon.setFlights(flights);

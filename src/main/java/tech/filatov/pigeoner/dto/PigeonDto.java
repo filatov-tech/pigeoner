@@ -22,7 +22,7 @@ public class PigeonDto extends BaseDto {
     private String color;
     private String condition;
     private String sex;
-    private int year;
+    private Integer year;
     private Boolean isOwn;
     private Long mateId;
     private PigeonDto mate;
@@ -31,35 +31,68 @@ public class PigeonDto extends BaseDto {
     private Long motherId;
     private PigeonDto mother;
     private Long keeperId;
-    private String keeper;
+    private String keeperName;
     private Long sectionId;
     private SectionDto section;
-    private Integer depth;
     private List<FlightResultDto> flights = new ArrayList<>();
     private List<FlightResultDto> topFlights = new ArrayList<>();
 
     public PigeonDto(Long id,
-                     String ringNumber,
                      String name,
-                     String sex,
+                     String ringNumber,
                      LocalDate birthdate,
                      String condition,
+                     String sex,
                      Boolean isOwn,
+                     Long mateId,
                      Long fatherId,
                      Long motherId,
-                     Integer depth,
-                     String keeper) {
+                     Long keeperId,
+                     String keeperName,
+                     Long sectionId) {
         this.id = id;
-        this.ringNumber = ringNumber;
         this.name = name;
-        this.sex = Sex.valueOf(sex).getTitle();
-        this.year = birthdate.getYear();
+        this.ringNumber = ringNumber;
+        this.birthdate = birthdate;
         this.condition = Condition.valueOf(condition).getTitle();
+        this.sex = Sex.valueOf(sex).getTitle();
+        this.year = birthdate == null ? null : birthdate.getYear();
         this.isOwn = isOwn;
+        this.mateId = mateId;
         this.fatherId = fatherId;
         this.motherId = motherId;
-        this.depth = depth;
-        this.keeper = keeper;
+        this.keeperId = keeperId;
+        this.keeperName = keeperName;
+        this.sectionId = sectionId;
+    }
+
+    public PigeonDto(Long id,
+                     String name,
+                     String ringNumber,
+                     LocalDate birthdate,
+                     Condition condition,
+                     Sex sex,
+                     Boolean isOwn,
+                     Long mateId,
+                     Long fatherId,
+                     Long motherId,
+                     Long keeperId,
+                     String keeperName,
+                     Long sectionId) {
+        this.id = id;
+        this.name = name;
+        this.ringNumber = ringNumber;
+        this.birthdate = birthdate;
+        this.condition = condition == null ? null : condition.getTitle();
+        this.sex = sex == null ? null : sex.getTitle();
+        this.year = birthdate == null ? null : birthdate.getYear();
+        this.isOwn = isOwn;
+        this.mateId = mateId;
+        this.fatherId = fatherId;
+        this.motherId = motherId;
+        this.keeperId = keeperId;
+        this.keeperName = keeperName;
+        this.sectionId = sectionId;
     }
 
     public void setFlights(List<FlightResultDto> flights) {
@@ -88,13 +121,5 @@ public class PigeonDto extends BaseDto {
                 topFlights.add(flightsCopy.get(i));
             }
         }
-    }
-
-    public void setFather(PigeonDto father) {
-        this.father = father;
-    }
-
-    public void setMother(PigeonDto mother) {
-        this.mother = mother;
     }
 }

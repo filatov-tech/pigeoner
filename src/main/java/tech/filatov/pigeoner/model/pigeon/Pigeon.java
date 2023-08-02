@@ -23,16 +23,18 @@ import static tech.filatov.pigeoner.constant.Constants.*;
         name = "Mapping.pigeonDto",
         classes = @ConstructorResult(targetClass = PigeonDto.class,
                 columns = {@ColumnResult(name = "id", type = Long.class),
-                        @ColumnResult(name = "ring_number", type = String.class),
                         @ColumnResult(name = "name", type = String.class),
-                        @ColumnResult(name = "sex", type = String.class),
+                        @ColumnResult(name = "ring_number", type = String.class),
                         @ColumnResult(name = "birthdate", type = LocalDate.class),
                         @ColumnResult(name = "condition_status", type = String.class),
+                        @ColumnResult(name = "sex", type = String.class),
                         @ColumnResult(name = "is_own", type = Boolean.class),
+                        @ColumnResult(name = "mate_id", type = Long.class),
                         @ColumnResult(name = "father_id", type = Long.class),
                         @ColumnResult(name = "mother_id", type = Long.class),
-                        @ColumnResult(name = "depth", type = Integer.class),
-                        @ColumnResult(name = "keeper", type = String.class),
+                        @ColumnResult(name = "keeper_id", type = Long.class),
+                        @ColumnResult(name = "keeper_name", type = String.class),
+                        @ColumnResult(name = "section_id", type = Long.class),
                 }
         )
 )

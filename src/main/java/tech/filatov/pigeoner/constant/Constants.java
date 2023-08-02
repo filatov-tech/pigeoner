@@ -84,19 +84,56 @@ final public class Constants {
             "                                INNER JOIN recursive_sections AS rs ON rs.id = sj.parent_id)\n" +
             "SELECT rec.id\n" +
             "FROM recursive_sections rec";
-    public static final String PIGEON_WITH_3_LEVEL_ANCESTORS = "WITH RECURSIVE pedigree AS (\n" +
-            "    SELECT id, ring_number, name, sex, birthdate, condition_status, is_own, father_id, mother_id, keeper_id, 0 AS depth\n" +
-            "    FROM pigeon\n" +
-            "    WHERE id = :id\n" +
-            "\n" +
-            "    UNION\n" +
-            "\n" +
-            "    SELECT p.id, p.ring_number, p.name, p.sex, p.birthdate, p.condition_status, p.is_own, p.father_id, p.mother_id, p.keeper_id, depth+1\n" +
-            "    FROM pigeon p\n" +
-            "             JOIN pedigree ped ON ped.father_id = p.id OR ped.mother_id = p.id\n" +
-            "    WHERE depth < 3\n" +
-            ")\n" +
-            "SELECT pedigree.id, ring_number, pedigree.name, sex, birthdate, condition_status, is_own, father_id, mother_id, depth, k.name keeper\n" +
-            "FROM pedigree\n" +
-            "JOIN keeper k ON keeper_id = k.id";
+    public static final String PIGEON_WITH_3_LEVEL_ANCESTORS = """
+            WITH RECURSIVE pedigree AS (SELECT id,
+                                               name,
+                                               ring_number,
+                                               birthdate,
+                                               condition_status,
+                                               sex,
+                                               is_own,
+                                               mate_id,
+                                               father_id,
+                                               mother_id,
+                                               keeper_id,
+                                               section_id,
+                                               0 AS depth
+                                        FROM pigeon
+                                        WHERE id = :id
+                                          AND pigeon.user_id = :userId
+                        
+                                        UNION
+                        
+                                        SELECT p.id,
+                                               p.name,
+                                               p.ring_number,
+                                               p.birthdate,
+                                               p.condition_status,
+                                               p.sex,
+                                               p.is_own,
+                                               p.mate_id,
+                                               p.father_id,
+                                               p.mother_id,
+                                               p.keeper_id,
+                                               p.section_id,
+                                               depth + 1
+                                        FROM pigeon p
+                                                 JOIN pedigree ped ON ped.father_id = p.id OR ped.mother_id = p.id
+                                        WHERE depth < 3)
+            SELECT pedigree.id,
+                   pedigree.name,
+                   ring_number,
+                   birthdate,
+                   condition_status,
+                   sex,
+                   is_own,
+                   mate_id,
+                   father_id,
+                   mother_id,
+                   keeper_id,
+                   k.name keeper_name,
+                   section_id
+            FROM pedigree
+                     JOIN keeper k ON keeper_id = k.id
+            """;
 }

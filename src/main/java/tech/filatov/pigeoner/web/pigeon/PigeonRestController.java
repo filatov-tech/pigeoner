@@ -31,11 +31,11 @@ public class PigeonRestController {
     @PostMapping("/filter")
     public ResponseEntity<List<PigeonShallowDto>> getFiltered(@RequestBody FilterParams params) {
         validateDataFromFilter(params);
-        return ResponseEntity.ok(service.getAll(params, authUser.getId()));
+        return ResponseEntity.ok(service.getAllFiltered(params, authUser.getId()));
     }
 
     @GetMapping("/{id}/with-ancestors")
-    public PigeonDto getWithAncestors(@PathVariable int id) {
+    public PigeonDto getWithAncestors(@PathVariable long id) {
         return service.getWithAncestorsAndFlights(id, authUser.getId());
     }
 }

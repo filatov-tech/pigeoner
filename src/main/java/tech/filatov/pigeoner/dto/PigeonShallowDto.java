@@ -35,45 +35,34 @@ public class PigeonShallowDto extends BaseDto {
     private Long sectionId;
     private SectionDto section;
 
-
-    public PigeonShallowDto(Long id, String ringNumber, String color, Sex sex, LocalDate birthdate, Long mateId, String mateRingNumber, Condition condition, Long sectionId, String sectionFullName) {
-        this.id = id;
-        this.ringNumber = ringNumber;
-        this.color = color;
-        this.sex = sex.getTitle();
-        this.birthdate = birthdate;
-        this.mateId = mateId;
-        this.mateRingNumber = mateRingNumber;
-        this.condition = condition == null ? null : condition.getTitle();
-        this.sectionId = sectionId;
-    }
-
-    public PigeonShallowDto(Long id, String ringNumber, String color, String sex, LocalDate birthdate, Long mateId, String condition) {
-        this.id = id;
-        this.ringNumber = ringNumber;
-        this.color = color;
-        this.sex = sex;
-        this.birthdate = birthdate;
-        this.mateId = mateId;
-        this.condition = condition;
-    }
-
     public PigeonShallowDto(Long id,
+                            String name,
                             String ringNumber,
-                            String color,
-                            Sex sex,
                             LocalDate birthdate,
-                            String mateRingNumber,
+                            String color,
                             Condition condition,
+                            Sex sex,
+                            Boolean isOwn,
+                            Long mateId,
+                            String mateRingNumber,
+                            Long fatherId,
+                            Long motherId,
+                            Long keeperId,
                             Long sectionId) {
         this.id = id;
+        this.name = name;
         this.ringNumber = ringNumber;
-        this.color = color;
-        this.sex = sex.getTitle();
         this.birthdate = birthdate;
-        this.year = birthdate == null ? null : birthdate.getYear();
-        this.mateRingNumber = mateRingNumber;
+        this.color = color;
         this.condition = condition == null ? null : condition.getTitle();
+        this.sex = sex == null ? null : sex.getTitle();
+        this.year = birthdate == null ? null : birthdate.getYear();
+        this.isOwn = isOwn;
+        this.mateId = mateId;
+        this.mateRingNumber = mateRingNumber;
+        this.fatherId = fatherId;
+        this.motherId = motherId;
+        this.keeperId = keeperId;
         this.sectionId = sectionId;
     }
 }

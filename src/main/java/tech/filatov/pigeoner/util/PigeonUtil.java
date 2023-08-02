@@ -7,20 +7,13 @@ import java.util.*;
 public class PigeonUtil {
     private PigeonUtil() {}
 
-    public static PigeonDto buildPedigree(List<PigeonDto> pigeons) {
+    public static PigeonDto buildPedigree(List<PigeonDto> pigeons, long rootPigeonId) {
 
-        Map<Long, PigeonDto> pigeonsMap = new HashMap<>();
+        Map<Long, PigeonDto> pigeonsMap = CommonUtil.getLookupMapFrom(pigeons);
         Deque<PigeonDto> pigeonStack = new ArrayDeque<>(9);
-        PigeonDto rootPigeon = null;
 
-
-        for (PigeonDto pigeon : pigeons) {
-            pigeonsMap.put(pigeon.getId(), pigeon);
-            if (pigeon.getDepth() == 0) {
-                pigeonStack.addFirst(pigeon);
-                rootPigeon = pigeon;
-            }
-        }
+        PigeonDto rootPigeon = pigeonsMap.get(rootPigeonId);
+        pigeonStack.addFirst(rootPigeon);
 
         while (!pigeonStack.isEmpty()) {
             PigeonDto processedPigeon = pigeonStack.pop();

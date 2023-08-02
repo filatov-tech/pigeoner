@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import tech.filatov.pigeoner.dto.FilterParams;
 import tech.filatov.pigeoner.dto.PigeonShallowDto;
 import tech.filatov.pigeoner.model.Keeper;
+import tech.filatov.pigeoner.model.Keeper_;
 import tech.filatov.pigeoner.model.dovecote.Section;
 import tech.filatov.pigeoner.model.dovecote.Section_;
 import tech.filatov.pigeoner.model.pigeon.Color;
@@ -37,20 +38,25 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
         CriteriaQuery<PigeonShallowDto> cq = cb.createQuery(PigeonShallowDto.class);
 
         Root<Pigeon> pigeonRoot = cq.from(Pigeon.class);
-        Join<Pigeon, Section> section = pigeonRoot.join(Pigeon_.section, JoinType.LEFT);
         Join<Pigeon, Pigeon> mate = pigeonRoot.join(Pigeon_.mate, JoinType.LEFT);
         Join<Pigeon, Color> color = pigeonRoot.join(Pigeon_.color, JoinType.LEFT);
 
         cq.select(cb.construct(
                 PigeonShallowDto.class,
                 pigeonRoot.get(Pigeon_.id),
+                pigeonRoot.get(Pigeon_.name),
                 pigeonRoot.get(Pigeon_.ringNumber),
-                color.get(Color_.name),
-                pigeonRoot.get(Pigeon_.sex),
                 pigeonRoot.get(Pigeon_.birthdate),
-                mate.get(Pigeon_.ringNumber),
+                color.get(Color_.name),
                 pigeonRoot.get(Pigeon_.conditionStatus),
-                section.get(Section_.id)
+                pigeonRoot.get(Pigeon_.sex),
+                pigeonRoot.get(Pigeon_.isOwn),
+                mate.get(Pigeon_.id),
+                mate.get(Pigeon_.ringNumber),
+                pigeonRoot.get(Pigeon_.father).get(Pigeon_.id),
+                pigeonRoot.get(Pigeon_.mother).get(Pigeon_.id),
+                pigeonRoot.get(Pigeon_.keeper).get(Keeper_.id),
+                pigeonRoot.get(Pigeon_.section).get(Section_.id)
         ));
 
         if (params != null) {
