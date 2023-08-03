@@ -5,6 +5,7 @@ import tech.filatov.pigeoner.dto.PigeonLabelDto;
 import tech.filatov.pigeoner.dto.SectionDto;
 import tech.filatov.pigeoner.repository.PigeonRepository;
 import tech.filatov.pigeoner.repository.SectionRepository;
+import tech.filatov.pigeoner.util.CommonUtil;
 import tech.filatov.pigeoner.util.SectionUtil;
 
 import java.util.List;
@@ -30,6 +31,11 @@ public class SectionService {
     public List<SectionDto> getAllWithFullAddress(long userId) {
         List<SectionDto> sections = getAll(userId);
         return SectionUtil.fillAddressData(sections);
+    }
+
+    public SectionDto getWithFullAddress(long id, long userId) {
+        Map<Long, SectionDto> sectionsMap = CommonUtil.getLookupMapFrom(getAllWithFullAddress(userId));
+        return sectionsMap.get(id);
     }
 
     public List<SectionDto> getHierarchicalStructure() {
