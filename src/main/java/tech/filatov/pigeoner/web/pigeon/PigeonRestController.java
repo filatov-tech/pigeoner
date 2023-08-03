@@ -28,6 +28,11 @@ public class PigeonRestController {
         return service.getAll(authUser.getId());
     }
 
+    @GetMapping("/{id}")
+    public PigeonDto get(@PathVariable long id) {
+        return service.get(id, authUser.getId());
+    }
+
     @PostMapping("/filter")
     public ResponseEntity<List<PigeonShallowDto>> getFiltered(@RequestBody FilterParams params) {
         validateDataFromFilter(params);
@@ -36,6 +41,6 @@ public class PigeonRestController {
 
     @GetMapping("/{id}/with-ancestors")
     public PigeonDto getWithAncestors(@PathVariable long id) {
-        return service.getWithAncestorsAndFlights(id, authUser.getId());
+        return service.getWithAncestors(id, authUser.getId());
     }
 }

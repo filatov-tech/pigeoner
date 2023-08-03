@@ -44,7 +44,16 @@ public class PigeonService {
         return pigeons;
     }
 
-    public PigeonDto getWithAncestorsAndFlights(long id, long userId) {
+    public PigeonDto getSimple(long id, long userId) {
+        return repository.get(id, userId);
+    }
+
+    public PigeonDto get(long id, long userId) {
+        PigeonDto pigeon = getSimple(id, userId);
+        return makeFull(pigeon, userId);
+    }
+
+    public PigeonDto getWithAncestors(long id, long userId) {
         List<PigeonDto> pigeons = repository.getWithAncestorsById(id, userId);
         PigeonDto pigeon = PigeonUtil.buildPedigree(pigeons, id);
 
@@ -53,4 +62,29 @@ public class PigeonService {
 
         return pigeon;
     }
+
+    private PigeonDto makeFull(PigeonDto pigeon, long userId) {
+        if (pigeon.getSectionId() != null) {
+            SectionDto section = sectionService.getWithFullAddress(pigeon.getSectionId(), userId);
+            pigeon.setSection(section);
+        }
+        if (pigeon.getMateId() != null) {
+            pigeon.setMate(getSimple(pigeon.getMateId(), userId));
+        }
+        if (pigeon.getFatherId() != null) {
+            pigeon.setFather(getSimple(pigeon.getFatherId(), userId));
+        }
+        if (pigeon.getMotherId() != null) {
+            pigeon.setMother(getSimple(pigeon.getMotherId(), userId));
+        }
+        List<FlightResultDto> flightResults = flightResultRepository.getAllByPigeonId(pigeon.getId(), userId);
+        if (!flightResults.isEmpty()) {
+            pigeon.setFlights(flightResults);
+        }
+        return pigeon;
+    }
+
+
+
+
 }
