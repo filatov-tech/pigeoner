@@ -54,12 +54,13 @@ public class PigeonService {
     }
 
     public PigeonDto getWithAncestors(long id, long userId) {
+        PigeonDto pigeon = get(id, userId);
+
         List<PigeonDto> pigeons = repository.getWithAncestorsById(id, userId);
-        PigeonDto pigeon = PigeonUtil.buildPedigree(pigeons, id);
+        PigeonDto pigeonWithAncestors = PigeonUtil.buildPedigree(pigeons, id);
 
-        List<FlightResultDto> flights = flightResultRepository.getAllByPigeonId(id, userId);
-        pigeon.setFlights(flights);
-
+        pigeon.setMother(pigeonWithAncestors.getMother());
+        pigeon.setFather(pigeonWithAncestors.getFather());
         return pigeon;
     }
 
