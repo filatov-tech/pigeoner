@@ -7,6 +7,7 @@ import lombok.Setter;
 import tech.filatov.pigeoner.model.pigeon.Condition;
 import tech.filatov.pigeoner.model.pigeon.Sex;
 
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -21,6 +22,7 @@ public class PigeonShallowDto extends BaseDto {
 
     private String name;
     private String ringNumber;
+    @PastOrPresent
     private LocalDate birthdate;
     private String color;
     private String condition;
