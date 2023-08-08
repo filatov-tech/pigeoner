@@ -8,6 +8,8 @@ import tech.filatov.pigeoner.model.pigeon.Condition;
 import tech.filatov.pigeoner.model.pigeon.Sex;
 
 import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -20,13 +22,17 @@ public class PigeonShallowDto extends BaseDto {
     private static final String SEP = ";";
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я .\\d-]+$")
     private String name;
+    @Pattern(regexp = "^[-\\d ]+$")
     private String ringNumber;
     @PastOrPresent
     private LocalDate birthdate;
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я .-]+$")
     private String color;
     private String condition;
     private String sex;
+    @Size(min = 1000, max = 2999)
     private Integer year;
     private Boolean isOwn;
     private Long mateId;
