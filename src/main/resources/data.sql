@@ -5,8 +5,8 @@ VALUES
 
 INSERT INTO color (id, created, updated, name, user_id)
 VALUES
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Сизый', 100000), --100001
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Серый', 100000)  --100002
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'сизый', 100000), --100001
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'серый', 100000)  --100002
 ;
 
 INSERT INTO section (id, created, updated, name, type, user_id, parent_id)
