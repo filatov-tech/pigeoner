@@ -6,8 +6,11 @@ import tech.filatov.pigeoner.dto.SectionDto;
 import tech.filatov.pigeoner.model.dovecote.Section;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SectionRepository extends JpaRepository<Section, Long> {
+
+    Optional<Section> findByIdAndOwnerId(long id, long userId);
 
     @Query("SELECT s FROM Section s WHERE s.parent IS NULL")
     List<Section> getTopLevel();

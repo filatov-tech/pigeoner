@@ -9,8 +9,11 @@ import tech.filatov.pigeoner.dto.PigeonShallowDto;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRepositoryCustom {
+
+    Optional<Pigeon> findByIdAndOwnerId(long id, long userId);
 
     @Query("""
     SELECT new tech.filatov.pigeoner.dto.PigeonShallowDto(
