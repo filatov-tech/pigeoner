@@ -17,4 +17,8 @@ public class ColorService {
         return repository.getColorByNameAndOwnerId(name, userId)
                 .orElseThrow(NotFoundException.withNameInfo(name));
     }
+
+    public Color findColorByPigeonId(long id, long userId) {
+        return repository.findColorByPigeonId(id, userId);
+    }
 }
