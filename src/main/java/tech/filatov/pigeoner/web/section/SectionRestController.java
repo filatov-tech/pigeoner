@@ -23,7 +23,7 @@ public class SectionRestController {
 
     @GetMapping
     public List<SectionDto> getSectionsData() {
-        return service.getSectionsTreeWithPigeons(authUser.getId());
+        return service.getSectionsDtoTreeWithPigeons(authUser.getId());
     }
 
     @GetMapping("/info")
@@ -38,6 +38,6 @@ public class SectionRestController {
 
     @GetMapping("/hierarchy")
     public List<SectionDto> getHierarchicalStructure() {
-        return service.getHierarchicalStructure();
+        return service.getDtoHierarchicalStructure();
     }
 }

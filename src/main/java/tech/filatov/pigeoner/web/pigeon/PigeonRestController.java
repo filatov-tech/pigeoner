@@ -30,7 +30,7 @@ public class PigeonRestController {
 
     @GetMapping("/{id}")
     public PigeonDto get(@PathVariable long id) {
-        return service.get(id, authUser.getId());
+        return service.getPigeonDto(id, authUser.getId());
     }
 
     @PostMapping("/filter")

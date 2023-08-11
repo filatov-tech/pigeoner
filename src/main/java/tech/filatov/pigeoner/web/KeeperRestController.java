@@ -15,7 +15,7 @@ import java.util.List;
 public class KeeperRestController {
 
     private final AuthorizedUser authUser = new AuthorizedUser();
-    private KeeperRepository repository;
+    private final KeeperRepository repository;
 
     public KeeperRestController(KeeperRepository repository) {
         this.repository = repository;
@@ -23,17 +23,17 @@ public class KeeperRestController {
 
     @GetMapping
     public List<KeeperDto> getAll() {
-        return repository.getAll(authUser.getId());
+        return repository.getAllDto(authUser.getId());
     }
 
     @GetMapping("/{id}")
     public KeeperDto get(@PathVariable long id) {
-        return repository.get(id, authUser.getId());
+        return repository.getDto(id, authUser.getId());
     }
 
     @GetMapping("/main")
     public KeeperDto getMain() {
-        return repository.get(authUser.getId());
+        return repository.getDto(authUser.getId());
     }
 
 }

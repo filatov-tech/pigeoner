@@ -3,10 +3,12 @@ package tech.filatov.pigeoner.service;
 import org.springframework.stereotype.Service;
 import tech.filatov.pigeoner.dto.PigeonLabelDto;
 import tech.filatov.pigeoner.dto.SectionDto;
+import tech.filatov.pigeoner.model.dovecote.Section;
 import tech.filatov.pigeoner.repository.PigeonRepository;
 import tech.filatov.pigeoner.repository.SectionRepository;
 import tech.filatov.pigeoner.util.CommonUtil;
 import tech.filatov.pigeoner.util.SectionUtil;
+import tech.filatov.pigeoner.util.exception.NotFoundException;
 
 import java.util.List;
 import java.util.Map;
@@ -24,26 +26,30 @@ public class SectionService {
         this.pigeonRepository = pigeonRepository;
     }
 
-    public List<SectionDto> getAll(long userId) {
+    public Section get(long id, long userId) {
+        return repository.findByIdAndOwnerId(id, userId).orElseThrow(NotFoundException.withIdInfo(id));
+    }
+
+    public List<SectionDto> getAllDto(long userId) {
         return repository.getAll(userId);
     }
 
     public List<SectionDto> getAllWithFullAddress(long userId) {
-        List<SectionDto> sections = getAll(userId);
+        List<SectionDto> sections = getAllDto(userId);
         return SectionUtil.fillAddressData(sections);
     }
 
-    public SectionDto getWithFullAddress(long id, long userId) {
+    public SectionDto getDtoWithFullAddress(long id, long userId) {
         Map<Long, SectionDto> sectionsMap = CommonUtil.getLookupMapFrom(getAllWithFullAddress(userId));
         return sectionsMap.get(id);
     }
 
-    public List<SectionDto> getHierarchicalStructure() {
+    public List<SectionDto> getDtoHierarchicalStructure() {
         List<SectionDto> sectionWithoutHierarchy = repository.getAllWithoutNests();
         return SectionUtil.makeHierarchy(sectionWithoutHierarchy);
     }
 
-    public List<SectionDto> getSectionsTreeWithPigeons(long userId) {
+    public List<SectionDto> getSectionsDtoTreeWithPigeons(long userId) {
         List<SectionDto> sectionsWithoutHierarchy = repository.getAllWithInfo();
         List<PigeonLabelDto> pigeons = pigeonRepository.getAllLabelDto(userId);
         insertPigeonsToSections(pigeons, sectionsWithoutHierarchy);
