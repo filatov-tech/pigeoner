@@ -7,8 +7,11 @@ import tech.filatov.pigeoner.dto.KeeperDto;
 import tech.filatov.pigeoner.model.Keeper;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface KeeperRepository extends JpaRepository<Keeper, Long> {
+
+    Optional<Keeper> findByIdAndOwnerId(long id, long userId);
 
     @Query("SELECT new tech.filatov.pigeoner.dto.KeeperDto(k.id, k.name) FROM Keeper k WHERE k.owner.id = :userId ORDER BY k.name")
     List<KeeperDto> getAllDto(long userId);
