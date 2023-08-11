@@ -63,12 +63,12 @@ public class PigeonService {
         return pigeons;
     }
 
-    public PigeonDto getPigeonDtoWithotNestedDto(long id, long userId) {
+    public PigeonDto getPigeonDtoWithoutNestedDto(long id, long userId) {
         return repository.getPigeonDto(id, userId);
     }
 
     public PigeonDto getPigeonDto(long id, long userId) {
-        PigeonDto pigeon = getPigeonDtoWithotNestedDto(id, userId);
+        PigeonDto pigeon = getPigeonDtoWithoutNestedDto(id, userId);
         return makeFull(pigeon, userId);
     }
 
@@ -89,13 +89,13 @@ public class PigeonService {
             pigeon.setSection(section);
         }
         if (pigeon.getMateId() != null) {
-            pigeon.setMate(getPigeonDtoWithotNestedDto(pigeon.getMateId(), userId));
+            pigeon.setMate(getPigeonDtoWithoutNestedDto(pigeon.getMateId(), userId));
         }
         if (pigeon.getFatherId() != null) {
-            pigeon.setFather(getPigeonDtoWithotNestedDto(pigeon.getFatherId(), userId));
+            pigeon.setFather(getPigeonDtoWithoutNestedDto(pigeon.getFatherId(), userId));
         }
         if (pigeon.getMotherId() != null) {
-            pigeon.setMother(getPigeonDtoWithotNestedDto(pigeon.getMotherId(), userId));
+            pigeon.setMother(getPigeonDtoWithoutNestedDto(pigeon.getMotherId(), userId));
         }
         pigeon.setColor(colorService.findColorByPigeonId(pigeon.getId(), userId).getName());
         List<FlightResultDto> flightResults = flightResultRepository.getAllByPigeonId(pigeon.getId(), userId);
@@ -119,7 +119,7 @@ public class PigeonService {
 
         pigeon = repository.save(pigeon);
 
-        return repository.getPigeonDto(pigeon.getId(), userId);
+        return getPigeonDto(pigeon.getId(), userId);
     }
 
     private void initializePigeonNestedObjectsByIdsFrom(PigeonShallowDto idsSource, Pigeon pigeon, long userId) {
