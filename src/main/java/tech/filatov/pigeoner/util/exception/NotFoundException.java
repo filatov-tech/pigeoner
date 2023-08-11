@@ -7,11 +7,11 @@ public class NotFoundException extends RuntimeException {
         super(message);
     }
 
-    public static Supplier<NotFoundException> supplier(long id) {
+    public static Supplier<NotFoundException> withIdInfo(long id) {
         return () -> new NotFoundException(String.format("Entity with id=%d not found", id));
     }
 
-    public static Supplier<NotFoundException> supplier(String name) {
+    public static Supplier<NotFoundException> withNameInfo(String name) {
         return () -> new NotFoundException(String.format("Entity with name \"%s\" not found", name));
     }
 }

@@ -15,6 +15,6 @@ public class ColorService {
 
     public Color getColorByName(String name, long userId) {
         return repository.getColorByNameAndOwnerId(name, userId)
-                .orElseThrow(NotFoundException.supplier(name));
+                .orElseThrow(NotFoundException.withNameInfo(name));
     }
 }
