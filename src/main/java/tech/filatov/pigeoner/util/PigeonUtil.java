@@ -1,6 +1,10 @@
 package tech.filatov.pigeoner.util;
 
 import tech.filatov.pigeoner.dto.PigeonDto;
+import tech.filatov.pigeoner.dto.PigeonShallowDto;
+import tech.filatov.pigeoner.model.pigeon.Condition;
+import tech.filatov.pigeoner.model.pigeon.Pigeon;
+import tech.filatov.pigeoner.model.pigeon.Sex;
 
 import java.util.*;
 
@@ -30,4 +34,17 @@ public class PigeonUtil {
         }
         return rootPigeon;
     }
+
+    public static Pigeon getPigeonFrom(PigeonShallowDto dto) {
+        Pigeon pigeon = new Pigeon();
+        pigeon.setId(dto.getId());
+        pigeon.setRingNumber(dto.getRingNumber());
+        pigeon.setName(dto.getName());
+        pigeon.setBirthdate(dto.getBirthdate());
+        pigeon.setConditionStatus(Condition.valueOf(dto.getCondition()));
+        pigeon.setSex(Sex.valueOf(dto.getSex()));
+        pigeon.setOwn(dto.getIsOwn());
+        return pigeon;
+    }
+
 }
