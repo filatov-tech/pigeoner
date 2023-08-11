@@ -1,9 +1,11 @@
 package tech.filatov.pigeoner.service;
 
+import org.springframework.stereotype.Service;
 import tech.filatov.pigeoner.model.pigeon.Color;
 import tech.filatov.pigeoner.repository.ColorRepository;
 import tech.filatov.pigeoner.util.exception.NotFoundException;
 
+@Service
 public class ColorService {
     private final ColorRepository repository;
 
