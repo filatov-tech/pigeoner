@@ -43,7 +43,6 @@ public class PigeonUtil {
         pigeon.setBirthdate(dto.getBirthdate());
         pigeon.setConditionStatus(Condition.valueOf(dto.getCondition()));
         pigeon.setSex(Sex.valueOf(dto.getSex()));
-        pigeon.setOwn(dto.getIsOwn());
         return pigeon;
     }
 

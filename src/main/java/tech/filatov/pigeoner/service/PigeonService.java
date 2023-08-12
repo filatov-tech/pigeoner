@@ -5,6 +5,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import tech.filatov.pigeoner.dto.*;
+import tech.filatov.pigeoner.model.Keeper;
+import tech.filatov.pigeoner.model.User;
+import tech.filatov.pigeoner.model.dovecote.Section;
+import tech.filatov.pigeoner.model.dovecote.SectionType;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 import tech.filatov.pigeoner.repository.FlightResultRepository;
 import tech.filatov.pigeoner.repository.PigeonRepository;
@@ -108,7 +112,7 @@ public class PigeonService {
     @Transactional
     public PigeonDto create(PigeonShallowDto pigeonShallowDto, long userId) {
         Pigeon pigeon = PigeonUtil.getPigeonFrom(pigeonShallowDto);
-        initializePigeonNestedObjectsByIdsFrom(pigeonShallowDto, pigeon, userId);
+        initializeFullStateFrom(pigeonShallowDto, pigeon, userId);
 
         Errors errors = new BeanPropertyBindingResult(pigeon, "pigeon");
         validator.validate(pigeon, errors);
@@ -122,25 +126,35 @@ public class PigeonService {
         return getPigeonDto(pigeon.getId(), userId);
     }
 
-    private void initializePigeonNestedObjectsByIdsFrom(PigeonShallowDto idsSource, Pigeon pigeon, long userId) {
+    private void initializeFullStateFrom(PigeonShallowDto source, Pigeon pigeon, long userId) {
         pigeon.setOwner(userService.get(userId));
-        if (idsSource.getMateId() != null) {
-            pigeon.setMate(get(idsSource.getMateId(), userId));
+        if (source.getMateId() != null) {
+            pigeon.setMate(get(source.getMateId(), userId));
         }
-        if (idsSource.getFatherId() != null) {
-            pigeon.setFather(get(idsSource.getFatherId(), userId));
+        if (source.getFatherId() != null) {
+            pigeon.setFather(get(source.getFatherId(), userId));
         }
-        if (idsSource.getMotherId() != null) {
-            pigeon.setMother(get(idsSource.getMotherId(), userId));
+        if (source.getMotherId() != null) {
+            pigeon.setMother(get(source.getMotherId(), userId));
         }
-        if (idsSource.getSectionId() != null) {
-            pigeon.setSection(sectionService.get(idsSource.getSectionId(), userId));
+        if (source.getSectionId() != null) {
+            Section section = sectionService.get(source.getSectionId(), userId);
+            if (section.getType() == SectionType.NEST) {
+                section = sectionService.getWithPigeons(source.getSectionId(), userId);
+            }
+            pigeon.setSection(section);
         }
-        if (idsSource.getKeeperId() != null) {
-            pigeon.setKeeper(keeperService.get(idsSource.getKeeperId(), userId));
+        if (source.getKeeperId() != null) {
+            pigeon.setKeeper(keeperService.get(source.getKeeperId(), userId));
         }
-        if (idsSource.getColor() != null) {
-            pigeon.setColor(colorService.getColorByName(idsSource.getColor(), userId));
+        if (source.getColor() != null) {
+            pigeon.setColor(colorService.getColorByName(source.getColor(), userId));
+        }
+        User owner = pigeon.getOwner() != null ? pigeon.getOwner() : null;
+        Keeper mainKeeper = owner != null ? owner.getKeeper() : null;
+        Keeper pigeonKeeper = pigeon.getKeeper();
+        if (pigeonKeeper != null && pigeonKeeper.equals(mainKeeper)) {
+            pigeon.setOwn(true);
         }
     }
 }
