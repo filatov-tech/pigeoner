@@ -30,6 +30,10 @@ public class SectionService {
         return repository.findByIdAndOwnerId(id, userId).orElseThrow(NotFoundException.withIdInfo(id));
     }
 
+    public Section getWithPigeons(long id, long userId) {
+        return repository.findWithPigeonsByIdAndOwnerId(id, userId).orElseThrow(NotFoundException.withIdInfo(id));
+    }
+
     public List<SectionDto> getAllDto(long userId) {
         return repository.getAll(userId);
     }
