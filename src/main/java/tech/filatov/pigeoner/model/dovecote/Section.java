@@ -42,7 +42,9 @@ import static tech.filatov.pigeoner.constant.Constants.*;
                         @ColumnResult(name = "sect_name", type = String.class),
                         @ColumnResult(name = "sect_type", type = String.class),
                         @ColumnResult(name = "parent_id", type = Long.class),
-                        @ColumnResult(name = "pigeon_number", type = Integer.class)}))
+                        @ColumnResult(name = "pigeon_number", type = Integer.class)
+        })
+)
 
 @Entity
 @Table(name = "SECTION")
