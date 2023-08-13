@@ -13,10 +13,12 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class FlightResult extends AbstractOwnedEntity {
 
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "PIGEON_ID")
     private Pigeon pigeon;
 
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "FLIGHT_ID")
     private Flight flight;

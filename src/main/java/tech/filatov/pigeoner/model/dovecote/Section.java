@@ -50,9 +50,10 @@ import static tech.filatov.pigeoner.constant.Constants.*;
 @Table(name = "SECTION")
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class Section extends AbstractOwnedEntity {
 
+    @EqualsAndHashCode.Include
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -62,6 +63,7 @@ public class Section extends AbstractOwnedEntity {
     @OneToMany(mappedBy = "parent")
     private List<Section> children;
 
+    @EqualsAndHashCode.Include
     @Enumerated(EnumType.STRING)
     private SectionType type;
 

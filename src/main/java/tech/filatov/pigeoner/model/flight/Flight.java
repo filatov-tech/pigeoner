@@ -13,11 +13,13 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Flight extends AbstractOwnedEntity {
 
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     private LaunchPoint launchPoint;
 
     private LocalDateTime departure;
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "flight")
     private List<FlightResult> myParticipants;
 
@@ -27,6 +29,7 @@ public class Flight extends AbstractOwnedEntity {
 
     private Integer myPassed;
 
+    @EqualsAndHashCode.Exclude
     @Enumerated(EnumType.STRING)
     private FlightType flightType;
 

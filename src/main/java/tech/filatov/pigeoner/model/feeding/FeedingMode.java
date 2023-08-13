@@ -16,6 +16,7 @@ public class FeedingMode extends AbstractOwnedEntity {
 
     private String name;
 
+    @EqualsAndHashCode.Exclude
     @OneToMany
     @JoinColumn(name = "FEEDING_ELEMENT_ID")
     private Set<FeedingElement> elements;

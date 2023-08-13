@@ -21,6 +21,7 @@ public class User extends AbstractBaseEntity {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    @EqualsAndHashCode.Exclude
     @OneToOne
     private Keeper keeper;
 

@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 @EqualsAndHashCode(callSuper = true)
 public class FeedingElement extends AbstractOwnedEntity {
 
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FEEDING_TYPE_ID")
     private FeedingType type;
