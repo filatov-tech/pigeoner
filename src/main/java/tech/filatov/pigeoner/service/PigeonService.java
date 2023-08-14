@@ -3,6 +3,7 @@ package tech.filatov.pigeoner.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import tech.filatov.pigeoner.dto.*;
 import tech.filatov.pigeoner.model.Keeper;
@@ -15,7 +16,7 @@ import tech.filatov.pigeoner.repository.PigeonRepository;
 import tech.filatov.pigeoner.util.CommonUtil;
 import tech.filatov.pigeoner.util.PigeonUtil;
 import tech.filatov.pigeoner.util.exception.NotFoundException;
-import tech.filatov.pigeoner.util.exception.ValidationException;
+import tech.filatov.pigeoner.util.exception.NotPassValidationException;
 import tech.filatov.pigeoner.validator.PigeonValidator;
 
 import java.util.List;
@@ -117,7 +118,7 @@ public class PigeonService {
         Errors errors = new BeanPropertyBindingResult(pigeon, "pigeon");
         validator.validate(pigeon, errors);
         if (errors.hasErrors()) {
-            throw new ValidationException(errors);
+            throw new NotPassValidationException(errors);
         }
 
         pigeon = repository.save(pigeon);

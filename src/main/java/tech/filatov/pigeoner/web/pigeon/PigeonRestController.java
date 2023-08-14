@@ -9,6 +9,7 @@ import tech.filatov.pigeoner.dto.PigeonShallowDto;
 import tech.filatov.pigeoner.dto.PigeonDto;
 import tech.filatov.pigeoner.service.PigeonService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class PigeonRestController {
     }
 
     @PostMapping
-    public ResponseEntity<PigeonDto> create(@RequestBody PigeonShallowDto pigeon) {
+    public ResponseEntity<PigeonDto> create(@RequestBody @Valid PigeonShallowDto pigeon) {
         PigeonDto created = service.create(pigeon, authUser.getId());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "{id}")
