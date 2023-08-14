@@ -9,7 +9,6 @@ import tech.filatov.pigeoner.model.pigeon.Sex;
 
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -22,17 +21,16 @@ public class PigeonShallowDto extends BaseDto {
     private static final String SEP = ";";
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    @Pattern(regexp = "^[a-zA-Zа-яА-Я .\\d-]+$")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я \\d-]+$", message = "Кличка может содержать только буквы, пробелы и знак дефиса \"-\"")
     private String name;
-    @Pattern(regexp = "^[-\\d ]+$")
+    @Pattern(regexp = "^[-\\d ]+$", message = "Номер кольца может содержать только цифры, пробелы и знак дефиса \"-\"")
     private String ringNumber;
     @PastOrPresent
     private LocalDate birthdate;
-    @Pattern(regexp = "^[a-zA-Zа-яА-Я .-]+$")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я -]+$", message = "Датой рождения может быть только прошедшая дата или сегодняшнее число")
     private String color;
     private String condition;
     private String sex;
-    @Size(min = 1000, max = 2999)
     private Integer year;
     private Boolean isOwn;
     private Long mateId;
