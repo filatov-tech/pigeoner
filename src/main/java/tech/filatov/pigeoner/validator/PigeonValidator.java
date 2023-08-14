@@ -74,7 +74,8 @@ public class PigeonValidator implements Validator {
     private void checkParentSex(Pigeon parent, Sex sex, Errors errors) {
         if (parent != null && parent.getSex() != null
                 && parent.getSex() != sex) {
-            errors.reject("", "Родитель должен быть соответствующего пола");
+            String field = sex == Sex.MALE ? "father" : "mother";
+            errors.rejectValue(field, "", "Родитель должен быть соответствующего пола");
         }
     }
 
@@ -85,6 +86,4 @@ public class PigeonValidator implements Validator {
             errors.rejectValue("birthdate", "", "Голубь не должен быть старше родителя");
         }
     }
-
-
 }

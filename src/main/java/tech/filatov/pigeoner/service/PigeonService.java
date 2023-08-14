@@ -116,7 +116,6 @@ public class PigeonService {
 
         Errors errors = new BeanPropertyBindingResult(pigeon, "pigeon");
         validator.validate(pigeon, errors);
-
         if (errors.hasErrors()) {
             throw new ValidationException(errors);
         }
