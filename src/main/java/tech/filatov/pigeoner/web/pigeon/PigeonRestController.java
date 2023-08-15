@@ -1,5 +1,6 @@
 package tech.filatov.pigeoner.web.pigeon;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -13,7 +14,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-import static tech.filatov.pigeoner.util.ValidationUtil.validateDataFromFilter;
+import static tech.filatov.pigeoner.util.ValidationUtil.*;
 
 @RestController
 @RequestMapping(PigeonRestController.REST_URL)
@@ -50,10 +51,22 @@ public class PigeonRestController {
 
     @PostMapping
     public ResponseEntity<PigeonDto> create(@RequestBody @Valid PigeonShallowDto pigeon) {
+        checkNew(pigeon);
         PigeonDto created = service.create(pigeon, authUser.getId());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<PigeonDto> update(@RequestBody @Valid PigeonShallowDto pigeon, @PathVariable long id) {
+        assureIdConsistent(pigeon, id);
+        PigeonDto updated = service.update(pigeon, id, authUser.getId());
+        URI uriOfUpdatedResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "{id}")
+                .buildAndExpand(updated.getId()).toUri();
+        return ResponseEntity.created(uriOfUpdatedResource).body(updated);
     }
 }

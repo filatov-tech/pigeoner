@@ -3,7 +3,6 @@ package tech.filatov.pigeoner.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import tech.filatov.pigeoner.dto.*;
 import tech.filatov.pigeoner.model.Keeper;
@@ -21,6 +20,9 @@ import tech.filatov.pigeoner.validator.PigeonValidator;
 
 import java.util.List;
 import java.util.Map;
+
+import static tech.filatov.pigeoner.util.PigeonUtil.getExistedWithUpdatedFields;
+import static tech.filatov.pigeoner.util.PigeonUtil.getPigeonFrom;
 
 @Service
 public class PigeonService {
@@ -110,20 +112,36 @@ public class PigeonService {
         return pigeon;
     }
 
-    @Transactional
     public PigeonDto create(PigeonShallowDto pigeonShallowDto, long userId) {
-        Pigeon pigeon = PigeonUtil.getPigeonFrom(pigeonShallowDto);
+        Pigeon pigeon = getPigeonFrom(pigeonShallowDto);
         initializeFullStateFrom(pigeonShallowDto, pigeon, userId);
 
+        pigeon = save(pigeon);
+
+        return getPigeonDto(pigeon.getId(), userId);
+    }
+
+    public PigeonDto update(PigeonShallowDto pigeonShallowDto, long id, long userId) {
+        Pigeon pigeon = getExistedWithUpdatedFields(get(id, userId), pigeonShallowDto);
+        initializeFullStateFrom(pigeonShallowDto, pigeon, userId);
+
+        pigeon = save(pigeon);
+
+        return getPigeonDto(pigeon.getId(), userId);
+    }
+
+    @Transactional
+    protected Pigeon save(Pigeon pigeon) {
+        validate(pigeon);
+        return repository.save(pigeon);
+    }
+
+    private void validate(Pigeon pigeon) {
         Errors errors = new BeanPropertyBindingResult(pigeon, "pigeon");
         validator.validate(pigeon, errors);
         if (errors.hasErrors()) {
             throw new NotPassValidationException(errors);
         }
-
-        pigeon = repository.save(pigeon);
-
-        return getPigeonDto(pigeon.getId(), userId);
     }
 
     private void initializeFullStateFrom(PigeonShallowDto source, Pigeon pigeon, long userId) {
