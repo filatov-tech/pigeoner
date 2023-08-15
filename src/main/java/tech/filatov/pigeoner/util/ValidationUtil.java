@@ -4,6 +4,7 @@ import tech.filatov.pigeoner.HasId;
 import tech.filatov.pigeoner.dto.FilterParams;
 import tech.filatov.pigeoner.util.exception.FilterContradictionException;
 import tech.filatov.pigeoner.util.exception.IllegalRequestDataException;
+import tech.filatov.pigeoner.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -79,6 +80,12 @@ public class ValidationUtil {
             if (from.isBefore(to)) {
                 throw new FilterContradictionException("Возраст \"ОТ\" должен быть меньше, чем \"ДО\"");
             }
+        }
+    }
+
+    public static void checkNotFoundWithId(boolean found, long id) {
+        if (!found) {
+            throw new NotFoundException(String.format("Сущность с ID=%d не найдена", id));
         }
     }
 }

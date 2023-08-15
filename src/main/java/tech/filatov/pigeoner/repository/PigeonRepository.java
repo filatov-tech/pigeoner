@@ -1,7 +1,9 @@
 package tech.filatov.pigeoner.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 import tech.filatov.pigeoner.dto.PigeonLabelDto;
 
 import tech.filatov.pigeoner.dto.PigeonDto;
@@ -42,4 +44,9 @@ public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRep
 
     @Query(nativeQuery = true)
     List<PigeonDto> getWithAncestorsById(long id, long userId);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Pigeon p WHERE p.id = :id AND p.owner.id = :userId")
+    int deleteByIdAndOwnerId(long id, long userId);
 }

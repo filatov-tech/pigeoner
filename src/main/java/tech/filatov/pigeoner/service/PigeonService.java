@@ -23,6 +23,7 @@ import java.util.Map;
 
 import static tech.filatov.pigeoner.util.PigeonUtil.getExistedWithUpdatedFields;
 import static tech.filatov.pigeoner.util.PigeonUtil.getPigeonFrom;
+import static tech.filatov.pigeoner.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class PigeonService {
@@ -134,6 +135,10 @@ public class PigeonService {
     protected Pigeon save(Pigeon pigeon) {
         validate(pigeon);
         return repository.save(pigeon);
+    }
+
+    public void delete(long id, long userId) {
+        checkNotFoundWithId(repository.deleteByIdAndOwnerId(id, userId) != 0, id);
     }
 
     private void validate(Pigeon pigeon) {

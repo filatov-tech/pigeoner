@@ -69,4 +69,10 @@ public class PigeonRestController {
                 .buildAndExpand(updated.getId()).toUri();
         return ResponseEntity.created(uriOfUpdatedResource).body(updated);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable long id) {
+        service.delete(id, authUser.getId());
+    }
 }
