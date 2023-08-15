@@ -3,6 +3,7 @@ package tech.filatov.pigeoner.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.domain.Persistable;
@@ -13,6 +14,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Data
+@ToString(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
@@ -27,6 +29,7 @@ public abstract class AbstractBaseEntity implements Persistable<Long>, HasId {
             sequenceName = "global_seq",
             allocationSize = 1,
             initialValue = INITIAL_SEQUENCE_VALUE)
+    @ToString.Include
     Long id;
 
     @CreatedDate

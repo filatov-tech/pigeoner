@@ -1,9 +1,6 @@
 package tech.filatov.pigeoner.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -18,6 +15,7 @@ import javax.persistence.MappedSuperclass;
 public abstract class AbstractOwnedEntity extends AbstractBaseEntity {
 
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     User owner;

@@ -2,6 +2,7 @@ package tech.filatov.pigeoner.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -22,6 +23,7 @@ public class User extends AbstractBaseEntity {
     private Set<Role> roles;
 
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToOne
     private Keeper keeper;
 

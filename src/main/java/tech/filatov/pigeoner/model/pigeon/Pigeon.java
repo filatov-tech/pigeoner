@@ -82,9 +82,11 @@ public class Pigeon extends AbstractOwnedEntity {
     private Pigeon mate;
 
     @OneToMany(mappedBy = "mother")
+    @ToString.Exclude
     private Set<Pigeon> mothersChildren;
 
     @OneToMany(mappedBy = "father")
+    @ToString.Exclude
     private Set<Pigeon> fathersChildren;
 
     @Enumerated(EnumType.STRING)
@@ -92,9 +94,11 @@ public class Pigeon extends AbstractOwnedEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PHOTO_ID")
+    @ToString.Exclude
     private Image mainPhoto;
 
     @OneToMany(mappedBy = "pigeon")
+    @ToString.Exclude
     private Set<Image> images;
 
     @ManyToOne(fetch = FetchType.LAZY)

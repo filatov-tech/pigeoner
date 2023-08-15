@@ -3,6 +3,7 @@ package tech.filatov.pigeoner.model.dovecote;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import tech.filatov.pigeoner.dto.SectionDto;
 import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 import tech.filatov.pigeoner.model.feeding.FeedingMode;
@@ -61,6 +62,7 @@ public class Section extends AbstractOwnedEntity {
     private Section parent;
 
     @OneToMany(mappedBy = "parent")
+    @ToString.Exclude
     private List<Section> children;
 
     @EqualsAndHashCode.Include
@@ -72,6 +74,7 @@ public class Section extends AbstractOwnedEntity {
     private FeedingMode feedingMode;
 
     @OneToMany(mappedBy = "section")
+    @ToString.Exclude
     private Set<Pigeon> pigeons;
 
     public Section(long id) {

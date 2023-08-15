@@ -2,6 +2,7 @@ package tech.filatov.pigeoner.model.flight;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Flight extends AbstractOwnedEntity {
     private LocalDateTime departure;
 
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @OneToMany(mappedBy = "flight")
     private List<FlightResult> myParticipants;
 

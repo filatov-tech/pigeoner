@@ -2,6 +2,7 @@ package tech.filatov.pigeoner.model.pigeon;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 public class Image extends AbstractOwnedEntity {
 
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PIGEON_ID")
     private Pigeon pigeon;
@@ -19,6 +21,7 @@ public class Image extends AbstractOwnedEntity {
     private String name;
 
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @Lob
     private byte[] content;
 
