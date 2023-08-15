@@ -37,6 +37,14 @@ public class PigeonUtil {
 
     public static Pigeon getPigeonFrom(PigeonShallowDto dto) {
         Pigeon pigeon = new Pigeon();
+        return setDataTo(pigeon, dto);
+    }
+
+    public static Pigeon getExistedWithUpdatedFields(Pigeon pigeon, PigeonShallowDto dto) {
+        return setDataTo(pigeon, dto);
+    }
+
+    private static Pigeon setDataTo(Pigeon pigeon, PigeonShallowDto dto) {
         pigeon.setId(dto.getId());
         pigeon.setRingNumber(dto.getRingNumber());
         pigeon.setName(dto.getName());
