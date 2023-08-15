@@ -1,7 +1,9 @@
 package tech.filatov.pigeoner.util;
 
+import tech.filatov.pigeoner.HasId;
 import tech.filatov.pigeoner.dto.FilterParams;
 import tech.filatov.pigeoner.util.exception.FilterContradictionException;
+import tech.filatov.pigeoner.util.exception.IllegalRequestDataException;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -22,6 +24,20 @@ public class ValidationUtil {
                 case (AGE_TYPE) -> validateAgeConstraint(params);
                 case (BIRTHDATE_TYPE) -> validateBirthdateTypeConstraint(params);
             }
+        }
+    }
+
+    public static void assureIdConsistent(HasId bean, long id) {
+        if (bean.getId() == null) {
+            bean.setId(id);
+        } else if (bean.getId() != id) {
+            throw new IllegalRequestDataException("ID обновляемой сущности должен быть равен: " + id);
+        }
+    }
+
+    public static void checkNew(HasId bean) {
+        if (bean.getId() != null) {
+            throw new IllegalRequestDataException("ID создаваемой сущности должен быть равен null");
         }
     }
 
