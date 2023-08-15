@@ -36,8 +36,25 @@ public class DefaultAdvice {
         ApiError response = new ApiError(
                 VALIDATION_FAILED_MESSAGE, HttpStatus.BAD_REQUEST, extractErrorsFrom(e.getFieldErrors())
         );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, response.getStatus());
     }
+
+    @ExceptionHandler(IllegalRequestDataException.class)
+    public ResponseEntity<ApiError> handleIllegalRequestData(IllegalRequestDataException e) {
+        ApiError response = new ApiError(
+                e.getMessage(), HttpStatus.BAD_REQUEST, null
+        );
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiError> handleNotFound(NotFoundException e) {
+        ApiError response = new ApiError(
+                e.getMessage(), HttpStatus.NOT_FOUND, null
+        );
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
 
     private List<ErrorInfo> extractErrorsFrom(List<FieldError> errors) {
         return errors.stream()
