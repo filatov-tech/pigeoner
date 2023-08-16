@@ -38,7 +38,10 @@ import static tech.filatov.pigeoner.constant.Constants.*;
                 }
         )
 )
-
+@Table(uniqueConstraints = {
+        @UniqueConstraint(name = "UniqueNameWithinUser", columnNames = {"name", "user_id"}),
+        @UniqueConstraint(name = "UniqueRingNumberWithinUser", columnNames = {"ringNumber", "user_id"})
+})
 @Entity
 @Data
 @NoArgsConstructor
@@ -46,11 +49,9 @@ import static tech.filatov.pigeoner.constant.Constants.*;
 public class Pigeon extends AbstractOwnedEntity {
 
     @EqualsAndHashCode.Include
-    @Column(unique = true)
     private String ringNumber;
 
     @EqualsAndHashCode.Include
-    @Column(unique = true)
     private String name;
 
     @Enumerated(EnumType.STRING)
