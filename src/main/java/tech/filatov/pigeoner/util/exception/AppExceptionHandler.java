@@ -14,7 +14,9 @@ import java.util.List;
 import static tech.filatov.pigeoner.constant.Constants.VALIDATION_FAILED_MESSAGE;
 
 @ControllerAdvice
-public class DefaultAdvice {
+public class AppExceptionHandler {
+
+    private static final String SQLSTATE_UNIQUE_VIOLATION_STANDART = "23505";
 
     @ExceptionHandler(FilterContradictionException.class)
     public ResponseEntity<ErrorInfo> handleException(FilterContradictionException e) {
