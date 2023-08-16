@@ -85,7 +85,7 @@ public class AppExceptionHandler {
 
     private String[] extractFieldAndValueFrom(SQLException e) {
         String[] fieldAndValue = new String[2];
-        Pattern pattern = Pattern.compile("\\(([a-zA-Zа-яА-Я \\d-]+)\\)");
+        Pattern pattern = Pattern.compile("\\(([a-zA-Zа-яА-Я_ \\d-]+)\\)");
         Matcher matcher = pattern.matcher(e.getMessage());
 
         for (int i = 0; matcher.find(); i++) {
