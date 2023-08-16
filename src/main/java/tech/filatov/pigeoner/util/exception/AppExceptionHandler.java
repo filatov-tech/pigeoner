@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import tech.filatov.pigeoner.dto.ErrorInfo;
 import tech.filatov.pigeoner.dto.ApiError;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static tech.filatov.pigeoner.constant.Constants.VALIDATION_FAILED_MESSAGE;
 
@@ -57,6 +61,38 @@ public class AppExceptionHandler {
         return new ResponseEntity<>(response, response.getStatus());
     }
 
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<ApiError> handleUniqueConstraintViolation(SQLException e) throws SQLException {
+        if (!e.getSQLState().equals(SQLSTATE_UNIQUE_VIOLATION_STANDART)) {
+            throw e;
+        }
+
+        String[] fieldAndValue = extractFieldAndValueFrom(e);
+        String field = fieldAndValue[0];
+        String value = fieldAndValue[1];
+        List<ErrorInfo> errors = new ArrayList<>();
+        errors.add(
+                new ErrorInfo(
+                        field,
+                        String.format("Поле %s со значением %s уже существует", field, value)
+                ));
+
+        ApiError response = new ApiError(
+                "Нарушена уникальность одного из полей", HttpStatus.BAD_REQUEST, errors
+        );
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    private String[] extractFieldAndValueFrom(SQLException e) {
+        String[] fieldAndValue = new String[2];
+        Pattern pattern = Pattern.compile("\\(([a-zA-Zа-яА-Я \\d-]+)\\)");
+        Matcher matcher = pattern.matcher(e.getMessage());
+
+        for (int i = 0; matcher.find(); i++) {
+            fieldAndValue[i] = matcher.group(1);
+        }
+        return fieldAndValue;
+    }
 
     private List<ErrorInfo> extractErrorsFrom(List<FieldError> errors) {
         return errors.stream()
