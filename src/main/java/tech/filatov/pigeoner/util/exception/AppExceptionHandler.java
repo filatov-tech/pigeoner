@@ -20,7 +20,7 @@ import static tech.filatov.pigeoner.constant.Constants.VALIDATION_FAILED_MESSAGE
 @ControllerAdvice
 public class AppExceptionHandler {
 
-    private static final String SQLSTATE_UNIQUE_VIOLATION_STANDART = "23505";
+    private static final String SQLSTATE_UNIQUE_VIOLATION_STANDARD = "23505";
 
     @ExceptionHandler(FilterContradictionException.class)
     public ResponseEntity<ErrorInfo> handleException(FilterContradictionException e) {
@@ -63,7 +63,7 @@ public class AppExceptionHandler {
 
     @ExceptionHandler(SQLException.class)
     public ResponseEntity<ApiError> handleUniqueConstraintViolation(SQLException e) throws SQLException {
-        if (!e.getSQLState().equals(SQLSTATE_UNIQUE_VIOLATION_STANDART)) {
+        if (!e.getSQLState().equals(SQLSTATE_UNIQUE_VIOLATION_STANDARD)) {
             throw e;
         }
 
