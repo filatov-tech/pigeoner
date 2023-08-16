@@ -46,9 +46,11 @@ import static tech.filatov.pigeoner.constant.Constants.*;
 public class Pigeon extends AbstractOwnedEntity {
 
     @EqualsAndHashCode.Include
+    @Column(unique = true)
     private String ringNumber;
 
     @EqualsAndHashCode.Include
+    @Column(unique = true)
     private String name;
 
     @Enumerated(EnumType.STRING)

@@ -39,9 +39,9 @@ VALUES
      100000, 100001, 100010, 100009, null, null, null), --100016
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'LOST', 'MALE', true, 'Сын', '23142152',
      100000, 100001, 100013, 100009, null, null, 100014), --100017
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'HEALTH', 'FEMALE', true, 'Дочь', '231134215',
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'HEALTH', 'FEMALE', true, 'Дочь1', '231134215',
      100000, 100001, 100013, 100004, null, null, 100014), --100018
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'HEALTH', 'FEMALE', true, 'Дочь', '314215',
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'HEALTH', 'FEMALE', true, 'Дочь2', '314215',
      100000, 100001, 100013, 100004, null, null, 100014), --100019
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, make_date(2019, 12, 1), 'HEALTH', 'MALE', true, 'Сын брата папы', '24215',
      100000, 100001, 100016, 100005, null, null, null), --100020
