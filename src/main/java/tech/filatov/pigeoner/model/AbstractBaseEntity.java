@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import tech.filatov.pigeoner.HasId;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -32,9 +33,11 @@ public abstract class AbstractBaseEntity implements Persistable<Long>, HasId {
     @ToString.Include
     Long id;
 
+    @NotNull
     @CreatedDate
     Date created;
 
+    @NotNull
     @LastModifiedDate
     Date updated;
 

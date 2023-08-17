@@ -6,6 +6,7 @@ import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,11 +14,13 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class FlightResult extends AbstractOwnedEntity {
 
+    @NotNull
     @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "PIGEON_ID")
     private Pigeon pigeon;
 
+    @NotNull
     @EqualsAndHashCode.Exclude
     @ManyToOne
     @JoinColumn(name = "FLIGHT_ID")

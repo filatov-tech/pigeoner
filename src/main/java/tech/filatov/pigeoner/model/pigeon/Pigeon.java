@@ -8,6 +8,7 @@ import tech.filatov.pigeoner.model.flight.FlightResult;
 import tech.filatov.pigeoner.model.dovecote.Section;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -48,6 +49,7 @@ import static tech.filatov.pigeoner.constant.Constants.*;
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class Pigeon extends AbstractOwnedEntity {
 
+    @NotNull
     @EqualsAndHashCode.Include
     private String ringNumber;
 

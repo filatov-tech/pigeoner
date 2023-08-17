@@ -6,6 +6,7 @@ import lombok.ToString;
 import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,8 +32,8 @@ public class Flight extends AbstractOwnedEntity {
 
     private Integer myPassed;
 
+    @NotNull
     @EqualsAndHashCode.Exclude
     @Enumerated(EnumType.STRING)
     private FlightType flightType;
-
 }
