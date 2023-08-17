@@ -9,6 +9,7 @@ import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -20,6 +21,7 @@ import javax.validation.constraints.NotNull;
 public class Color extends AbstractOwnedEntity {
 
     @NotNull
+    @NotBlank
     @Column(unique = true)
     private String name;
 }
