@@ -46,7 +46,7 @@ public class PigeonService {
         this.flightResultRepository = flightResultRepository;
     }
 
-    public Pigeon get(long id, long userId) {
+    public Pigeon findOne(long id, long userId) {
         return repository.findByIdAndOwnerId(id, userId).orElseThrow(NotFoundException.withIdInfo(id));
     }
 
@@ -72,7 +72,7 @@ public class PigeonService {
     }
 
     public PigeonDto getPigeonDtoWithoutNestedDto(long id, long userId) {
-        return repository.getPigeonDto(id, userId);
+        return repository.findOneDto(id, userId).orElseThrow(NotFoundException.withIdInfo(id));
     }
 
     public PigeonDto getPigeonDto(long id, long userId) {
@@ -123,7 +123,7 @@ public class PigeonService {
     }
 
     public PigeonDto update(PigeonShallowDto pigeonShallowDto, long id, long userId) {
-        Pigeon pigeon = getExistedWithUpdatedFields(get(id, userId), pigeonShallowDto);
+        Pigeon pigeon = getExistedWithUpdatedFields(findOne(id, userId), pigeonShallowDto);
         initializeFullStateFrom(pigeonShallowDto, pigeon, userId);
 
         pigeon = save(pigeon);
@@ -152,13 +152,13 @@ public class PigeonService {
     private void initializeFullStateFrom(PigeonShallowDto source, Pigeon pigeon, long userId) {
         pigeon.setOwner(userService.get(userId));
         if (source.getMateId() != null) {
-            pigeon.setMate(get(source.getMateId(), userId));
+            pigeon.setMate(findOne(source.getMateId(), userId));
         }
         if (source.getFatherId() != null) {
-            pigeon.setFather(get(source.getFatherId(), userId));
+            pigeon.setFather(findOne(source.getFatherId(), userId));
         }
         if (source.getMotherId() != null) {
-            pigeon.setMother(get(source.getMotherId(), userId));
+            pigeon.setMother(findOne(source.getMotherId(), userId));
         }
         if (source.getSectionId() != null) {
             Section section = sectionService.get(source.getSectionId(), userId);

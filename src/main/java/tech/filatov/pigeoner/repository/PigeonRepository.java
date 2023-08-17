@@ -35,7 +35,7 @@ public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRep
     FROM Pigeon p LEFT OUTER JOIN Keeper k ON p.keeper.id = k.id
     WHERE p.owner.id = :userId AND p.id = :id
     """)
-    PigeonDto getPigeonDto(long id, long userId);
+    Optional<PigeonDto> findOneDto(long id, long userId);
 
     @Query("SELECT new tech.filatov.pigeoner.dto.PigeonLabelDto(p.id, p.ringNumber, p.sex, p.section.id) " +
             "FROM Pigeon p " +
