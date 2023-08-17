@@ -1,4 +1,4 @@
-package tech.filatov.pigeoner.repository;
+package tech.filatov.pigeoner.repository.pigeon;
 
 import org.springframework.stereotype.Repository;
 import tech.filatov.pigeoner.dto.FilterParams;
@@ -11,6 +11,7 @@ import tech.filatov.pigeoner.model.pigeon.Color;
 import tech.filatov.pigeoner.model.pigeon.Color_;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 import tech.filatov.pigeoner.model.pigeon.Pigeon_;
+import tech.filatov.pigeoner.repository.SectionRepository;
 import tech.filatov.pigeoner.util.DateTimeUtil;
 
 import javax.persistence.EntityManager;

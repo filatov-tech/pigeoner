@@ -3,7 +3,7 @@ package tech.filatov.pigeoner.service;
 import org.springframework.stereotype.Service;
 import tech.filatov.pigeoner.dto.ColorDto;
 import tech.filatov.pigeoner.model.pigeon.Color;
-import tech.filatov.pigeoner.repository.ColorRepository;
+import tech.filatov.pigeoner.repository.pigeon.ColorRepository;
 import tech.filatov.pigeoner.util.exception.NotFoundException;
 
 import java.util.List;

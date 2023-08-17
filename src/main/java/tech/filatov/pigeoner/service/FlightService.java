@@ -2,7 +2,7 @@ package tech.filatov.pigeoner.service;
 
 import org.springframework.stereotype.Service;
 import tech.filatov.pigeoner.dto.FlightDto;
-import tech.filatov.pigeoner.repository.FlightRepository;
+import tech.filatov.pigeoner.repository.flight.FlightRepository;
 
 import java.util.List;
 

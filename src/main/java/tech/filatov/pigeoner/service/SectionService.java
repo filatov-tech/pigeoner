@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import tech.filatov.pigeoner.dto.PigeonLabelDto;
 import tech.filatov.pigeoner.dto.SectionDto;
 import tech.filatov.pigeoner.model.dovecote.Section;
-import tech.filatov.pigeoner.repository.PigeonRepository;
+import tech.filatov.pigeoner.repository.pigeon.PigeonRepository;
 import tech.filatov.pigeoner.repository.SectionRepository;
 import tech.filatov.pigeoner.util.CommonUtil;
 import tech.filatov.pigeoner.util.SectionUtil;

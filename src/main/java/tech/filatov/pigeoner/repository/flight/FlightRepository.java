@@ -1,4 +1,4 @@
-package tech.filatov.pigeoner.repository;
+package tech.filatov.pigeoner.repository.flight;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tech.filatov.pigeoner.AuthorizedUser;
 import tech.filatov.pigeoner.dto.FlightResultDto;
-import tech.filatov.pigeoner.repository.FlightResultRepository;
+import tech.filatov.pigeoner.repository.flight.FlightResultRepository;
 
 import java.util.List;
 
