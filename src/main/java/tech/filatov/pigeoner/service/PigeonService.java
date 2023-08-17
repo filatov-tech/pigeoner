@@ -118,7 +118,7 @@ public class PigeonService {
         initializeFullStateFrom(pigeonShallowDto, pigeon, userId);
 
         pigeon = save(pigeon);
-
+        //noinspection ConstantConditions
         return getPigeonDto(pigeon.getId(), userId);
     }
 
@@ -127,7 +127,7 @@ public class PigeonService {
         initializeFullStateFrom(pigeonShallowDto, pigeon, userId);
 
         pigeon = save(pigeon);
-
+        //noinspection ConstantConditions
         return getPigeonDto(pigeon.getId(), userId);
     }
 
