@@ -41,19 +41,15 @@ public class ColorRestController {
         checkNew(color);
         ColorDto created = service.create(color, authUser.getId());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "{id}")
+                .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ColorDto> create(@Valid @RequestBody ColorDto color, @PathVariable long id) {
+    public ColorDto update(@Valid @RequestBody ColorDto color, @PathVariable long id) {
         assureIdConsistent(color, id);
-        ColorDto updated = service.update(color, id, authUser.getId());
-        URI uriOfUpdatedResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "{id}")
-                .buildAndExpand(updated.getId()).toUri();
-        return ResponseEntity.created(uriOfUpdatedResource).body(updated);
+        return service.update(color, id, authUser.getId());
     }
 
     @DeleteMapping("/{id}")

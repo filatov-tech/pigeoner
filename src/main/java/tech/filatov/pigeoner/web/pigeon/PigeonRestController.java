@@ -54,20 +54,15 @@ public class PigeonRestController {
         checkNew(pigeon);
         PigeonDto created = service.create(pigeon, authUser.getId());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "{id}")
+                .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<PigeonDto> update(@RequestBody @Valid PigeonShallowDto pigeon, @PathVariable long id) {
+    public PigeonDto update(@RequestBody @Valid PigeonShallowDto pigeon, @PathVariable long id) {
         assureIdConsistent(pigeon, id);
-        PigeonDto updated = service.update(pigeon, id, authUser.getId());
-        URI uriOfUpdatedResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "{id}")
-                .buildAndExpand(updated.getId()).toUri();
-        return ResponseEntity.created(uriOfUpdatedResource).body(updated);
+        return service.update(pigeon, id, authUser.getId());
     }
 
     @DeleteMapping("/{id}")
