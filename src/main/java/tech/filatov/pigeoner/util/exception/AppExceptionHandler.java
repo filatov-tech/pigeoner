@@ -48,7 +48,7 @@ public class AppExceptionHandler {
     @ExceptionHandler(IllegalRequestDataException.class)
     public ResponseEntity<ApiError> handleIllegalRequestData(IllegalRequestDataException e) {
         ApiError response = new ApiError(
-                e.getMessage(), HttpStatus.BAD_REQUEST, null
+                e.getMessage(), HttpStatus.BAD_REQUEST
         );
         return new ResponseEntity<>(response, response.getStatus());
     }
@@ -56,7 +56,7 @@ public class AppExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiError> handleNotFound(NotFoundException e) {
         ApiError response = new ApiError(
-                e.getMessage(), HttpStatus.NOT_FOUND, null
+                e.getMessage(), HttpStatus.NOT_FOUND
         );
         return new ResponseEntity<>(response, response.getStatus());
     }
