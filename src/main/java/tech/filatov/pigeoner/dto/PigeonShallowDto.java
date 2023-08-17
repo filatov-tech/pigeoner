@@ -25,9 +25,9 @@ public class PigeonShallowDto extends BaseDto {
     private String name;
     @Pattern(regexp = "^[-\\d ]+$", message = "Номер кольца может содержать только цифры, пробелы и знак дефиса \"-\"")
     private String ringNumber;
-    @PastOrPresent
+    @PastOrPresent(message = "Датой рождения может быть только прошедшая дата или сегодняшнее число")
     private LocalDate birthdate;
-    @Pattern(regexp = "^[a-zA-Zа-яА-Я -]+$", message = "Датой рождения может быть только прошедшая дата или сегодняшнее число")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я -]+$", message = "Цвет может содержать только буквы, пробелы и знак дефиса \"-\"")
     private String color;
     private String condition;
     private String sex;
