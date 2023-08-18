@@ -137,6 +137,7 @@ public class PigeonService {
         return repository.save(pigeon);
     }
 
+    @Transactional
     public void delete(long id, long userId) {
         checkNotFoundWithId(repository.deleteByIdAndOwnerId(id, userId) != 0, id);
     }
