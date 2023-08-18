@@ -1,6 +1,7 @@
 package tech.filatov.pigeoner.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tech.filatov.pigeoner.dto.ColorDto;
 import tech.filatov.pigeoner.model.pigeon.Color;
 import tech.filatov.pigeoner.repository.pigeon.ColorRepository;
@@ -42,6 +43,7 @@ public class ColorService {
                 .orElseThrow(NotFoundException.withInfo("У голубя не задан цвет"));
     }
 
+    @Transactional
     public ColorDto create(ColorDto colorDto, long userId) {
         Color color = new Color();
         color.setName(colorDto.getName().toLowerCase());
@@ -50,6 +52,7 @@ public class ColorService {
         return get(repository.save(color).getId(), userId);
     }
 
+    @Transactional
     public ColorDto update(ColorDto colorDto, long id, long userId) {
         Color color = findOne(id, userId);
         color.setName(colorDto.getName());
@@ -57,6 +60,7 @@ public class ColorService {
         return get(repository.save(color).getId(), userId);
     }
 
+    @Transactional
     public void delete(long id, long userId) {
         checkNotFoundWithId(repository.deleteByIdAndOwnerId(id, userId) != 0, id);
     }
