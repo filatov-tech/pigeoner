@@ -10,6 +10,7 @@ import tech.filatov.pigeoner.model.feeding.FeedingMode;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
 
@@ -54,6 +55,7 @@ import static tech.filatov.pigeoner.constant.Constants.*;
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class Section extends AbstractOwnedEntity {
 
+    @NotNull
     @EqualsAndHashCode.Include
     private String name;
 
@@ -65,6 +67,7 @@ public class Section extends AbstractOwnedEntity {
     @ToString.Exclude
     private List<Section> children;
 
+    @NotNull
     @EqualsAndHashCode.Include
     @Enumerated(EnumType.STRING)
     private SectionType type;
