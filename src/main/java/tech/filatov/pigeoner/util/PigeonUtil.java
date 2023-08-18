@@ -40,7 +40,7 @@ public class PigeonUtil {
         return setDataTo(pigeon, dto);
     }
 
-    public static Pigeon getExistedWithUpdatedFields(Pigeon pigeon, PigeonShallowDto dto) {
+    public static Pigeon fillWithUpdatedFields(Pigeon pigeon, PigeonShallowDto dto) {
         return setDataTo(pigeon, dto);
     }
 

@@ -21,7 +21,7 @@ import tech.filatov.pigeoner.validator.PigeonValidator;
 import java.util.List;
 import java.util.Map;
 
-import static tech.filatov.pigeoner.util.PigeonUtil.getExistedWithUpdatedFields;
+import static tech.filatov.pigeoner.util.PigeonUtil.fillWithUpdatedFields;
 import static tech.filatov.pigeoner.util.PigeonUtil.getPigeonFrom;
 import static tech.filatov.pigeoner.util.ValidationUtil.checkNotFoundWithId;
 
@@ -123,7 +123,7 @@ public class PigeonService {
     }
 
     public PigeonDto update(PigeonShallowDto pigeonShallowDto, long id, long userId) {
-        Pigeon pigeon = getExistedWithUpdatedFields(findOne(id, userId), pigeonShallowDto);
+        Pigeon pigeon = fillWithUpdatedFields(findOne(id, userId), pigeonShallowDto);
         initializeFullStateFrom(pigeonShallowDto, pigeon, userId);
 
         pigeon = save(pigeon);
@@ -161,7 +161,7 @@ public class PigeonService {
             pigeon.setMother(findOne(source.getMotherId(), userId));
         }
         if (source.getSectionId() != null) {
-            Section section = sectionService.get(source.getSectionId(), userId);
+            Section section = sectionService.findOne(source.getSectionId(), userId);
             if (section.getType() == SectionType.NEST) {
                 section = sectionService.getWithPigeons(source.getSectionId(), userId);
             }

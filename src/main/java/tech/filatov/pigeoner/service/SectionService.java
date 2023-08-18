@@ -26,7 +26,7 @@ public class SectionService {
         this.pigeonRepository = pigeonRepository;
     }
 
-    public Section get(long id, long userId) {
+    public Section findOne(long id, long userId) {
         return repository.findByIdAndOwnerId(id, userId).orElseThrow(NotFoundException.withIdInfo(id));
     }
 
