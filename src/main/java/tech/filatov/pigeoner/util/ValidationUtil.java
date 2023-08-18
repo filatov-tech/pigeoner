@@ -1,10 +1,15 @@
 package tech.filatov.pigeoner.util;
 
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import tech.filatov.pigeoner.HasId;
 import tech.filatov.pigeoner.dto.FilterParams;
+import tech.filatov.pigeoner.model.AbstractBaseEntity;
 import tech.filatov.pigeoner.util.exception.FilterContradictionException;
 import tech.filatov.pigeoner.util.exception.IllegalRequestDataException;
 import tech.filatov.pigeoner.util.exception.NotFoundException;
+import tech.filatov.pigeoner.util.exception.NotPassValidationException;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -86,6 +91,14 @@ public class ValidationUtil {
     public static void checkNotFoundWithId(boolean found, long id) {
         if (!found) {
             throw new NotFoundException(String.format("Сущность с ID=%d не найдена", id));
+        }
+    }
+
+    public static <T extends AbstractBaseEntity> void validate(T target, Validator validator) {
+        Errors errors = new BeanPropertyBindingResult(target, target.getClass().getSimpleName().toLowerCase());
+        validator.validate(target, errors);
+        if (errors.hasErrors()) {
+            throw new NotPassValidationException(errors);
         }
     }
 }
