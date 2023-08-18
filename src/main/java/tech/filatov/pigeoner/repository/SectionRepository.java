@@ -2,6 +2,7 @@ package tech.filatov.pigeoner.repository;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import tech.filatov.pigeoner.dto.SectionDto;
 import tech.filatov.pigeoner.model.dovecote.Section;
@@ -13,8 +14,20 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
 
     Optional<Section> findByIdAndOwnerId(long id, long userId);
 
+    @Query("""
+            SELECT new tech.filatov.pigeoner.dto.SectionDto(s.id, s.name, s.parent.id, s.type)
+            FROM Section s WHERE s.id = :id AND s.owner.id = :userId
+            """)
+    Optional<SectionDto> findDtoByIdAndOwnerId(long id, long userId);
+
     @EntityGraph(attributePaths = {"pigeons"})
     Optional<Section> findWithPigeonsByIdAndOwnerId(long id, long userId);
+
+    @Modifying
+    @Query("""
+            DELETE FROM Section s WHERE s.id = :id AND s.owner.id = :userId
+            """)
+    int delete(long id, long userId);
 
     @Query("SELECT s FROM Section s WHERE s.parent IS NULL")
     List<Section> getTopLevel();
