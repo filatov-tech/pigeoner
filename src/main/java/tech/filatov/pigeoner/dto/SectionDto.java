@@ -5,7 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import tech.filatov.pigeoner.model.dovecote.SectionType;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +18,14 @@ import java.util.List;
 @Getter
 @Setter
 public class SectionDto extends BaseDto {
+    @NotNull(message = "У голубятни и ее составляющих должно быть название")
+    @NotBlank(message = "У голубятни и ее составляющих должно быть название")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я \\d-.]+$", message = "Допустимы только буквы, пробелы, точки и знак дефиса \"-\"")
     private String name;
     private Long parentId;
     private String fullAddress;
+    @NotNull
+    @NotBlank
     private String sectionType;
     private Integer pigeonsNumber;
     private String rootName;
