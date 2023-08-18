@@ -38,6 +38,13 @@ public class SectionDto extends BaseDto {
         this.parentId = parentId;
     }
 
+    public SectionDto(Long id, String name, Long parentId, SectionType sectionType) {
+        this.id = id;
+        this.name = name;
+        this.parentId = parentId;
+        this.sectionType = sectionType == null ? null : sectionType.name();
+    }
+
     public SectionDto(Long id, String name, String sectionType, Integer pigeonsNumber) {
         this.id = id;
         this.name = name;
