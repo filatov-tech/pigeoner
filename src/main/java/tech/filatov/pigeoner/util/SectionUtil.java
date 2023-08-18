@@ -2,6 +2,7 @@ package tech.filatov.pigeoner.util;
 
 import tech.filatov.pigeoner.dto.SectionDto;
 import tech.filatov.pigeoner.model.dovecote.Section;
+import tech.filatov.pigeoner.model.dovecote.SectionType;
 
 import java.util.*;
 import java.util.function.Function;
@@ -52,6 +53,22 @@ public class SectionUtil {
             section.setFullAddress(buildAddress(pathStack));
         }
         return sections;
+    }
+
+    public static Section makeInstanceFrom(SectionDto sectionDto) {
+        Section section = new Section();
+        return setDataTo(section, sectionDto);
+    }
+
+    public static Section fillWithUpdatedFields(Section target, SectionDto dto) {
+        return setDataTo(target, dto);
+    }
+
+    private static Section setDataTo(Section section, SectionDto dto) {
+        section.setId(dto.getId());
+        section.setName(dto.getName());
+        section.setType(SectionType.valueOf(dto.getSectionType()));
+        return section;
     }
 
     private static Deque<String> getPathStack(SectionDto section, Map<Long, SectionDto> sectionMap) {
