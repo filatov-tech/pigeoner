@@ -6,6 +6,7 @@ import tech.filatov.pigeoner.dto.FlightDto;
 import tech.filatov.pigeoner.model.flight.Flight;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FlightRepository extends JpaRepository<Flight, Long> {
 
@@ -27,6 +28,6 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
             "JOIN LaunchPoint lp ON f.launchPoint.id = lp.id " +
             "WHERE p.isOwn = true AND f.id = :id AND fr.owner.id = :userId AND f.owner.id = :userId AND p.owner.id = :userId AND lp.owner.id = :userId " +
             "GROUP BY f.id, lp.name, lp.distance, f.myPassed, f.totalParticipants, f.id, f.departure, f.passingThreshold, f.flightType")
-    FlightDto getFlightDtoById(long id, long userId);
+    Optional<FlightDto> findDtoById(long id, long userId);
 
 }

@@ -3,6 +3,7 @@ package tech.filatov.pigeoner.service;
 import org.springframework.stereotype.Service;
 import tech.filatov.pigeoner.dto.FlightDto;
 import tech.filatov.pigeoner.repository.flight.FlightRepository;
+import tech.filatov.pigeoner.util.exception.NotFoundException;
 
 import java.util.List;
 
@@ -19,6 +20,6 @@ public class FlightService {
     }
 
     public FlightDto getFlightDto(long id, long userId) {
-        return repository.getFlightDtoById(id, userId);
+        return repository.findDtoById(id, userId).orElseThrow(NotFoundException.withIdInfo(id));
     }
 }
