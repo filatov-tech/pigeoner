@@ -73,14 +73,22 @@ VALUES
      100000, 100001, null, 100027, null, null, null) --100032
 ;
 
-INSERT INTO flight (id, created, updated, flight_type, departure, user_id)
+INSERT INTO launch_point (id, created, updated, user_id, name, distance)
 VALUES
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'COMPETITION', make_timestamp(2023, 5, 28, 6, 10, 0), 100000), --100033
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'COMPETITION', make_timestamp(2023, 6, 4, 7, 0, 0), 100000),   --100034
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'COMPETITION', make_timestamp(2023, 6, 11, 6, 0, 0), 100000),   --100035
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'COMPETITION', make_timestamp(2023, 6, 18, 5, 0, 0), 100000),   --100036
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'COMPETITION', make_timestamp(2023, 6, 18, 5, 0, 0), 100000),  --100037
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'COMPETITION', make_timestamp(2023, 6, 25, 6, 0, 0), 100000)   --100038
+    (80001, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 100000, 'Якушино', 252), --80001
+    (80002, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 100000, 'Зайцево', 348), --80002
+    (80003, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 100000, 'Бадуны', 417),  --80003
+    (80004, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 100000, 'Калюги', 532)   --80004
+;
+
+INSERT INTO flight (id, created, updated, launch_point_id, flight_type, departure, user_id)
+VALUES
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 80001, 'COMPETITION', make_timestamp(2023, 5, 28, 6, 10, 0), 100000), --100033
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 80002, 'COMPETITION', make_timestamp(2023, 6, 4, 7, 0, 0), 100000),   --100034
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 80003, 'COMPETITION', make_timestamp(2023, 6, 11, 6, 0, 0), 100000),   --100035
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 80004, 'COMPETITION', make_timestamp(2023, 6, 18, 5, 0, 0), 100000),   --100036
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 80002, 'COMPETITION', make_timestamp(2023, 6, 18, 5, 0, 0), 100000),  --100037
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 80002, 'COMPETITION', make_timestamp(2023, 6, 25, 6, 0, 0), 100000)   --100038
 ;
 
 INSERT INTO keeper (id, created, updated, user_id, name)
@@ -126,35 +134,11 @@ VALUES
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TIMESTAMP '2023-06-25 14:04:43.1', 5, 100000, 100038, 100017, 'NORMAL')  --100070
 ;
 
-INSERT INTO launch_point (id, created, updated, user_id, name, distance)
-VALUES
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 100000, 'Якушино', 252), --100071
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 100000, 'Зайцево', 348), --100072
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 100000, 'Бадуны', 417),  --100073
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 100000, 'Калюги', 532)   --100074
-;
-
-UPDATE flight SET launch_point_id = 100071
-WHERE id = 100033
-;
-
-UPDATE flight SET launch_point_id = 100072
-WHERE id IN (100034, 100037, 100038)
-;
-
-UPDATE flight SET launch_point_id = 100073
-WHERE id = 100035
-;
-
-UPDATE flight SET launch_point_id = 100074
-WHERE id = 100036
-;
-
 INSERT INTO pigeon (id, created, updated, birthdate, condition_status, sex, is_own, name, ring_number,
                     user_id, color_id, father_id, section_id, photo_id, mate_id, mother_id, keeper_id)
 VALUES
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, null, null, 'MALE', false, 'Чужой', '22154-5',
-     100000, null, null, null, null, null, null, 100040), --100075
+     100000, null, null, null, null, null, null, 100040), --100071
     (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, null, null, 'FEMALE', false, 'Чужая', '7777-8',
-     100000, null, null, null, null, null, null, 100040) --100076
+     100000, null, null, null, null, null, null, 100040) --100072
 ;
