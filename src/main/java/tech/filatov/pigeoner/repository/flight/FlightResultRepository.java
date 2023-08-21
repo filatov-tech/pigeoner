@@ -7,7 +7,7 @@ import tech.filatov.pigeoner.model.flight.FlightResult;
 
 import java.util.List;
 
-public interface FlightResultRepository extends JpaRepository<FlightResult, Long> {
+public interface FlightResultRepository extends JpaRepository<FlightResult, Long>, FlightResultRepositoryCustom {
 
     @Query("SELECT new tech.filatov.pigeoner.dto.FlightResultDto(" +
             "fr.pigeon.id, lp.name, lp.distance, fr.position, fl.totalParticipants, fr.arrivalTime, fr.isPass) " +
@@ -22,4 +22,12 @@ public interface FlightResultRepository extends JpaRepository<FlightResult, Long
             "FROM FlightResult fr JOIN Pigeon p ON fr.pigeon.id = p.id " +
             "WHERE fr.flight.id = :id AND fr.owner.id = :userId AND p.owner.id = :userId")
     List<FlightResultDto> getAllByFlightId(long id, long userId);
+
+    @Query("""
+        SELECT count(fr)
+        FROM FlightResult fr
+        LEFT OUTER JOIN Pigeon p ON fr.pigeon.id = p.id
+        WHERE fr.flight.id = :id AND fr.owner.id = :userId AND p.isOwn IS TRUE
+    """)
+    long getNumberOfMyParticipantsByFlightId(long id, long userId);
 }
