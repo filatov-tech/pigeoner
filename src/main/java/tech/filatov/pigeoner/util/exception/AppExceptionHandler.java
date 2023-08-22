@@ -78,7 +78,7 @@ public class AppExceptionHandler {
                 ));
 
         ApiError response = new ApiError(
-                "Нарушена уникальность одного из полей", HttpStatus.BAD_REQUEST, errors
+                "Не уникальный объект - такой объект уже есть", HttpStatus.BAD_REQUEST, errors
         );
         return new ResponseEntity<>(response, response.getStatus());
     }
