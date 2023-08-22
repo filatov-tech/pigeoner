@@ -46,7 +46,6 @@ public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRep
     List<PigeonDto> getWithAncestorsById(long id, long userId);
 
     @Modifying
-    @Transactional
     @Query("DELETE FROM Pigeon p WHERE p.id = :id AND p.owner.id = :userId")
     int deleteByIdAndOwnerId(long id, long userId);
 }

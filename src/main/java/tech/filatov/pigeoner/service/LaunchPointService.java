@@ -38,6 +38,7 @@ public class LaunchPointService {
         return repository.findAllDtoByOwnerId(userId);
     }
 
+    @Transactional
     public LaunchPointDto createOrUpdate(LaunchPointDto dto, long userId) {
         LaunchPoint launchPoint = instantiateFrom(dto, userId);
         return save(launchPoint, userId);
@@ -54,13 +55,13 @@ public class LaunchPointService {
         return launchPoint;
     }
 
-    @Transactional
     protected LaunchPointDto save(LaunchPoint launchPoint, long userId) {
         launchPoint = repository.save(launchPoint);
         //noinspection ConstantConditions
         return getOneDto(launchPoint.getId(), userId);
     }
 
+    @Transactional
     public void delete(long id, long userId) {
         checkNotFoundWithId(repository.delete(id, userId) != 0, id);
     }

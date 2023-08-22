@@ -113,6 +113,7 @@ public class PigeonService {
         return pigeon;
     }
 
+    @Transactional
     public PigeonDto create(PigeonShallowDto pigeonShallowDto, long userId) {
         Pigeon pigeon = getPigeonFrom(pigeonShallowDto);
         initializeFullStateFrom(pigeonShallowDto, pigeon, userId);
@@ -122,6 +123,7 @@ public class PigeonService {
         return getPigeonDto(pigeon.getId(), userId);
     }
 
+    @Transactional
     public PigeonDto update(PigeonShallowDto pigeonShallowDto, long id, long userId) {
         Pigeon pigeon = fillWithUpdatedFields(findOne(id, userId), pigeonShallowDto);
         initializeFullStateFrom(pigeonShallowDto, pigeon, userId);
@@ -131,7 +133,6 @@ public class PigeonService {
         return getPigeonDto(pigeon.getId(), userId);
     }
 
-    @Transactional
     protected Pigeon save(Pigeon pigeon) {
         validate(pigeon);
         return repository.save(pigeon);

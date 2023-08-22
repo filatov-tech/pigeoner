@@ -81,6 +81,7 @@ public class SectionService {
         return repository.findDtoByIdAndOwnerId(id, userId).orElseThrow(NotFoundException.withIdInfo(id));
     }
 
+    @Transactional
     public SectionDto createOrUpdate(SectionDto dto, long userId) {
         Section section = instantiateFrom(dto, userId);
         validate(section, validator);
@@ -101,7 +102,6 @@ public class SectionService {
         return section;
     }
 
-    @Transactional
     SectionDto save(Section section, long userId) {
         Section saved = repository.save(section);
         //noinspection ConstantConditions

@@ -29,7 +29,6 @@ public interface LaunchPointRepository extends JpaRepository<LaunchPoint, Long> 
     List<LaunchPointDto> findAllDtoByOwnerId(long userId);
 
     @Modifying
-    @Transactional
     @Query("""
         DELETE FROM LaunchPoint l WHERE l.id = :id AND l.owner.id = :userId
     """)
