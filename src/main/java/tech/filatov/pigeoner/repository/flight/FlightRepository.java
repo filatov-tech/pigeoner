@@ -31,4 +31,11 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
     """)
     Optional<FlightDto> findDtoById(long id, long userId);
 
+    Optional<Flight> findOneByIdAndOwnerId(long id, long userId);
+
+    @Modifying
+    @Query("""
+        DELETE FROM Flight f WHERE f.id = :id AND f.owner.id = :userId
+    """)
+    int delete(long id, long userId);
 }
