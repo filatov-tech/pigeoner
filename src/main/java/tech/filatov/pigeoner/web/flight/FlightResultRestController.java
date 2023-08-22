@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tech.filatov.pigeoner.AuthorizedUser;
 import tech.filatov.pigeoner.dto.FlightResultDto;
-import tech.filatov.pigeoner.repository.flight.FlightResultRepository;
+import tech.filatov.pigeoner.service.FlightResultService;
 
 import java.util.List;
 
@@ -15,14 +15,14 @@ import java.util.List;
 public class FlightResultRestController {
 
     private final AuthorizedUser authUser = new AuthorizedUser();
-    private final FlightResultRepository repository;
+    private final FlightResultService service;
 
-    public FlightResultRestController(FlightResultRepository repository) {
-        this.repository = repository;
+    public FlightResultRestController(FlightResultService service) {
+        this.service = service;
     }
 
     @GetMapping("/flights/{id}/flight-results")
     public List<FlightResultDto> getAllByFlightId(@PathVariable long id) {
-        return repository.getAllByFlightId(id, authUser.getId());
+        return service.getAllByFlightId(id, authUser.getId());
     }
 }

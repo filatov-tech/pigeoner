@@ -10,7 +10,6 @@ import tech.filatov.pigeoner.model.User;
 import tech.filatov.pigeoner.model.dovecote.Section;
 import tech.filatov.pigeoner.model.dovecote.SectionType;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
-import tech.filatov.pigeoner.repository.flight.FlightResultRepository;
 import tech.filatov.pigeoner.repository.pigeon.PigeonRepository;
 import tech.filatov.pigeoner.util.CommonUtil;
 import tech.filatov.pigeoner.util.PigeonUtil;
@@ -34,16 +33,16 @@ public class PigeonService {
     private final ColorService colorService;
     private final PigeonValidator validator;
     private final KeeperService keeperService;
-    private final FlightResultRepository flightResultRepository;
+    private final FlightResultService flightResultService;
 
-    public PigeonService(UserService userService, SectionService sectionService, PigeonRepository repository, ColorService colorService, PigeonValidator validator, KeeperService keeperService, FlightResultRepository flightResultRepository) {
+    public PigeonService(UserService userService, SectionService sectionService, PigeonRepository repository, ColorService colorService, PigeonValidator validator, KeeperService keeperService, FlightResultService flightResultService) {
         this.userService = userService;
         this.sectionService = sectionService;
         this.repository = repository;
         this.colorService = colorService;
         this.validator = validator;
         this.keeperService = keeperService;
-        this.flightResultRepository = flightResultRepository;
+        this.flightResultService = flightResultService;
     }
 
     public Pigeon findOne(long id, long userId) {
@@ -106,7 +105,7 @@ public class PigeonService {
             pigeon.setMother(getPigeonDtoWithoutNestedDto(pigeon.getMotherId(), userId));
         }
         pigeon.setColor(colorService.findColorByPigeonId(pigeon.getId(), userId).getName());
-        List<FlightResultDto> flightResults = flightResultRepository.getAllByPigeonId(pigeon.getId(), userId);
+        List<FlightResultDto> flightResults = flightResultService.getAllByPigeonId(pigeon.getId(), userId);
         if (!flightResults.isEmpty()) {
             pigeon.setFlights(flightResults);
         }
