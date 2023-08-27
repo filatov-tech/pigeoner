@@ -17,4 +17,8 @@ public class UserService {
     public User get(long userId) {
         return repository.findById(userId).orElseThrow(NotFoundException.withIdInfo(userId));
     }
+
+    public User getRef(long userId) {
+        return repository.getReferenceById(userId);
+    }
 }
