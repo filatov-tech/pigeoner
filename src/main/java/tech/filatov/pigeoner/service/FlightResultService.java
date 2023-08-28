@@ -23,7 +23,7 @@ public class FlightResultService {
         return repository.getAllByFlightId(id, userId);
     }
 
-    public Map<Long, Long> getNumberOfMyParticipantsForEveryFlight(long userId) {
+    public Map<Long, Integer> getNumberOfMyParticipantsForEveryFlight(long userId) {
         return repository.getNumberOfMyParticipantsForEveryFlight(userId);
     }
 

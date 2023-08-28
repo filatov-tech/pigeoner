@@ -21,9 +21,6 @@ public class FlightMapper {
     private Flight setDataTo(Flight target, FlightDto source) {
         target.setDeparture(source.getDeparture());
         target.setFlightType(FlightType.valueOf(source.getFlightType()));
-        target.setTotalParticipants(source.getTotalParticipants());
-        target.setPassingThreshold(source.getPassingThreshold());
-        target.setMyPassed(source.getMyPassed());
         return target;
     }
 }

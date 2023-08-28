@@ -17,7 +17,7 @@ public class FlightResultRepositoryCustomImpl implements FlightResultRepositoryC
     }
 
     @Override
-    public Map<Long, Long> getNumberOfMyParticipantsForEveryFlight(long userId) {
+    public Map<Long, Integer> getNumberOfMyParticipantsForEveryFlight(long userId) {
         return em.createQuery("""
             SELECT fr.flight.id AS flightId, count(fr) AS myParticipantsNumber
             FROM FlightResult fr
@@ -29,7 +29,7 @@ public class FlightResultRepositoryCustomImpl implements FlightResultRepositoryC
                 .getResultStream()
                 .collect(Collectors.toMap(
                         tuple -> ((Number) tuple.get("flightId")).longValue(),
-                        tuple -> ((Number) tuple.get("myParticipantsNumber")).longValue()
+                        tuple -> ((Number) tuple.get("myParticipantsNumber")).intValue()
                 ));
     }
 }

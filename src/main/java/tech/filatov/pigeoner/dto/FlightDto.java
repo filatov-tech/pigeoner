@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class FlightDto extends BaseDto {
     @NotNull(message = "Вылет должен иметь информацию о точке запуска: место и расстояние")
     private LaunchPointDto launchPoint;
-    private Long numberParticipants;
+    private Integer numberParticipants;
     private Integer totalParticipants;
     private Integer myPassed;
     @NotNull(message = "Вылет должен иметь информацию о дате и времени выпуска голубей")
@@ -27,7 +27,6 @@ public class FlightDto extends BaseDto {
         this.id = id;
         this.launchPoint = new LaunchPointDto(launchPointId, locationName, distance);
         this.totalParticipants = totalParticipants;
-        this.myPassed = myPassed;
         this.departure = departure;
         this.passingThreshold = passingThreshold;
         this.flightType = flightType.getTitle();

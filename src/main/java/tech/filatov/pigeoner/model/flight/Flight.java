@@ -2,14 +2,11 @@ package tech.filatov.pigeoner.model.flight;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Table(uniqueConstraints = {
         @UniqueConstraint(name = "UniqueFlight", columnNames = {"launch_point_id", "departure", "flightType"})
@@ -26,16 +23,11 @@ public class Flight extends AbstractOwnedEntity {
     @NotNull
     private LocalDateTime departure;
 
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @OneToMany(mappedBy = "flight")
-    private Set<FlightResult> myParticipants = new HashSet<>();
-
     private Integer totalParticipants;
 
     private Integer passingThreshold;
 
-    private Integer myPassed;
+    private Double passingAvgSpeed;
 
     @NotNull
     @EqualsAndHashCode.Exclude

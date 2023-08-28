@@ -30,7 +30,7 @@ public class FlightService {
 
     public List<FlightDto> getAllDto(long userId) {
         List<FlightDto> dtos = repository.getAllDto(userId);
-        Map<Long, Long> myParticipants = flightResultService.getNumberOfMyParticipantsForEveryFlight(userId);
+        Map<Long, Integer> myParticipants = flightResultService.getNumberOfMyParticipantsForEveryFlight(userId);
         for (FlightDto dto : dtos) {
             dto.setNumberParticipants(myParticipants.get(dto.getId()));
         }
@@ -46,6 +46,7 @@ public class FlightService {
     public Flight getOne(long id, long userId) {
         return repository.findOneByIdAndOwnerId(id, userId).orElseThrow(NotFoundException.withIdInfo(id));
     }
+
     @Transactional
     public FlightDto saveOrUpdate(FlightDto dto, long userId) {
         Flight flight = instantiateFrom(dto, userId);

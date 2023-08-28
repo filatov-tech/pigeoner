@@ -13,7 +13,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 
     @Query("""
         SELECT new tech.filatov.pigeoner.dto.FlightDto(
-        f.id, lp.id, lp.name, lp.distance, f.totalParticipants, f.myPassed,
+        f.id, lp.id, lp.name, lp.distance, f.totalParticipants,
         f.departure, f.passingThreshold, f.flightType)
         FROM Flight f
         JOIN LaunchPoint lp ON f.launchPoint.id = lp.id
@@ -23,7 +23,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 
     @Query("""
         SELECT new tech.filatov.pigeoner.dto.FlightDto(
-        f.id, lp.id, lp.name, lp.distance, f.totalParticipants, f.myPassed,
+        f.id, lp.id, lp.name, lp.distance, f.totalParticipants,
         f.departure, f.passingThreshold, f.flightType)
         FROM Flight f
         JOIN LaunchPoint lp ON f.launchPoint.id = lp.id
