@@ -94,32 +94,4 @@ public class PigeonDto extends BaseDto {
         this.keeperName = keeperName;
         this.sectionId = sectionId;
     }
-
-    public void setFlights(List<FlightResultDto> flights) {
-        this.flights = flights;
-        this.setTopFlights(flights);
-    }
-
-    private void setTopFlights(List<FlightResultDto> flights) {
-        List<FlightResultDto> flightsCopy = flights.stream()
-                .map(FlightResultDto::new).sorted((o1, o2) -> {
-                    int relativePosition1;
-                    int relativePosition2;
-                    if (o1.getTotalParticipants() == 0 || o2.getTotalParticipants() == 0) {
-                        relativePosition1 = o1.getPosition();
-                        relativePosition2 = o2.getPosition();
-                    } else {
-                        relativePosition1 = (o1.getPosition() * 100) / o1.getTotalParticipants();
-                        relativePosition2 = (o2.getPosition() * 100) / o2.getTotalParticipants();
-                    }
-                    return relativePosition1 - relativePosition2;
-        }).toList();
-        if (flightsCopy.size() < 3) {
-            topFlights = flightsCopy;
-        } else {
-            for (int i = 0; i < 3; i++) {
-                topFlights.add(flightsCopy.get(i));
-            }
-        }
-    }
 }
