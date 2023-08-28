@@ -1,5 +1,6 @@
 package tech.filatov.pigeoner.service;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.filatov.pigeoner.dto.FlightDto;
@@ -20,7 +21,7 @@ public class FlightService {
     private final UserService userService;
     private final FlightMapper mapper;
 
-    public FlightService(FlightRepository repository, FlightResultService flightResultService, FlightMapper mapper, UserService userService, LaunchPointService launchPointService) {
+    public FlightService(FlightRepository repository, @Lazy FlightResultService flightResultService, FlightMapper mapper, UserService userService, LaunchPointService launchPointService) {
         this.repository = repository;
         this.flightResultService = flightResultService;
         this.mapper = mapper;

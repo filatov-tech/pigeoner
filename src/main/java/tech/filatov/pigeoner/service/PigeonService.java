@@ -36,7 +36,7 @@ public class PigeonService {
     private final KeeperService keeperService;
     private final FlightResultService flightResultService;
 
-    public PigeonService(UserService userService, SectionService sectionService, PigeonRepository repository, ColorService colorService, PigeonValidator validator, KeeperService keeperService, FlightResultService flightResultService) {
+    public PigeonService(UserService userService, SectionService sectionService, PigeonRepository repository, ColorService colorService, PigeonValidator validator, KeeperService keeperService, @Lazy FlightResultService flightResultService) {
         this.userService = userService;
         this.sectionService = sectionService;
         this.repository = repository;
