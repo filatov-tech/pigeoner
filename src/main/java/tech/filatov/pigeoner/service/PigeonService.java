@@ -1,5 +1,6 @@
 package tech.filatov.pigeoner.service;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -45,7 +46,7 @@ public class PigeonService {
         this.flightResultService = flightResultService;
     }
 
-    public Pigeon findOne(long id, long userId) {
+    public Pigeon get(long id, long userId) {
         return repository.findByIdAndOwnerId(id, userId).orElseThrow(NotFoundException.withIdInfo(id));
     }
 
@@ -124,7 +125,7 @@ public class PigeonService {
 
     @Transactional
     public PigeonDto update(PigeonShallowDto pigeonShallowDto, long id, long userId) {
-        Pigeon pigeon = fillWithUpdatedFields(findOne(id, userId), pigeonShallowDto);
+        Pigeon pigeon = fillWithUpdatedFields(get(id, userId), pigeonShallowDto);
         initializeFullStateFrom(pigeonShallowDto, pigeon, userId);
 
         pigeon = save(pigeon);
@@ -153,13 +154,13 @@ public class PigeonService {
     private void initializeFullStateFrom(PigeonShallowDto source, Pigeon pigeon, long userId) {
         pigeon.setOwner(userService.get(userId));
         if (source.getMateId() != null) {
-            pigeon.setMate(findOne(source.getMateId(), userId));
+            pigeon.setMate(get(source.getMateId(), userId));
         }
         if (source.getFatherId() != null) {
-            pigeon.setFather(findOne(source.getFatherId(), userId));
+            pigeon.setFather(get(source.getFatherId(), userId));
         }
         if (source.getMotherId() != null) {
-            pigeon.setMother(findOne(source.getMotherId(), userId));
+            pigeon.setMother(get(source.getMotherId(), userId));
         }
         if (source.getSectionId() != null) {
             Section section = sectionService.findOne(source.getSectionId(), userId);
