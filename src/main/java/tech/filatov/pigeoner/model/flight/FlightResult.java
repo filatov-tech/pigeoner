@@ -28,7 +28,9 @@ public class FlightResult extends AbstractOwnedEntity {
 
     private LocalDateTime arrivalTime;
 
-    private Boolean isPass ;
+    private Double preciseDistance;
+
+    private Boolean isPass;
 
     private int position = 0;
 

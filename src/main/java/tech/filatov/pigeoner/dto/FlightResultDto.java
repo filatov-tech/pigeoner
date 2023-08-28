@@ -5,66 +5,38 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tech.filatov.pigeoner.model.flight.AfterFlightCondition;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class FlightResultDto extends BaseDto {
+    @NotNull
     private Long pigeonId;
     private String ringNumber;
-    private String location;
-    private Integer distance;
+    private LaunchPointDto launchPoint;
     private Integer position;
     private Integer totalParticipants;
-    private String arrivalTime;
+    private LocalDateTime arrivalTime;
     private Boolean isPass;
     private Double winPoints;
     private Double averageSpeed;
     private String afterFlightCondition;
     private String keeper;
-    private final static DateTimeFormatter DTF = DateTimeFormatter.ofPattern("HH:mm:ss.S");
-
-    public FlightResultDto(FlightResultDto fr) {
-        this(fr.getPigeonId(),
-                fr.getLocation(),
-                fr.getDistance(),
-                fr.getPosition(),
-                fr.getTotalParticipants(),
-                fr.getArrivalTime(),
-                fr.getIsPass()
-        );
-    }
 
     public FlightResultDto(Long pigeonId,
-                           String location,
-                           Integer distance,
+                           Long launchPointId,
+                           String launchPointName,
+                           Integer launchPointDistance,
                            Integer position,
                            Integer totalParticipants,
                            LocalDateTime arrivalTime,
                            Boolean isPass) {
         this.pigeonId = pigeonId;
-        this.location = location;
-        this.distance = distance;
+        this.launchPoint = new LaunchPointDto(launchPointId, launchPointName, launchPointDistance);
         this.position = position;
         this.totalParticipants = totalParticipants == null ? 0 : totalParticipants;
-        this.arrivalTime = arrivalTime.format(DTF);
-        this.isPass = isPass;
-    }
-
-    public FlightResultDto(Long pigeonId,
-                           String location,
-                           Integer distance,
-                           Integer position,
-                           Integer totalParticipants,
-                           String arrivalTime,
-                           Boolean isPass) {
-        this.pigeonId = pigeonId;
-        this.location = location;
-        this.distance = distance;
-        this.position = position;
-        this.totalParticipants = totalParticipants;
         this.arrivalTime = arrivalTime;
         this.isPass = isPass;
     }
@@ -83,7 +55,7 @@ public class FlightResultDto extends BaseDto {
         this.pigeonId = pigeonId;
         this.ringNumber = ringNumber;
         this.position = position;
-        this.arrivalTime = arrivalTime.format(DTF);
+        this.arrivalTime = arrivalTime;
         this.isPass = isPass;
         this.winPoints = winPoints;
         this.averageSpeed = averageSpeed;
