@@ -2,6 +2,7 @@ package tech.filatov.pigeoner.repository;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import tech.filatov.pigeoner.dto.KeeperDto;
 import tech.filatov.pigeoner.model.Keeper;
@@ -22,5 +23,9 @@ public interface KeeperRepository extends JpaRepository<Keeper, Long> {
 
     @Query("SELECT new tech.filatov.pigeoner.dto.KeeperDto(k.id, k.name) FROM User u JOIN Keeper k ON u.keeper.id = k.id " +
             "WHERE u.id = :userId")
-    KeeperDto getDto(long userId);
+    KeeperDto getMainKeeperDto(long userId);
+
+    @Modifying
+    @Query("DELETE FROM Keeper k WHERE k.id = :id AND k.owner.id = :userId")
+    int delete(long id, long userId);
 }
