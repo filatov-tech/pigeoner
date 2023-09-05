@@ -40,6 +40,11 @@ public class SectionRestController {
         return service.getSectionsDtoTreeWithPigeons(authUser.getId());
     }
 
+    @GetMapping("/hierarchical-with-pigeons")
+    public List<SectionDto> getHierarchicalSectionsWithPigeons() {
+        return service.getSectionsDtoTreeWithPigeons(authUser.getId());
+    }
+
     @PostMapping
     public ResponseEntity<SectionDto> create(@Valid @RequestBody SectionDto section) {
         checkNew(section);
