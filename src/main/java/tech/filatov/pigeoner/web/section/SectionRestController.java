@@ -36,12 +36,17 @@ public class SectionRestController {
     }
 
     @GetMapping
-    public List<SectionDto> getSectionsData() {
-        return service.getSectionsDtoTreeWithPigeons(authUser.getId());
+    public List<SectionDto> getAll() {
+        return service.getAllWithFullAddress(authUser.getId());
+    }
+
+    @GetMapping("/hierarchical")
+    public List<SectionDto> getAllHierarchical() {
+        return service.getAllHierarchical(authUser.getId());
     }
 
     @GetMapping("/hierarchical-with-pigeons")
-    public List<SectionDto> getHierarchicalSectionsWithPigeons() {
+    public List<SectionDto> getAllHierarchicalWithPigeons() {
         return service.getSectionsDtoTreeWithPigeons(authUser.getId());
     }
 
@@ -79,6 +84,6 @@ public class SectionRestController {
 
     @GetMapping("/hierarchy")
     public List<SectionDto> getHierarchicalStructure() {
-        return service.getDtoHierarchicalStructure();
+        return service.getAllHierarchicalWithoutNests();
     }
 }

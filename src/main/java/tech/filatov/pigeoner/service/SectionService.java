@@ -57,9 +57,14 @@ public class SectionService {
         return sectionsMap.get(id);
     }
 
-    public List<SectionDto> getDtoHierarchicalStructure() {
+    public List<SectionDto> getAllHierarchicalWithoutNests() {
         List<SectionDto> sectionWithoutHierarchy = repository.getAllWithoutNests();
         return makeHierarchy(sectionWithoutHierarchy);
+    }
+
+    public List<SectionDto> getAllHierarchical(long userId) {
+        List<SectionDto> sectionDtos = fillAddressData(repository.getAll(userId));
+        return makeHierarchy(sectionDtos);
     }
 
     public List<SectionDto> getSectionsDtoTreeWithPigeons(long userId) {

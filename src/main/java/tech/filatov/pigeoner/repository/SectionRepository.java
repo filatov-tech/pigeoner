@@ -38,7 +38,7 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
     @Query(nativeQuery = true)
     List<SectionDto> getCommonSectionInfoById(int id);
 
-    @Query("SELECT new tech.filatov.pigeoner.dto.SectionDto(s.id, s.name, s.parent.id) FROM Section s " +
+    @Query("SELECT new tech.filatov.pigeoner.dto.SectionDto(s.id, s.name, s.parent.id, s.type) FROM Section s " +
             "WHERE s.owner.id = :userId")
     List<SectionDto> getAll(long userId);
 
