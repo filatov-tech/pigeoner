@@ -11,9 +11,17 @@ import lombok.Setter;
 @Setter
 public class ErrorInfo {
     private String field;
+    private String value;
     private String message;
+    private String shortMessage;
 
     public ErrorInfo(String message) {
+        this.message = message;
+    }
+
+    public ErrorInfo(String field, String value, String message) {
+        this.field = field;
+        this.value = value;
         this.message = message;
     }
 }

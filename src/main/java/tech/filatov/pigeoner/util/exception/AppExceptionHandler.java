@@ -10,10 +10,10 @@ import tech.filatov.pigeoner.dto.ErrorInfo;
 import tech.filatov.pigeoner.dto.ApiError;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static tech.filatov.pigeoner.constant.Constants.VALIDATION_FAILED_MESSAGE;
 
@@ -67,15 +67,22 @@ public class AppExceptionHandler {
             throw e;
         }
 
-        String[] fieldAndValue = extractFieldAndValueFrom(e);
-        String field = fieldAndValue[0];
-        String value = fieldAndValue[1];
-        List<ErrorInfo> errors = new ArrayList<>();
-        errors.add(
-                new ErrorInfo(
-                        field,
-                        String.format("Поле %s со значением %s уже существует", field, value)
-                ));
+        Map<String, String> fieldAndValue = extractEachFieldAndItsValueFrom(e);
+        Map<String, ErrorInfo> errors = new HashMap<>();
+
+        for (Map.Entry<String, String> fieldValueEntry : fieldAndValue.entrySet()) {
+            String fieldName = fieldValueEntry.getKey();
+            String value = fieldValueEntry.getValue();
+            errors.put(
+                    fieldName,
+                    new ErrorInfo(
+                            fieldName,
+                            value,
+                            String.format("Поле %s со значением %s нарушает уникальность сохраняемого объекта", fieldName, value),
+                            "Не уникально"
+                    )
+            );
+        }
 
         ApiError response = new ApiError(
                 "Не уникальный объект - такой объект уже есть", HttpStatus.BAD_REQUEST, errors
@@ -83,20 +90,29 @@ public class AppExceptionHandler {
         return new ResponseEntity<>(response, response.getStatus());
     }
 
-    private String[] extractFieldAndValueFrom(SQLException e) {
-        String[] fieldAndValue = new String[2];
-        Pattern pattern = Pattern.compile("\\(([a-zA-Zа-яА-Я_ \\d-,]+)\\)");
+    private Map<String, String> extractEachFieldAndItsValueFrom(SQLException e) {
+        Map<String, String> fieldsErrorsMap = new HashMap<>();
+        Pattern pattern = Pattern.compile(".*\\(([^)]+)\\)=\\(([^)]+)\\).*", Pattern.DOTALL);
         Matcher matcher = pattern.matcher(e.getMessage());
 
-        for (int i = 0; matcher.find(); i++) {
-            fieldAndValue[i] = matcher.group(1).split(", ")[0];
+        if (!matcher.matches()) {
+            return fieldsErrorsMap;
         }
-        return fieldAndValue;
+
+        String[] fields = matcher.group(1).split(", ");
+        String[] values = matcher.group(2).split(", ");
+        for (int i = 0; i < fields.length; i++) {
+            fieldsErrorsMap.put(fields[i], values[i]);
+        }
+
+        return fieldsErrorsMap;
     }
 
-    private List<ErrorInfo> extractErrorsFrom(List<FieldError> errors) {
-        return errors.stream()
-                .map(error -> new ErrorInfo(error.getField(), error.getDefaultMessage()))
-                .toList();
+    private Map<String, ErrorInfo> extractErrorsFrom(List<FieldError> errors) {
+        return errors.stream().collect(Collectors.toMap(
+                FieldError::getField,
+                fieldError -> new ErrorInfo(fieldError.getField(), "", fieldError.getDefaultMessage())
+        ));
     }
 }
+
