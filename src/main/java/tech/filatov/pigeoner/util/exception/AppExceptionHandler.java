@@ -24,7 +24,7 @@ public class AppExceptionHandler {
 
     @ExceptionHandler(FilterContradictionException.class)
     public ResponseEntity<ErrorInfo> handleException(FilterContradictionException e) {
-        ErrorInfo response = new ErrorInfo(e.getMessage());
+        ErrorInfo response = new ErrorInfo(Collections.singletonList(e.getMessage()));
         e.printStackTrace();
         return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -78,7 +78,7 @@ public class AppExceptionHandler {
                     new ErrorInfo(
                             fieldName,
                             value,
-                            String.format("Поле %s со значением %s нарушает уникальность сохраняемого объекта", fieldName, value),
+                            List.of(String.format("Поле %s со значением %s нарушает уникальность сохраняемого объекта", fieldName, value)),
                             "Не уникально"
                     )
             );
@@ -109,10 +109,20 @@ public class AppExceptionHandler {
     }
 
     private Map<String, ErrorInfo> extractErrorsFrom(List<FieldError> errors) {
-        return errors.stream().collect(Collectors.toMap(
-                FieldError::getField,
-                fieldError -> new ErrorInfo(fieldError.getField(), "", fieldError.getDefaultMessage())
-        ));
+        Map<String, ErrorInfo> resultMap = new HashMap<>();
+        for (FieldError error : errors) {
+            String fieldName = error.getField();
+            if (resultMap.containsKey(fieldName)) {
+                resultMap.computeIfPresent(
+                        fieldName,
+                        (key, errorInfo) -> errorInfo.addMessageToList(error.getDefaultMessage()));
+            } else {
+                resultMap.put(fieldName, new ErrorInfo(
+                        fieldName, "", Arrays.asList(error.getDefaultMessage())
+                ));
+            }
+        }
+        return resultMap;
     }
 }
 
