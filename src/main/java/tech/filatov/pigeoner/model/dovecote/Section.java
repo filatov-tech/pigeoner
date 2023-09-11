@@ -48,8 +48,14 @@ import static tech.filatov.pigeoner.constant.Constants.*;
         })
 )
 
+
+
 @Entity
-@Table(name = "SECTION")
+@Table(
+        name = "SECTION",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "UniqueNameWithinParent", columnNames = {"name", "parent_id"})
+        })
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
