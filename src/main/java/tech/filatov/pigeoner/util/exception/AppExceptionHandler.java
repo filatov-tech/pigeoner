@@ -101,7 +101,7 @@ public class AppExceptionHandler {
 
         String[] fields = Arrays
                 .stream(matcher.group(1).split(", "))
-                .map(CommonUtil::toCamelCase)
+                .map(CommonUtil::toCamelCaseAndCutUnderscoreId)
                 .toArray(String[]::new);
         String[] values = matcher.group(2).split(", ");
         for (int i = 0; i < fields.length; i++) {

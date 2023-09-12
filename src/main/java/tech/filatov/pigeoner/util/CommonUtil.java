@@ -13,10 +13,11 @@ public class CommonUtil {
         return elements.stream().collect(Collectors.toMap(T::getId, element -> element));
     }
 
-    public static String toCamelCase(String input) {
+    public static String toCamelCaseAndCutUnderscoreId(String input) {
         String[] array = input.split("_");
         StringBuilder result = new StringBuilder(array[0].toLowerCase());
         for (int i = 1; i < array.length; i++) {
+            if (array[i].equals("id")) continue;
             result.append(capitalizeFirstLetter(array[i]));
         }
         return result.toString();
