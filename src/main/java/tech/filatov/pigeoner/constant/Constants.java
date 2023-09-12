@@ -15,7 +15,7 @@ final public class Constants {
     public static final String BIRTHDATE_TYPE = "dateType";
     public static final String AGE_TYPE = "ageType";
     public static final String YEAR_TYPE = "yearType";
-    public static final String VALIDATION_FAILED_MESSAGE = "Constraints violation - validation failed";
+    public static final String VALIDATION_FAILED_MESSAGE = "Ошибка! Такой объект не может быть сохранён";
 
     public static final String SECTION_DTO_COMMON_NATIVE_QUERY = "SELECT ms.id AS sect_id,\n" +
             "       ms.name AS sect_name,\n" +
