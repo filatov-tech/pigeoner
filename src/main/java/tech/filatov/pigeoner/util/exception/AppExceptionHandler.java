@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import tech.filatov.pigeoner.dto.ErrorInfo;
 import tech.filatov.pigeoner.dto.ApiError;
+import tech.filatov.pigeoner.util.CommonUtil;
 
 import java.sql.SQLException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static tech.filatov.pigeoner.constant.Constants.VALIDATION_FAILED_MESSAGE;
 
@@ -99,7 +99,10 @@ public class AppExceptionHandler {
             return fieldsErrorsMap;
         }
 
-        String[] fields = matcher.group(1).split(", ");
+        String[] fields = Arrays
+                .stream(matcher.group(1).split(", "))
+                .map(CommonUtil::toCamelCase)
+                .toArray(String[]::new);
         String[] values = matcher.group(2).split(", ");
         for (int i = 0; i < fields.length; i++) {
             fieldsErrorsMap.put(fields[i], values[i]);
