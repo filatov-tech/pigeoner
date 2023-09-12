@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 public class KeeperDto extends BaseDto {
     @NotNull(message = "У владельца должно быть имя")
     @NotBlank(message = "Имя владельца не может быть пустым")
-    @Pattern(regexp = "^[a-zA-Zа-яА-Я\\d -.]+$", message = "Имя может содержать только буквы, цифры и знаки: дефис, точка")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я\\d. -]+$", message = "Имя может содержать только буквы, цифры, точку и дефис")
     private String name;
 
     public KeeperDto(Long id, String name) {
