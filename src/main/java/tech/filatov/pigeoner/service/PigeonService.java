@@ -105,7 +105,9 @@ public class PigeonService {
         if (pigeon.getMotherId() != null) {
             pigeon.setMother(getPigeonDtoWithoutNestedDto(pigeon.getMotherId(), userId));
         }
-        pigeon.setColor(colorService.findColorByPigeonId(pigeon.getId(), userId).getName());
+        if (pigeon.getColorId() != null) {
+            pigeon.setColor(colorService.get(pigeon.getColorId(), userId).getName());
+        }
         List<FlightResultDto> flightResults = flightResultService.getAllByPigeonId(pigeon.getId(), userId);
         if (!flightResults.isEmpty()) {
             pigeon.setFlights(flightResults);

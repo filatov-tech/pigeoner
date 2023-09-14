@@ -19,6 +19,7 @@ public class PigeonDto extends BaseDto {
     private String name;
     private String ringNumber;
     private LocalDate birthdate;
+    private Long colorId;
     private String color;
     private String condition;
     private String sex;
@@ -70,6 +71,7 @@ public class PigeonDto extends BaseDto {
                      String name,
                      String ringNumber,
                      LocalDate birthdate,
+                     Long colorId,
                      Condition condition,
                      Sex sex,
                      Boolean isOwn,
@@ -83,6 +85,7 @@ public class PigeonDto extends BaseDto {
         this.name = name;
         this.ringNumber = ringNumber;
         this.birthdate = birthdate;
+        this.colorId = colorId;
         this.condition = condition == null ? null : condition.getTitle();
         this.sex = sex == null ? null : sex.getTitle();
         this.year = birthdate == null ? null : birthdate.getYear();

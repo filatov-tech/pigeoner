@@ -30,7 +30,7 @@ public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRep
 
     @Query("""
     SELECT new tech.filatov.pigeoner.dto.PigeonDto(
-        p.id, p.name, p.ringNumber, p.birthdate, p.conditionStatus, p.sex,
+        p.id, p.name, p.ringNumber, p.birthdate, p.color.id, p.conditionStatus, p.sex,
         p.isOwn, p.mate.id, p.father.id, p.mother.id, k.id, k.name, p.section.id)
     FROM Pigeon p LEFT OUTER JOIN Keeper k ON p.keeper.id = k.id
     WHERE p.owner.id = :userId AND p.id = :id
