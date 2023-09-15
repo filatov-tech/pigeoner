@@ -10,7 +10,7 @@ public class CommonUtil {
     private CommonUtil() {}
 
     public static <T extends HasId> Map<Long, T> getLookupMapFrom(List<T> elements) {
-        return elements.stream().collect(Collectors.toMap(T::getId, element -> element));
+        return elements.stream().collect(Collectors.toMap(T::getId, element -> element, (first, second) -> first));
     }
 
     public static String toCamelCaseAndCutUnderscoreId(String input) {
