@@ -137,8 +137,8 @@ VALUES
 INSERT INTO pigeon (id, created, updated, birthdate, condition_status, sex, is_own, name, ring_number,
                     user_id, color_id, father_id, section_id, photo_id, mate_id, mother_id, keeper_id)
 VALUES
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, null, null, 'MALE', false, 'Чужой', '22154-5',
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, null, 'UNKNOWN', 'MALE', false, 'Чужой', '22154-5',
      100000, null, null, null, null, null, null, 100040), --100071
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, null, null, 'FEMALE', false, 'Чужая', '7777-8',
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, null, 'UNKNOWN', 'FEMALE', false, 'Чужая', '7777-8',
      100000, null, null, null, null, null, null, 100040) --100072
 ;

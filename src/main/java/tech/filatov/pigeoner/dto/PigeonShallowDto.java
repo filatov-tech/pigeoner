@@ -7,6 +7,8 @@ import lombok.Setter;
 import tech.filatov.pigeoner.model.pigeon.Condition;
 import tech.filatov.pigeoner.model.pigeon.Sex;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
@@ -29,6 +31,8 @@ public class PigeonShallowDto extends BaseDto {
     private LocalDate birthdate;
     @Pattern(regexp = "^[a-zA-Zа-яА-Я -]+$", message = "Цвет может содержать только буквы, пробелы и знак дефиса \"-\"")
     private String color;
+    @NotNull(message = "Должно быть указано состояние голубя")
+    @NotBlank(message = "Должно быть указано состояние голубя")
     private String condition;
     private String sex;
     private Integer year;

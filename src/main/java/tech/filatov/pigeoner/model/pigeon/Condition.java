@@ -7,7 +7,8 @@ public enum Condition {
     HEALTH("Здоров"),
     DISEASED("Болен"),
     DEAD("Умер"),
-    LOST("Потерян");
+    LOST("Потерян"),
+    UNKNOWN("Неизвестно");
 
     private final String title;
 

@@ -94,6 +94,7 @@ public class Pigeon extends AbstractOwnedEntity {
     @ToString.Exclude
     private Set<Pigeon> fathersChildren;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Condition conditionStatus;
 
