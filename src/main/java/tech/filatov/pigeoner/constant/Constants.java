@@ -135,6 +135,6 @@ final public class Constants {
                    k.name keeper_name,
                    section_id
             FROM pedigree
-                     JOIN keeper k ON keeper_id = k.id
+                      LEFT JOIN keeper k ON keeper_id = k.id
             """;
 }
