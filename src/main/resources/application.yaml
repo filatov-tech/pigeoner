@@ -22,3 +22,6 @@ logging:
     org.hibernate.type.descriptor.sql: trace
 #    root: debug
 #    org.springframework.web: debug
+
+---
+storage.location: 'C:\Users\Denis\Desktop\images'
