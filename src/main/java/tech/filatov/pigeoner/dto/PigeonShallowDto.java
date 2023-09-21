@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 import tech.filatov.pigeoner.model.pigeon.Condition;
 import tech.filatov.pigeoner.model.pigeon.Sex;
 
@@ -44,6 +45,8 @@ public class PigeonShallowDto extends BaseDto {
     private Long keeperId;
     private Long sectionId;
     private SectionDto section;
+    private MultipartFile[] images;
+    private String mainImageFileName;
 
     public PigeonShallowDto(Long id,
                             String name,

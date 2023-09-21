@@ -5,11 +5,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.web.multipart.MultipartFile;
 import tech.filatov.pigeoner.dto.*;
 import tech.filatov.pigeoner.model.Keeper;
 import tech.filatov.pigeoner.model.User;
 import tech.filatov.pigeoner.model.dovecote.Section;
 import tech.filatov.pigeoner.model.dovecote.SectionType;
+import tech.filatov.pigeoner.model.pigeon.Image;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 import tech.filatov.pigeoner.repository.pigeon.PigeonRepository;
 import tech.filatov.pigeoner.util.CommonUtil;
@@ -18,8 +20,9 @@ import tech.filatov.pigeoner.util.exception.NotFoundException;
 import tech.filatov.pigeoner.util.exception.NotPassValidationException;
 import tech.filatov.pigeoner.validator.PigeonValidator;
 
-import java.util.List;
-import java.util.Map;
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static tech.filatov.pigeoner.util.PigeonUtil.fillWithUpdatedFields;
 import static tech.filatov.pigeoner.util.PigeonUtil.getPigeonFrom;
@@ -32,15 +35,17 @@ public class PigeonService {
     private final SectionService sectionService;
     private final PigeonRepository repository;
     private final ColorService colorService;
+    private final ImageService imageService;
     private final PigeonValidator validator;
     private final KeeperService keeperService;
     private final FlightResultService flightResultService;
 
-    public PigeonService(UserService userService, SectionService sectionService, PigeonRepository repository, ColorService colorService, PigeonValidator validator, KeeperService keeperService, @Lazy FlightResultService flightResultService) {
+    public PigeonService(UserService userService, SectionService sectionService, PigeonRepository repository, ColorService colorService, ImageService imageService, PigeonValidator validator, KeeperService keeperService, @Lazy FlightResultService flightResultService) {
         this.userService = userService;
         this.sectionService = sectionService;
         this.repository = repository;
         this.colorService = colorService;
+        this.imageService = imageService;
         this.validator = validator;
         this.keeperService = keeperService;
         this.flightResultService = flightResultService;
@@ -116,13 +121,16 @@ public class PigeonService {
     }
 
     @Transactional
-    public PigeonDto create(PigeonShallowDto pigeonShallowDto, long userId) {
+    public PigeonDto create(PigeonShallowDto pigeonShallowDto, @Nullable MultipartFile[] images, long userId) {
         Pigeon pigeon = getPigeonFrom(pigeonShallowDto);
         initializeFullStateFrom(pigeonShallowDto, pigeon, userId);
 
+        if (images != null) {
+            return saveWithImage(pigeon, images, pigeonShallowDto.getMainImageFileName(), userId);
+        }
+
         pigeon = save(pigeon);
-        //noinspection ConstantConditions
-        return getPigeonDto(pigeon.getId(), userId);
+        return getPigeonDto(Objects.requireNonNull(pigeon.getId()), userId);
     }
 
     @Transactional
@@ -138,6 +146,26 @@ public class PigeonService {
     protected Pigeon save(Pigeon pigeon) {
         validate(pigeon);
         return repository.save(pigeon);
+    }
+
+    private PigeonDto saveWithImage(Pigeon pigeon,
+                                    MultipartFile[] images,
+                                    @Nullable String mainImageFileName,
+                                    long userId) {
+        Pigeon finalPigeon = pigeon;
+        Set<Image> imagesForSave = Arrays.stream(images)
+                .map(image -> new Image(
+                        finalPigeon,
+                        image.getOriginalFilename(),
+                        Objects.requireNonNull(image.getOriginalFilename()).equalsIgnoreCase(mainImageFileName)))
+                .collect(Collectors.toSet());
+        pigeon.setImages(imagesForSave);
+
+        pigeon = save(pigeon);
+        long createdPigeonId = Objects.requireNonNull(pigeon.getId());
+        imageService.store(images, userId, createdPigeonId);
+
+        return getPigeonDto(createdPigeonId, userId);
     }
 
     @Transactional

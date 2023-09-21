@@ -1,8 +1,10 @@
 package tech.filatov.pigeoner.web.pigeon;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.filatov.pigeoner.AuthorizedUser;
 import tech.filatov.pigeoner.dto.FilterParams;
@@ -51,8 +53,19 @@ public class PigeonRestController {
 
     @PostMapping
     public ResponseEntity<PigeonDto> create(@RequestBody @Valid PigeonShallowDto pigeon) {
+         return create(pigeon, null);
+    }
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<PigeonDto> createWithImages(
+            @RequestPart("pigeon") @Valid PigeonShallowDto pigeon,
+            @RequestPart("images") MultipartFile[] images) {
+        return create(pigeon, images);
+    }
+
+    private ResponseEntity<PigeonDto> create(PigeonShallowDto pigeon, MultipartFile[] images) {
         checkNew(pigeon);
-        PigeonDto created = service.create(pigeon, authUser.getId());
+        PigeonDto created = service.create(pigeon, images, authUser.getId());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
