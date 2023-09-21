@@ -1,28 +1,22 @@
 package tech.filatov.pigeoner.model.pigeon;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 
 import javax.persistence.*;
 
-@Entity
+@Embeddable
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class Image extends AbstractOwnedEntity {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Image {
 
+    @org.hibernate.annotations.Parent
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PIGEON_ID")
     private Pigeon pigeon;
 
-    private String name;
+    private String fileName;
 
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @Lob
-    private byte[] content;
-
+    private boolean isMainImage;
 }

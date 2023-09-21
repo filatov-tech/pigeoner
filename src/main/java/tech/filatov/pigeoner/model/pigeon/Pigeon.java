@@ -10,6 +10,7 @@ import tech.filatov.pigeoner.model.dovecote.Section;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import static tech.filatov.pigeoner.constant.Constants.*;
@@ -98,14 +99,9 @@ public class Pigeon extends AbstractOwnedEntity {
     @Enumerated(EnumType.STRING)
     private Condition conditionStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PHOTO_ID")
-    @ToString.Exclude
-    private Image mainPhoto;
-
-    @OneToMany(mappedBy = "pigeon")
-    @ToString.Exclude
-    private Set<Image> images;
+    @ElementCollection
+    @CollectionTable(name = "IMAGE")
+    private Set<Image> images = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "KEEPER_ID")
