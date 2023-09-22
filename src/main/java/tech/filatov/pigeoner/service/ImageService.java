@@ -11,10 +11,12 @@ import tech.filatov.pigeoner.util.exception.ImageStorageFileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.stream.Stream;
 
 @Service
@@ -69,8 +71,9 @@ public class ImageService {
     public Stream<Path> loadAll(long userId, long pigeonId) {
         checkTargetDirectoryExist(userId, pigeonId);
         try {
-            return Files.list(rootDirectory.resolve(String.valueOf(userId)))
-                    .map(this.rootDirectory::relativize);
+            return Files.list(rootDirectory
+                    .resolve(String.valueOf(userId))
+                    .resolve(String.valueOf(pigeonId)));
         } catch (IOException e) {
             throw new ImageStorageException("Ошибка чтения сохраненных файлов");
         }
@@ -78,7 +81,16 @@ public class ImageService {
 
     public Path load(String filename, long userId, long pigeonId) {
         checkTargetDirectoryExist(userId, pigeonId);
-        return rootDirectory.resolve(filename);
+        return rootDirectory.resolve(String.valueOf(userId)).resolve(String.valueOf(pigeonId)).resolve(filename);
+    }
+
+    public List<Resource> loadAllAsResources(long userId, long pigeonId) {
+        checkTargetDirectoryExist(userId, pigeonId);
+        return loadAll(userId, pigeonId)
+                .map(Path::toUri)
+                .map(this::toUrlResource)
+                .map(urlResource -> (Resource) urlResource)
+                .toList();
     }
 
     public Resource loadAsResource(String filename, long userId, long pigeonId) {
@@ -108,6 +120,14 @@ public class ImageService {
                         .normalize().toAbsolutePath())
         ) {
             throw new ImageStorageException("Директория пользователя ещё не создана");
+        }
+    }
+
+    private UrlResource toUrlResource(URI uri) {
+        try {
+            return new UrlResource(uri);
+        } catch (MalformedURLException e) {
+            throw new ImageStorageFileNotFoundException("Невозможно прочитать файл", e);
         }
     }
 }
