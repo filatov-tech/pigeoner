@@ -15,6 +15,10 @@ spring:
         default_batch_fetch_size: 20
         format_sql: true
   sql.init.mode: always
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   thymeleaf:
     prefix: classpath:/static/
 logging:
