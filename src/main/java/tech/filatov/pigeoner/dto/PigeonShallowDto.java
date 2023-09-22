@@ -24,13 +24,13 @@ public class PigeonShallowDto extends BaseDto {
     private static final String SEP = ";";
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    @Pattern(regexp = "^[a-zA-Zа-яА-Я \\d-]+$", message = "Кличка может содержать только буквы, пробелы и знак дефиса \"-\"")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я \\d-]+$", message = "Недопустимые символы - только буквы, цифры, пробелы, дефис")
     private String name;
-    @Pattern(regexp = "^[-\\d ]+$", message = "Номер кольца может содержать только цифры, пробелы и знак дефиса \"-\"")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я \\d-]+$", message = "Недопустимые символы - только буквы, цифры, пробелы, дефис")
     private String ringNumber;
     @PastOrPresent(message = "Датой рождения может быть только прошедшая дата или сегодняшнее число")
     private LocalDate birthdate;
-    @Pattern(regexp = "^[a-zA-Zа-яА-Я -]+$", message = "Цвет может содержать только буквы, пробелы и знак дефиса \"-\"")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я -]+$", message = "Недопустимые символы - только буквы, пробелы, дефис")
     private String color;
     @NotNull(message = "Должно быть указано состояние голубя")
     @NotBlank(message = "Должно быть указано состояние голубя")
