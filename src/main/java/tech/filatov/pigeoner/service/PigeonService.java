@@ -117,6 +117,7 @@ public class PigeonService {
         if (!flightResults.isEmpty()) {
             pigeon.setFlights(flightResults);
         }
+        pigeon.setImageNumber(repository.getImagesNumber(pigeon.getId(), userId));
         return pigeon;
     }
 

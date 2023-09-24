@@ -48,4 +48,7 @@ public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRep
     @Modifying
     @Query("DELETE FROM Pigeon p WHERE p.id = :id AND p.owner.id = :userId")
     int deleteByIdAndOwnerId(long id, long userId);
+
+    @Query("SELECT COUNT(p) FROM Pigeon p JOIN p.images WHERE p.id = :id AND p.owner.id = :userId")
+    int getImagesNumber(long id, long userId);
 }

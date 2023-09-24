@@ -37,6 +37,7 @@ public class PigeonDto extends BaseDto {
     private SectionDto section;
     private List<FlightResultDto> flights = new ArrayList<>();
     private List<FlightResultDto> topFlights = new ArrayList<>();
+    private Integer imageNumber;
 
     public PigeonDto(Long id,
                      String name,
