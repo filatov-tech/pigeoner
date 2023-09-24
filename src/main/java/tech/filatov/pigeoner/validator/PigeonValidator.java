@@ -57,8 +57,14 @@ public class PigeonValidator implements Validator {
                     errors.rejectValue("section", "", "В гнезде не могут находится голуби одного пола");
                 }
             }
-            case 2 -> errors.rejectValue("section", "", "В гнезде уже есть 2 голубя");
-
+            case 2 -> {
+                for (Pigeon pigeonInNest : pigeonsInNest) {
+                    if (pigeonInNest.getId().equals(pigeon.getId())) {
+                        return;
+                    }
+                }
+                errors.rejectValue("section", "", "В гнезде уже есть 2 голубя");
+            }
         }
     }
 
