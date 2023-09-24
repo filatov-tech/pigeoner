@@ -90,6 +90,15 @@ public class AppExceptionHandler {
         return new ResponseEntity<>(response, response.getStatus());
     }
 
+    @ExceptionHandler(ImageStorageException.class)
+    public ResponseEntity<ApiError> handleImageStorageException(ImageStorageException e) {
+        ApiError response = new ApiError(
+                "Ошибка обработки данных изображений: " + e.getMessage(),
+                HttpStatus.BAD_REQUEST
+        );
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
     private Map<String, String> extractEachFieldAndItsValueFrom(SQLException e) {
         Map<String, String> fieldsErrorsMap = new HashMap<>();
         Pattern pattern = Pattern.compile(".*\\(([^)]+)\\)=\\(([^)]+)\\).*", Pattern.DOTALL);
