@@ -59,8 +59,25 @@ public class PigeonRestController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PigeonDto> createWithImages(
             @RequestPart("pigeon") @Valid PigeonShallowDto pigeon,
-            @RequestPart("images") MultipartFile[] images) {
+            @RequestPart("images") MultipartFile[] images
+    ) {
         return create(pigeon, images);
+    }
+
+    @PutMapping("/{id}")
+    public PigeonDto update(@RequestBody @Valid PigeonShallowDto pigeon, @PathVariable long id) {
+        assureIdConsistent(pigeon, id);
+        return service.update(pigeon, null, id, authUser.getId());
+    }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public PigeonDto updateWithImages(
+            @RequestPart("pigeon") @Valid PigeonShallowDto pigeon,
+            @RequestPart("images") MultipartFile[] images,
+            @PathVariable long id
+    ) {
+        assureIdConsistent(pigeon, id);
+        return service.update(pigeon, images, id, authUser.getId());
     }
 
     private ResponseEntity<PigeonDto> create(PigeonShallowDto pigeon, MultipartFile[] images) {
@@ -70,12 +87,6 @@ public class PigeonRestController {
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
-    }
-
-    @PutMapping("/{id}")
-    public PigeonDto update(@RequestBody @Valid PigeonShallowDto pigeon, @PathVariable long id) {
-        assureIdConsistent(pigeon, id);
-        return service.update(pigeon, id, authUser.getId());
     }
 
     @DeleteMapping("/{id}")

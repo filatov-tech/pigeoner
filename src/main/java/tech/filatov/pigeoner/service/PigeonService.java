@@ -135,13 +135,20 @@ public class PigeonService {
     }
 
     @Transactional
-    public PigeonDto update(PigeonShallowDto pigeonShallowDto, long id, long userId) {
+    public PigeonDto update(PigeonShallowDto pigeonShallowDto,
+                            @Nullable MultipartFile[] images,
+                            long id,
+                            long userId
+    ) {
         Pigeon pigeon = fillWithUpdatedFields(get(id, userId), pigeonShallowDto);
         initializeFullStateFrom(pigeonShallowDto, pigeon, userId);
 
+        if (images != null) {
+            return saveWithImage(pigeon, images, pigeonShallowDto.getMainImageFileName(), userId);
+        }
+
         pigeon = save(pigeon);
-        //noinspection ConstantConditions
-        return getPigeonDto(pigeon.getId(), userId);
+        return getPigeonDto(Objects.requireNonNull(pigeon.getId()), userId);
     }
 
     protected Pigeon save(Pigeon pigeon) {
