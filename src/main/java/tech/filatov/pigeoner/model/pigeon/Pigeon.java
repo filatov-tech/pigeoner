@@ -75,6 +75,7 @@ public class Pigeon extends AbstractOwnedEntity {
     private Color color;
 
     @OneToMany(mappedBy = "flight")
+    @ToString.Exclude
     private Set<FlightResult> flights;
 
     private LocalDate birthdate;
@@ -99,6 +100,7 @@ public class Pigeon extends AbstractOwnedEntity {
     @Enumerated(EnumType.STRING)
     private Condition conditionStatus;
 
+    @ToString.Exclude
     @ElementCollection
     @CollectionTable(name = "IMAGE")
     private Set<Image> images = new HashSet<>();
