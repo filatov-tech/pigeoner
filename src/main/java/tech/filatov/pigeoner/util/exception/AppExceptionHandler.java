@@ -99,6 +99,12 @@ public class AppExceptionHandler {
         return new ResponseEntity<>(response, response.getStatus());
     }
 
+    @ExceptionHandler(ImageStorageFileNotFoundException.class)
+    public ResponseEntity<ApiError> handleNotFoundImage(ImageStorageFileNotFoundException e) {
+        ApiError response = new ApiError(e.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
     private Map<String, String> extractEachFieldAndItsValueFrom(SQLException e) {
         Map<String, String> fieldsErrorsMap = new HashMap<>();
         Pattern pattern = Pattern.compile(".*\\(([^)]+)\\)=\\(([^)]+)\\).*", Pattern.DOTALL);

@@ -1,12 +1,12 @@
 package tech.filatov.pigeoner.web;
 
+import com.google.common.io.Files;
 import com.google.common.net.HttpHeaders;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import tech.filatov.pigeoner.AuthorizedUser;
 import tech.filatov.pigeoner.service.ImageService;
@@ -42,8 +42,20 @@ public class ImageController {
     @GetMapping("/{filename:.+}")
     public ResponseEntity<Resource> serveImage(@PathVariable long pigeonId, @PathVariable String filename) {
         Resource image = service.loadAsResource(filename, authUser.getId(), pigeonId);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + image.getFilename() + "\"").body(image);
+        String imageType = Files.getFileExtension(filename);
+        MediaType contentType = imageType.equals("png") ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG;
+        return ResponseEntity.ok()
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + image.getFilename() + "\""
+                )
+                .contentType(contentType).body(image);
+    }
+
+    @DeleteMapping("/{filename:.+}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable long pigeonId, @PathVariable String filename) {
+        service.delete(filename, pigeonId, authUser.getId());
     }
 
     public ResponseEntity<Resource> getAllForPigeon(@PathVariable long pigeonId) {

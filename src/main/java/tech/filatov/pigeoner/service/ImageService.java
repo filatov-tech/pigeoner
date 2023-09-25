@@ -112,6 +112,19 @@ public class ImageService {
         }
     }
 
+    public void delete(String filename, long userId, long pigeonId) {
+        Path image = load(filename, userId, pigeonId);
+        try {
+            if (!Files.deleteIfExists(image)) {
+                throw new ImageStorageFileNotFoundException(
+                        String.format("Невозможно удалить. Файла \"%s\" не существует", image.getFileName())
+                );
+            }
+        } catch (IOException e) {
+            throw new ImageStorageException("Ошибка при попытке удалить изображение",e);
+        }
+    }
+
     private void checkTargetDirectoryExist(long userId, long pigeonId) {
         if (!Files.exists(
                 rootDirectory

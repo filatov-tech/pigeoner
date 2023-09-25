@@ -167,6 +167,13 @@ public class PigeonService {
                         image.getOriginalFilename(),
                         Objects.requireNonNull(image.getOriginalFilename()).equalsIgnoreCase(mainImageFileName)))
                 .collect(Collectors.toSet());
+        if (pigeon.getId() != null) {
+            removeNotIncludedImages(
+                    pigeon.getImages(),
+                    imagesForSave,
+                    pigeon.getId(),
+                    userId);
+        }
         pigeon.setImages(imagesForSave);
 
         pigeon = save(pigeon);
@@ -174,6 +181,13 @@ public class PigeonService {
         imageService.store(images, userId, createdPigeonId);
 
         return getPigeonDto(createdPigeonId, userId);
+    }
+
+    private void removeNotIncludedImages(Set<Image> previousImages, Set<Image> imagesForSave, long id, long userId) {
+        previousImages.removeAll(imagesForSave);
+        for (Image imageForDelete : previousImages) {
+            imageService.delete(imageForDelete.getFileName(), userId, id);
+        }
     }
 
     @Transactional
@@ -219,5 +233,6 @@ public class PigeonService {
         if (pigeonKeeper != null && pigeonKeeper.equals(mainKeeper)) {
             pigeon.setOwn(true);
         }
+
     }
 }
