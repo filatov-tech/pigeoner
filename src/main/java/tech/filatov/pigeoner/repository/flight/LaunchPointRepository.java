@@ -33,4 +33,10 @@ public interface LaunchPointRepository extends JpaRepository<LaunchPoint, Long> 
         DELETE FROM LaunchPoint l WHERE l.id = :id AND l.owner.id = :userId
     """)
     int delete(long id, long userId);
+
+
+    @Query("""
+        SELECT COUNT(f) FROM Flight f WHERE f.launchPoint.id = :id AND f.owner.id = :userId
+    """)
+    int getFlightsNumberWithLaunchPoint(long id, long userId);
 }
