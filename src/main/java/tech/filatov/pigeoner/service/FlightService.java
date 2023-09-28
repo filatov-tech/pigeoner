@@ -51,7 +51,7 @@ public class FlightService {
     @Transactional
     public FlightDto saveOrUpdate(FlightDto dto, long userId) {
         Flight flight = instantiateFrom(dto, userId);
-        flight.setLaunchPoint(launchPointService.getOne(dto.getLaunchPoint().getId(), userId));
+        flight.setLaunchPoint(launchPointService.getOne(dto.getLaunchPointId(), userId));
         flight = save(flight);
         //noinspection ConstantConditions
         return getDto(flight.getId(), userId);

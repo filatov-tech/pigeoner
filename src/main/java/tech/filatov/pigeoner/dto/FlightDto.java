@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class FlightDto extends BaseDto {
     @NotNull(message = "Вылет должен иметь информацию о точке запуска: место и расстояние")
     private LaunchPointDto launchPoint;
+    private Long launchPointId;
     private Integer numberParticipants;
     private Integer totalParticipants;
     private Integer myPassed;

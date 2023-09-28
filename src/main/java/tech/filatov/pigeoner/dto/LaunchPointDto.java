@@ -15,7 +15,7 @@ public class LaunchPointDto extends BaseDto {
     @NotEmpty(message = "У точки вылета должны быть название и дистанция")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Укажите дистанцию в км")
     @Range(min = 1, max = 2000, message = "Дистанция должна быть в диапозоне от 1 км до 2000 км")
     private Integer distance;
 

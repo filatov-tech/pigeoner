@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tech.filatov.pigeoner.dto.LaunchPointDto;
 import tech.filatov.pigeoner.model.flight.LaunchPoint;
 import tech.filatov.pigeoner.repository.flight.LaunchPointRepository;
+import tech.filatov.pigeoner.util.exception.IllegalRequestDataException;
 import tech.filatov.pigeoner.util.exception.NotFoundException;
 
 import java.util.List;
@@ -63,6 +64,9 @@ public class LaunchPointService {
 
     @Transactional
     public void delete(long id, long userId) {
+        if (repository.getFlightsNumberWithLaunchPoint(id, userId) > 0) {
+            throw new IllegalRequestDataException("Невозможно удалить - данная точка запуска используется в вылетах");
+        }
         checkNotFoundWithId(repository.delete(id, userId) != 0, id);
     }
 }
