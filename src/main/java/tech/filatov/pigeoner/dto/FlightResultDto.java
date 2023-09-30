@@ -20,6 +20,7 @@ public class FlightResultDto extends BaseDto {
     private LaunchPointDto launchPoint;
     private Integer position;
     private Integer totalParticipants;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
     private LocalDateTime arrivalTime;
     private Boolean isPass;
     private Double winPoints;
