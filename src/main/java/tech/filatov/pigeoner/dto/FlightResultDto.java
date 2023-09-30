@@ -1,5 +1,6 @@
 package tech.filatov.pigeoner.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ public class FlightResultDto extends BaseDto {
     @NotNull
     private Long pigeonId;
     private String ringNumber;
+    private String pigeonName;
     private LaunchPointDto launchPoint;
     private Integer position;
     private Integer totalParticipants;
@@ -44,6 +46,7 @@ public class FlightResultDto extends BaseDto {
     public FlightResultDto(Long id,
                            Long pigeonId,
                            String ringNumber,
+                           String pigeonName,
                            Integer position,
                            LocalDateTime arrivalTime,
                            Boolean isPass,
@@ -54,6 +57,7 @@ public class FlightResultDto extends BaseDto {
         this.id = id;
         this.pigeonId = pigeonId;
         this.ringNumber = ringNumber;
+        this.pigeonName = pigeonName;
         this.position = position;
         this.arrivalTime = arrivalTime;
         this.isPass = isPass;
