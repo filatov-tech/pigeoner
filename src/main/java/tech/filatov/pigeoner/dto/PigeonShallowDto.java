@@ -68,7 +68,7 @@ public class PigeonShallowDto extends BaseDto {
         this.birthdate = birthdate;
         this.color = color;
         this.condition = condition == null ? null : condition.getTitle();
-        this.sex = sex == null ? null : sex.getTitle();
+        this.sex = sex == null ? null : sex.name();
         this.year = birthdate == null ? null : birthdate.getYear();
         this.isOwn = isOwn;
         this.mateId = mateId;

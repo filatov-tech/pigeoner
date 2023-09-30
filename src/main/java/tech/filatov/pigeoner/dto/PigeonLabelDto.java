@@ -16,7 +16,7 @@ public class PigeonLabelDto extends BaseDto {
     public PigeonLabelDto(Long id, String ringNumber, Sex sex, Long sectionId) {
         this.id = id;
         this.ringNumber = ringNumber;
-        this.sex = sex.getTitle().toLowerCase();
+        this.sex = sex.name();
         this.sectionId = sectionId;
     }
 }
