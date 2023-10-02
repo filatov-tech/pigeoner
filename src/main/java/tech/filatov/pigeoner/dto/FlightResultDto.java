@@ -1,10 +1,12 @@
 package tech.filatov.pigeoner.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import tech.filatov.pigeoner.model.flight.AfterFlightCondition;
+import tech.filatov.pigeoner.util.CustomDateTimeDeserializer;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -20,7 +22,8 @@ public class FlightResultDto extends BaseDto {
     private LaunchPointDto launchPoint;
     private Integer position;
     private Integer totalParticipants;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
     private LocalDateTime arrivalTime;
     private Boolean isPass;
     private Double winPoints;
