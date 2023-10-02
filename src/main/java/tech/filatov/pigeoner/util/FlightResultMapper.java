@@ -20,7 +20,10 @@ public class FlightResultMapper {
 
     private FlightResult setDataTo(FlightResult target, FlightResultDto source) {
         target.setArrivalTime(source.getArrivalTime());
-        target.setCondition(AfterFlightCondition.valueOf(source.getAfterFlightCondition()));
+        target.setCondition(source.getAfterFlightCondition() == null
+                ? AfterFlightCondition.NORMAL
+                : AfterFlightCondition.valueOf(source.getAfterFlightCondition())
+        );
         return target;
     }
 }
