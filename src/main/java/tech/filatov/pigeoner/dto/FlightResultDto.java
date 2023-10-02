@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 public class FlightResultDto extends BaseDto {
+    private Long flightId;
     @NotNull
     private Long pigeonId;
     private String ringNumber;
@@ -48,6 +49,7 @@ public class FlightResultDto extends BaseDto {
     }
 
     public FlightResultDto(Long id,
+                           Long flightId,
                            Long pigeonId,
                            String ringNumber,
                            String pigeonName,
@@ -59,6 +61,7 @@ public class FlightResultDto extends BaseDto {
                            AfterFlightCondition afterFlightCondition,
                            String keeper) {
         this.id = id;
+        this.flightId = flightId;
         this.pigeonId = pigeonId;
         this.ringNumber = ringNumber;
         this.pigeonName = pigeonName;

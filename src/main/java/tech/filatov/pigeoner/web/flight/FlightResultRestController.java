@@ -36,7 +36,7 @@ public class FlightResultRestController {
         FlightResultDto created = service.saveOrUpdate(dto, flightId, authUser.getId());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{flightResultId}")
-                .buildAndExpand(created.getId()).toUri();
+                .buildAndExpand(flightId, created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
@@ -48,7 +48,7 @@ public class FlightResultRestController {
 
     @DeleteMapping("/{flightResultId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable long flightResultId) {
+    public void delete(@PathVariable long flightId, @PathVariable long flightResultId) {
         service.delete(flightResultId, authUser.getId());
     }
 }
