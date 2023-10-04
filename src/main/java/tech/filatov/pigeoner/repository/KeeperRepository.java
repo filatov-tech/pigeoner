@@ -1,6 +1,7 @@
 package tech.filatov.pigeoner.repository;
 
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 public interface KeeperRepository extends JpaRepository<Keeper, Long> {
 
+    @EntityGraph(attributePaths = {"preciseDistances"})
     Optional<Keeper> findByIdAndOwnerId(long id, long userId);
 
     @Query("SELECT new tech.filatov.pigeoner.dto.KeeperDto(k.id, k.name) FROM Keeper k WHERE k.owner.id = :userId ORDER BY k.name")

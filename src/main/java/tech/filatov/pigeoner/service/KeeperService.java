@@ -39,6 +39,11 @@ public class KeeperService {
         return repository.getMainKeeperDto(userId);
     }
 
+    public Keeper getMainWithPreciseDistances(long userId) {
+        long keeperId = getMainKeeperDto(userId).getId();
+        return get(keeperId, userId);
+    }
+
     @Transactional
     public KeeperDto createOrUpdate(KeeperDto dto, long userId) {
         Keeper keeper;
