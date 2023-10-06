@@ -4,8 +4,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.filatov.pigeoner.dto.FlightResultDto;
+import tech.filatov.pigeoner.dto.LaunchPointDto;
+import tech.filatov.pigeoner.model.flight.Flight;
 import tech.filatov.pigeoner.model.flight.FlightResult;
+import tech.filatov.pigeoner.model.pigeon.Pigeon;
 import tech.filatov.pigeoner.repository.flight.FlightResultRepository;
+import tech.filatov.pigeoner.util.CommonUtil;
 import tech.filatov.pigeoner.util.FlightResultMapper;
 import tech.filatov.pigeoner.util.ValidationUtil;
 import tech.filatov.pigeoner.util.exception.NotFoundException;
@@ -68,8 +72,18 @@ public class FlightResultService {
     @Transactional
     public FlightResultDto saveOrUpdate(FlightResultDto dto, long flightId, long userId) {
         FlightResult target = instantiateFrom(dto, userId);
-        target.setFlight(flightService.getOne(flightId, userId));
-        target.setPigeon(pigeonService.get(dto.getPigeonId(), userId));
+
+        Flight flight = flightService.getOne(flightId, userId);
+        target.setFlight(flight);
+
+        Pigeon pigeon = pigeonService.get(dto.getPigeonId(), userId);
+        target.setPigeon(pigeon);
+
+        if (target.getArrivalTime() != null) {
+            target.setPreciseDistance(extractPreciseDistance(flight, pigeon));
+            fillCalculatedFields(target);
+        }
+
         target = repository.save(target);
         //noinspection ConstantConditions
         return getDto(target.getId(), userId);
@@ -78,6 +92,34 @@ public class FlightResultService {
     @Transactional
     public void delete(long id, long userId) {
         ValidationUtil.checkNotFoundWithId(repository.delete(id, userId) != 0, id);
+    }
+
+    @Transactional
+    public void recalculateAllFlightResultsBy(LaunchPointDto launchPoint, long userId) {
+        List<FlightResult> flightResults = getAllByLaunchPointId(launchPoint.getId(), userId);
+
+        for (FlightResult flightResult : flightResults) {
+            flightResult.setPreciseDistance(launchPoint.getMainKeeperPreciseDistance());
+            flightResult.setAverageSpeed(CommonUtil.calculateAvgSpeed(flightResult));
+        }
+        repository.saveAll(flightResults);
+    }
+
+    @Transactional
+    public void recalculateAllFlightResultsBy(Flight flight, long userId) {
+        List<FlightResult> flightResults = getAllByFlightId(flight.getId(), userId);
+
+        for (FlightResult flightResult : flightResults) {
+            flightResult.setPreciseDistance(extractPreciseDistance(flightResult.getFlight(), flightResult.getPigeon()));
+            flightResult.setAverageSpeed(CommonUtil.calculateAvgSpeed(flightResult));
+        }
+         repository.saveAll(flightResults);
+    }
+
+    private void fillCalculatedFields(FlightResult flightResult) {
+        if (flightResult.getArrivalTime() != null) {
+            flightResult.setAverageSpeed(CommonUtil.calculateAvgSpeed(flightResult));
+        }
     }
 
     private FlightResult instantiateFrom(FlightResultDto dto, long userId) {
@@ -89,5 +131,11 @@ public class FlightResultService {
             flightResult = mapper.fillInstantiatedWith(dto, get(dto.getId(), userId));
         }
         return flightResult;
+    }
+
+    private Double extractPreciseDistance(Flight flight, Pigeon pigeon) {
+        return pigeon.getKeeper().getLookupPreciseDistancesMap().get(
+                flight.getLaunchPoint().getId()
+        );
     }
 }

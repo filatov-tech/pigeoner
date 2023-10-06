@@ -19,12 +19,14 @@ import static tech.filatov.pigeoner.util.ValidationUtil.*;
 public class LaunchPointService {
     private final LaunchPointRepository repository;
     private final KeeperService keeperService;
+    private final FlightResultService flightResultService;
     private final PreciseDistanceService preciseDistanceService;
     private final UserService userService;
 
-    public LaunchPointService(LaunchPointRepository repository, KeeperService keeperService, PreciseDistanceService preciseDistanceService, UserService userService) {
+    public LaunchPointService(LaunchPointRepository repository, KeeperService keeperService, FlightResultService flightResultService, PreciseDistanceService preciseDistanceService, UserService userService) {
         this.repository = repository;
         this.keeperService = keeperService;
+        this.flightResultService = flightResultService;
         this.preciseDistanceService = preciseDistanceService;
         this.userService = userService;
     }
@@ -86,19 +88,23 @@ public class LaunchPointService {
                     keeperService.getMainKeeperDto(userId).getId(),
                     userId
             );
-            preciseDistanceService.save(dto.getMainKeeperPreciseDistance(), keeper, launchPoint);
+            PreciseDistance oldValue = preciseDistanceService.get(
+                    Objects.requireNonNull(keeper.getId()),
+                    Objects.requireNonNull(launchPoint.getId())
+            );
+
+            if (oldValue == null) {
+                preciseDistanceService.save(dto.getMainKeeperPreciseDistance(), keeper, launchPoint);
+            } else if (Math.abs(oldValue.getPreciseDistance() - dto.getMainKeeperPreciseDistance()) >= 0.0001) {
+                preciseDistanceService.save(dto.getMainKeeperPreciseDistance(), keeper, launchPoint);
+                flightResultService.recalculateAllFlightResultsBy(dto, userId);
+            }
         }
         return launchPoint;
     }
 
     private void addPreciseDistancesInfoTo(List<LaunchPointDto> launchPointDtos, Keeper keeper) {
-        Map<Long, Double> preciseDistancesMap = new HashMap<>();
-        for (PreciseDistance preciseDistance : keeper.getPreciseDistances()) {
-            preciseDistancesMap.put(
-                    preciseDistance.getLaunchPoint().getId(),
-                    preciseDistance.getPreciseDistance()
-            );
-        }
+        Map<Long, Double> preciseDistancesMap = keeper.getLookupPreciseDistancesMap();
         for (LaunchPointDto launchPoint : launchPointDtos) {
             launchPoint.setMainKeeperPreciseDistance(
                     preciseDistancesMap.get(launchPoint.getId())

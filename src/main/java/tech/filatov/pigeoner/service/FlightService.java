@@ -49,9 +49,30 @@ public class FlightService {
     }
 
     @Transactional
-    public FlightDto saveOrUpdate(FlightDto dto, long userId) {
-        Flight flight = instantiateFrom(dto, userId);
+    public FlightDto create(FlightDto dto, long userId) {
+        Flight flight = mapper.instantiateFrom(dto);
+
+        flight.setOwner(userService.get(userId));
         flight.setLaunchPoint(launchPointService.getOne(dto.getLaunchPointId(), userId));
+
+        flight = save(flight);
+        //noinspection ConstantConditions
+        return getDto(flight.getId(), userId);
+    }
+
+    @Transactional
+    public FlightDto update(FlightDto dto, long userId) {
+        Flight flight = getOne(dto.getId(), userId);
+        boolean needRecalculateFlightResults = needForUpdateFlightResults(dto, flight);
+
+        flight = mapper.fillInstantiatedWith(dto, flight);
+        flight.setOwner(userService.get(userId));
+        flight.setLaunchPoint(launchPointService.getOne(dto.getLaunchPointId(), userId));
+
+        if (needRecalculateFlightResults) {
+            flightResultService.recalculateAllFlightResultsBy(flight, userId);
+        }
+
         flight = save(flight);
         //noinspection ConstantConditions
         return getDto(flight.getId(), userId);
@@ -62,18 +83,14 @@ public class FlightService {
         ValidationUtil.checkNotFoundWithId(repository.delete(id, userId) != 0, id);
     }
 
-    private Flight instantiateFrom(FlightDto dto, long userId) {
-        Flight flight;
-        if (dto.isNew()) {
-            flight = mapper.instantiateFrom(dto);
-            flight.setOwner(userService.get(userId));
-        } else {
-            flight = mapper.fillInstantiatedWith(dto, getOne(dto.getId(), userId));
-        }
-        return flight;
-    }
-
     protected Flight save(Flight flight) {
         return repository.save(flight);
+    }
+
+    private boolean needForUpdateFlightResults(FlightDto dto, Flight flight) {
+        boolean departureChanged = !flight.getDeparture().equals(dto.getDeparture());
+        boolean launchPointChanged = !flight.getLaunchPoint().getId().equals(dto.getLaunchPointId());
+
+        return departureChanged || launchPointChanged;
     }
 }

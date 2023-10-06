@@ -39,7 +39,7 @@ public class FlightRestController {
     @PostMapping
     public ResponseEntity<FlightDto> create(@Valid @RequestBody FlightDto flightDto) {
         checkNew(flightDto);
-        FlightDto created = service.saveOrUpdate(flightDto, authUser.getId());
+        FlightDto created = service.create(flightDto, authUser.getId());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -49,7 +49,7 @@ public class FlightRestController {
     @PutMapping("/{id}")
     public FlightDto update(@Valid @RequestBody FlightDto flightDto, @PathVariable long id) {
         assureIdConsistent(flightDto, id);
-        return service.saveOrUpdate(flightDto, authUser.getId());
+        return service.update(flightDto, authUser.getId());
     }
 
     @DeleteMapping("/{id}")
