@@ -23,13 +23,25 @@ public class FlightDto extends BaseDto {
     private Integer passingThreshold;
     @NotNull(message = "Вылет должен быть причислен к одному из типов")
     private String flightType;
+    private Boolean isSynced;
 
-    public FlightDto(Long id, Long launchPointId, String locationName, int distance, Integer totalParticipants, LocalDateTime departure, Integer passingThreshold, FlightType flightType) {
+    public FlightDto(
+            Long id,
+            Long launchPointId,
+            String locationName,
+            int distance,
+            Integer totalParticipants,
+            LocalDateTime departure,
+            Integer passingThreshold,
+            FlightType flightType,
+            Boolean isSynced
+    ) {
         this.id = id;
         this.launchPoint = new LaunchPointDto(launchPointId, locationName, distance);
         this.totalParticipants = totalParticipants;
         this.departure = departure;
         this.passingThreshold = passingThreshold;
         this.flightType = flightType.name();
+        this.isSynced = isSynced;
     }
 }

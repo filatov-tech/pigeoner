@@ -21,6 +21,7 @@ public class FlightMapper {
     private Flight setDataTo(Flight target, FlightDto source) {
         target.setDeparture(source.getDeparture());
         target.setFlightType(FlightType.valueOf(source.getFlightType()));
+        target.setIsSynced(false);
         return target;
     }
 }

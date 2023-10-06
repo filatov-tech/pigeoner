@@ -33,4 +33,6 @@ public class Flight extends AbstractOwnedEntity {
     @EqualsAndHashCode.Exclude
     @Enumerated(EnumType.STRING)
     private FlightType flightType;
+
+    private Boolean isSynced = false;
 }
