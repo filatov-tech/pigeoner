@@ -2,6 +2,7 @@ package tech.filatov.pigeoner.model.flight;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import tech.filatov.pigeoner.model.Keeper;
 
@@ -14,9 +15,11 @@ import javax.persistence.MapsId;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class PreciseDistance {
 
     @EmbeddedId
+    @EqualsAndHashCode.Include
     private PreciseDistanceId id = new PreciseDistanceId();
 
     @ManyToOne
@@ -37,7 +40,10 @@ public class PreciseDistance {
         this.id.setKeeperId(keeper.getId());
         this.id.setLaunchPointId(launchPoint.getId());
 
+        keeper.getPreciseDistances().remove(this);
         keeper.getPreciseDistances().add(this);
+
+        launchPoint.getPreciseDistances().remove(this);
         launchPoint.getPreciseDistances().add(this);
     }
 }
