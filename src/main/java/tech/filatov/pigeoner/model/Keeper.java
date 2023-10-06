@@ -9,7 +9,9 @@ import tech.filatov.pigeoner.model.flight.PreciseDistance;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -28,5 +30,16 @@ public class Keeper extends AbstractOwnedEntity {
 
     public Keeper(long id) {
         this.setId(id);
+    }
+
+    public Map<Long, Double> getLookupPreciseDistancesMap() {
+        Map<Long, Double> preciseDistancesMap = new HashMap<>();
+        for (PreciseDistance preciseDistance : this.getPreciseDistances()) {
+            preciseDistancesMap.put(
+                    preciseDistance.getLaunchPoint().getId(),
+                    preciseDistance.getPreciseDistance()
+            );
+        }
+        return preciseDistancesMap;
     }
 }
