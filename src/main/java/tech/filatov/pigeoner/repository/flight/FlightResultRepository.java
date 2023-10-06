@@ -13,6 +13,8 @@ public interface FlightResultRepository extends JpaRepository<FlightResult, Long
 
     Optional<FlightResult> findByIdAndOwnerId(long id, long userId);
 
+    List<FlightResult> findAllByFlightIdAndOwnerId(long flightId, long userId);
+
     @Query("""
         SELECT new tech.filatov.pigeoner.dto.FlightResultDto(
         fr.id, fr.flight.id, p.id, p.ringNumber, p.name, fr.position, fr.arrivalTime, fr.isPass,
@@ -28,13 +30,16 @@ public interface FlightResultRepository extends JpaRepository<FlightResult, Long
             "JOIN Flight fl ON fr.flight.id = fl.id " +
             "JOIN LaunchPoint lp ON fl.launchPoint.id = lp.id " +
             "WHERE fr.pigeon.id = :id AND fr.owner.id = :userId AND fl.owner.id = :userId AND lp.owner.id = :userId")
-    List<FlightResultDto> getAllByPigeonId(long id, long userId);
+    List<FlightResultDto> getAllDtoByPigeonId(long id, long userId);
 
-    @Query("SELECT new tech.filatov.pigeoner.dto.FlightResultDto(" +
-            "fr.id, fr.flight.id, p.id, p.ringNumber, p.name, fr.position, fr.arrivalTime, fr.isPass, fr.winPoints, fr.averageSpeed, fr.condition, p.keeper.name) " +
-            "FROM FlightResult fr JOIN Pigeon p ON fr.pigeon.id = p.id " +
-            "WHERE fr.flight.id = :id AND fr.owner.id = :userId AND p.owner.id = :userId")
-    List<FlightResultDto> getAllByFlightId(long id, long userId);
+    @Query("""
+            SELECT new tech.filatov.pigeoner.dto.FlightResultDto(
+            fr.id, fr.flight.id, p.id, p.ringNumber, p.name, fr.position, fr.arrivalTime, fr.isPass, fr.winPoints, fr.averageSpeed, fr.condition, p.keeper.name)
+            FROM FlightResult fr JOIN Pigeon p ON fr.pigeon.id = p.id
+            WHERE fr.flight.id = :id AND fr.owner.id = :userId AND p.owner.id = :userId
+            ORDER BY fr.averageSpeed DESC
+    """)
+    List<FlightResultDto> getAllDtoByFlightId(long id, long userId);
 
     @Query("""
         SELECT count(fr)

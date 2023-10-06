@@ -113,7 +113,7 @@ public class PigeonService {
         if (pigeon.getColorId() != null) {
             pigeon.setColor(colorService.get(pigeon.getColorId(), userId).getName());
         }
-        List<FlightResultDto> flightResults = flightResultService.getAllByPigeonId(pigeon.getId(), userId);
+        List<FlightResultDto> flightResults = flightResultService.getAllDtoByPigeonId(pigeon.getId(), userId);
         if (!flightResults.isEmpty()) {
             pigeon.setFlights(flightResults);
         }

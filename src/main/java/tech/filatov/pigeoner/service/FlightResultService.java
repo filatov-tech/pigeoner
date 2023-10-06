@@ -33,16 +33,28 @@ public class FlightResultService {
         return repository.findByIdAndOwnerId(id, userId).orElseThrow(NotFoundException.withIdInfo(id));
     }
 
+    public List<FlightResult> getAllByFlightId(long flightId, long userId) {
+        return repository.findAllByFlightIdAndOwnerId(flightId, userId);
+    }
+
+    public List<FlightResult> getAllByFlightIdAndKeeperId(long flightId, long keeperId, long userId) {
+        return repository.findAllByFlightIdAndKeeperId(flightId, keeperId, userId);
+    }
+
+    public List<FlightResult> getAllByLaunchPointId(long launchPointId, long userId) {
+        return repository.getAllByLaunchPoint(launchPointId, userId);
+    }
+
     public FlightResultDto getDto(long id, long userId) {
         return repository.findDto(id, userId).orElseThrow(NotFoundException.withIdInfo(id));
     }
 
-    public List<FlightResultDto> getAllByPigeonId(long id, long userId) {
-        return repository.getAllByPigeonId(id, userId);
+    public List<FlightResultDto> getAllDtoByPigeonId(long id, long userId) {
+        return repository.getAllDtoByPigeonId(id, userId);
     }
 
-    public List<FlightResultDto> getAllByFlightId(long id, long userId) {
-        return repository.getAllByFlightId(id, userId);
+    public List<FlightResultDto> getAllDtoByFlightId(long id, long userId) {
+        return repository.getAllDtoByFlightId(id, userId);
     }
 
     public Map<Long, Integer> getNumberOfMyParticipantsForEveryFlight(long userId) {

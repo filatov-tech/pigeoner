@@ -27,7 +27,7 @@ public class FlightResultRestController {
 
     @GetMapping
     public List<FlightResultDto> getAllByFlightId(@PathVariable long flightId) {
-        return service.getAllByFlightId(flightId, authUser.getId());
+        return service.getAllDtoByFlightId(flightId, authUser.getId());
     }
 
     @PostMapping
