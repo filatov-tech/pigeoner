@@ -7,6 +7,7 @@ import tech.filatov.pigeoner.dto.FlightResultDto;
 import tech.filatov.pigeoner.dto.LaunchPointDto;
 import tech.filatov.pigeoner.model.flight.Flight;
 import tech.filatov.pigeoner.model.flight.FlightResult;
+import tech.filatov.pigeoner.model.flight.FlightType;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 import tech.filatov.pigeoner.repository.flight.FlightResultRepository;
 import tech.filatov.pigeoner.util.CommonUtil;
@@ -58,7 +59,15 @@ public class FlightResultService {
     }
 
     public List<FlightResultDto> getAllDtoByFlightId(long id, long userId) {
-        return repository.getAllDtoByFlightId(id, userId);
+
+        List<FlightResultDto> flightResults = repository.getAllDtoByFlightId(id, userId);
+        for (int i = 0; i < flightResults.size(); i++) {
+            FlightResultDto flightResult = flightResults.get(i);
+            flightResult.setPosition(i + 1);
+        }
+
+
+        return flightResults;
     }
 
     public Map<Long, Integer> getNumberOfMyParticipantsForEveryFlight(long userId) {
@@ -80,8 +89,11 @@ public class FlightResultService {
         target.setPigeon(pigeon);
 
         if (target.getArrivalTime() != null) {
-            target.setPreciseDistance(extractPreciseDistance(flight, pigeon));
-            fillCalculatedFields(target);
+            Double preciseDistance = extractPreciseDistance(flight, pigeon);
+            if (flight.getFlightType() == FlightType.TRAINING || preciseDistance != null) {
+                target.setPreciseDistance(extractPreciseDistance(flight, pigeon));
+                fillCalculatedFields(target);
+            }
         }
 
         target = repository.save(target);

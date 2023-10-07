@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import tech.filatov.pigeoner.model.flight.AfterFlightCondition;
 import tech.filatov.pigeoner.util.CustomDateTimeDeserializer;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class FlightResultDto extends BaseDto {
     private Long flightId;
     @NotNull

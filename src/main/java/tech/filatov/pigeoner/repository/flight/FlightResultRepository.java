@@ -37,7 +37,7 @@ public interface FlightResultRepository extends JpaRepository<FlightResult, Long
             fr.id, fr.flight.id, p.id, p.ringNumber, p.name, fr.position, fr.arrivalTime, fr.isPass, fr.winPoints, fr.averageSpeed, fr.condition, p.keeper.name)
             FROM FlightResult fr JOIN Pigeon p ON fr.pigeon.id = p.id
             WHERE fr.flight.id = :id AND fr.owner.id = :userId AND p.owner.id = :userId
-            ORDER BY fr.averageSpeed DESC
+            ORDER BY fr.arrivalTime
     """)
     List<FlightResultDto> getAllDtoByFlightId(long id, long userId);
 
