@@ -78,9 +78,21 @@ public class SectionService {
     private void insertPigeonsToSections(List<PigeonLabelDto> pigeons, List<SectionDto> sections) {
         Map<Long, SectionDto> sectionsMap = sections.stream()
                 .collect(Collectors.toMap(SectionDto::getId, Function.identity()));
+
+        SectionDto inboxDovecote = SectionDto.getInboxForPigeonsWithoutSection();
+        int inboxPigeonsCounter = 0;
+
         for (PigeonLabelDto pigeon : pigeons) {
-            sectionsMap.get(pigeon.getSectionId()).getPigeons().add(pigeon);
+            Long pigeonSectionId = pigeon.getSectionId();
+            if (pigeonSectionId == null) {
+                inboxPigeonsCounter++;
+                inboxDovecote.getPigeons().add(pigeon);
+            } else {
+                sectionsMap.get(pigeonSectionId).getPigeons().add(pigeon);
+            }
         }
+        inboxDovecote.setPigeonsNumber(inboxPigeonsCounter);
+        sections.add(inboxDovecote);
     }
 
     public SectionDto getDto(long id, long userId) {
