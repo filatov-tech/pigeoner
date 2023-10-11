@@ -86,6 +86,7 @@ public class Pigeon extends AbstractOwnedEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MATE_ID")
+    @ToString.Exclude
     private Pigeon mate;
 
     @OneToMany(mappedBy = "mother")
