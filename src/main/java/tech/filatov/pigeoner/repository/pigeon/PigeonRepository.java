@@ -3,7 +3,6 @@ package tech.filatov.pigeoner.repository.pigeon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
 import tech.filatov.pigeoner.dto.PigeonLabelDto;
 
 import tech.filatov.pigeoner.dto.PigeonDto;
@@ -45,10 +44,21 @@ public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRep
     @Query(nativeQuery = true)
     List<PigeonDto> getWithAncestorsById(long id, long userId);
 
+    List<Pigeon> getAllBySectionIdAndOwnerId(long sectionId, long userId);
+
+    List<Pigeon> getAllBySectionIdInAndOwnerId(List<Long> ids, long userId);
+
     @Modifying
     @Query("DELETE FROM Pigeon p WHERE p.id = :id AND p.owner.id = :userId")
     int deleteByIdAndOwnerId(long id, long userId);
 
     @Query("SELECT COUNT(p) FROM Pigeon p JOIN p.images WHERE p.id = :id AND p.owner.id = :userId")
     int getImagesNumber(long id, long userId);
+
+    @Query("""
+        SELECT new tech.filatov.pigeoner.dto.PigeonLabelDto(p.id, p.name, p.ringNumber, p.sex, p.section.id)
+        FROM Pigeon p
+        WHERE p.section.id = :sectionId AND p.owner.id = :userId
+    """)
+    List<PigeonLabelDto> getLabelDtoBySectionId(long sectionId, long userId);
 }

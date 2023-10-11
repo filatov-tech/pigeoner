@@ -96,29 +96,20 @@ public class PigeonService {
         return pigeon;
     }
 
-    private PigeonDto makeFull(PigeonDto pigeon, long userId) {
-        if (pigeon.getSectionId() != null) {
-            SectionDto section = sectionService.getDtoWithFullAddress(pigeon.getSectionId(), userId);
-            pigeon.setSection(section);
-        }
-        if (pigeon.getMateId() != null) {
-            pigeon.setMate(getPigeonDtoWithoutNestedDto(pigeon.getMateId(), userId));
-        }
-        if (pigeon.getFatherId() != null) {
-            pigeon.setFather(getPigeonDtoWithoutNestedDto(pigeon.getFatherId(), userId));
-        }
-        if (pigeon.getMotherId() != null) {
-            pigeon.setMother(getPigeonDtoWithoutNestedDto(pigeon.getMotherId(), userId));
-        }
-        if (pigeon.getColorId() != null) {
-            pigeon.setColor(colorService.get(pigeon.getColorId(), userId).getName());
-        }
-        List<FlightResultDto> flightResults = flightResultService.getAllDtoByPigeonId(pigeon.getId(), userId);
-        if (!flightResults.isEmpty()) {
-            pigeon.setFlights(flightResults);
-        }
-        pigeon.setImageNumber(repository.getImagesNumber(pigeon.getId(), userId));
-        return pigeon;
+    public List<PigeonLabelDto> getAllLabelDto(long userId) {
+        return repository.getAllLabelDto(userId);
+    }
+
+    public List<PigeonLabelDto> getLabelDtoBySectionId(long sectionId, long userId) {
+        return repository.getLabelDtoBySectionId(sectionId, userId);
+    }
+
+    public List<Pigeon> getAllBySectionId(long sectionId, long userId) {
+        return repository.getAllBySectionIdAndOwnerId(sectionId, userId);
+    }
+
+    public List<Pigeon> getAllBySectionsIds(List<Long> sectionIds, long userId) {
+        return repository.getAllBySectionIdInAndOwnerId(sectionIds, userId);
     }
 
     @Transactional
@@ -151,9 +142,18 @@ public class PigeonService {
         return getPigeonDto(Objects.requireNonNull(pigeon.getId()), userId);
     }
 
+    @Transactional
+    public void delete(long id, long userId) {
+        checkNotFoundWithId(repository.deleteByIdAndOwnerId(id, userId) != 0, id);
+    }
+
     protected Pigeon save(Pigeon pigeon) {
         validate(pigeon);
         return repository.save(pigeon);
+    }
+
+    public void saveAll(Iterable<Pigeon> pigeons) {
+        repository.saveAllAndFlush(pigeons);
     }
 
     private PigeonDto saveWithImage(Pigeon pigeon,
@@ -183,16 +183,36 @@ public class PigeonService {
         return getPigeonDto(createdPigeonId, userId);
     }
 
+    private PigeonDto makeFull(PigeonDto pigeon, long userId) {
+        if (pigeon.getSectionId() != null) {
+            SectionDto section = sectionService.getDtoWithFullAddress(pigeon.getSectionId(), userId);
+            pigeon.setSection(section);
+        }
+        if (pigeon.getMateId() != null) {
+            pigeon.setMate(getPigeonDtoWithoutNestedDto(pigeon.getMateId(), userId));
+        }
+        if (pigeon.getFatherId() != null) {
+            pigeon.setFather(getPigeonDtoWithoutNestedDto(pigeon.getFatherId(), userId));
+        }
+        if (pigeon.getMotherId() != null) {
+            pigeon.setMother(getPigeonDtoWithoutNestedDto(pigeon.getMotherId(), userId));
+        }
+        if (pigeon.getColorId() != null) {
+            pigeon.setColor(colorService.get(pigeon.getColorId(), userId).getName());
+        }
+        List<FlightResultDto> flightResults = flightResultService.getAllDtoByPigeonId(pigeon.getId(), userId);
+        if (!flightResults.isEmpty()) {
+            pigeon.setFlights(flightResults);
+        }
+        pigeon.setImageNumber(repository.getImagesNumber(pigeon.getId(), userId));
+        return pigeon;
+    }
+
     private void removeNotIncludedImages(Set<Image> previousImages, Set<Image> imagesForSave, long id, long userId) {
         previousImages.removeAll(imagesForSave);
         for (Image imageForDelete : previousImages) {
             imageService.delete(imageForDelete.getFileName(), userId, id);
         }
-    }
-
-    @Transactional
-    public void delete(long id, long userId) {
-        checkNotFoundWithId(repository.deleteByIdAndOwnerId(id, userId) != 0, id);
     }
 
     private void validate(Pigeon pigeon) {
