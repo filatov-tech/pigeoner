@@ -23,6 +23,12 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
     @EntityGraph(attributePaths = {"pigeons"})
     Optional<Section> findWithPigeonsByIdAndOwnerId(long id, long userId);
 
+    @EntityGraph(attributePaths = {"parent"})
+    Optional<Section> findWithParentByIdAndOwnerId(long id, long userId);
+
+    @EntityGraph(attributePaths = {"parent"})
+    List<Section> getAllByIdInAndOwnerId(List<Long> ids, long userId);
+
     @Modifying
     @Query("""
             DELETE FROM Section s WHERE s.id = :id AND s.owner.id = :userId
