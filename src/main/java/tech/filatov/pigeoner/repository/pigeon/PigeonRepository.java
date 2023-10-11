@@ -37,7 +37,7 @@ public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRep
     """)
     Optional<PigeonDto> findOneDto(long id, long userId);
 
-    @Query("SELECT new tech.filatov.pigeoner.dto.PigeonLabelDto(p.id, p.ringNumber, p.sex, p.section.id) " +
+    @Query("SELECT new tech.filatov.pigeoner.dto.PigeonLabelDto(p.id, p.name, p.ringNumber, p.sex, p.section.id) " +
             "FROM Pigeon p " +
             "WHERE p.owner.id = :userId AND p.isOwn IS TRUE")
     List<PigeonLabelDto> getAllLabelDto(long userId);
