@@ -59,4 +59,11 @@ public class SectionDto extends BaseDto {
         this.parentId = parentId;
         this.pigeonsNumber = pigeonsNumber;
     }
+
+    public static SectionDto getInboxForPigeonsWithoutSection() {
+        SectionDto inbox = new SectionDto();
+        inbox.setName("Остальные голуби");
+        inbox.setSectionType(SectionType.DOVECOTE.name());
+        return inbox;
+    }
 }
