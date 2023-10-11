@@ -69,7 +69,7 @@ public class Section extends AbstractOwnedEntity {
     @JoinColumn(name = "PARENT_ID")
     private Section parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<Section> children;
 
