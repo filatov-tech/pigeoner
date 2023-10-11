@@ -1,5 +1,6 @@
 package tech.filatov.pigeoner.service;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.filatov.pigeoner.dto.PigeonLabelDto;
@@ -25,13 +26,13 @@ public class SectionService {
 
     private final SectionRepository repository;
     private final UserService userService;
-    private final PigeonRepository pigeonRepository;
+    private final PigeonService pigeonService;
     private final SectionValidator validator;
 
-    public SectionService(SectionRepository repository, UserService userService, PigeonRepository pigeonRepository, SectionValidator validator) {
+    public SectionService(SectionRepository repository, UserService userService, @Lazy PigeonService pigeonService, SectionValidator validator) {
         this.repository = repository;
         this.userService = userService;
-        this.pigeonRepository = pigeonRepository;
+        this.pigeonService = pigeonService;
         this.validator = validator;
     }
 
@@ -69,7 +70,7 @@ public class SectionService {
 
     public List<SectionDto> getSectionsDtoTreeWithPigeons(long userId) {
         List<SectionDto> sectionsWithoutHierarchy = repository.getAllWithInfo();
-        List<PigeonLabelDto> pigeons = pigeonRepository.getAllLabelDto(userId);
+        List<PigeonLabelDto> pigeons = pigeonService.getAllLabelDto(userId);
         insertPigeonsToSections(pigeons, sectionsWithoutHierarchy);
         return makeHierarchy(sectionsWithoutHierarchy);
     }
@@ -109,8 +110,10 @@ public class SectionService {
 
     SectionDto save(Section section, long userId) {
         Section saved = repository.save(section);
-        //noinspection ConstantConditions
-        return getDto(saved.getId(), userId);
+        long savedId = Objects.requireNonNull(saved.getId());
+        SectionDto dto = getDto(savedId, userId);
+        dto.setPigeons(pigeonService.getLabelDtoBySectionId(savedId, userId));
+        return dto;
     }
 
     @Transactional
