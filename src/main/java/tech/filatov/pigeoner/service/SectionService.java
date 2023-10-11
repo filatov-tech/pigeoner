@@ -6,15 +6,18 @@ import org.springframework.transaction.annotation.Transactional;
 import tech.filatov.pigeoner.dto.PigeonLabelDto;
 import tech.filatov.pigeoner.dto.SectionDto;
 import tech.filatov.pigeoner.model.dovecote.Section;
-import tech.filatov.pigeoner.repository.pigeon.PigeonRepository;
+import tech.filatov.pigeoner.model.dovecote.SectionType;
+import tech.filatov.pigeoner.model.pigeon.Pigeon;
 import tech.filatov.pigeoner.repository.SectionRepository;
 import tech.filatov.pigeoner.util.CommonUtil;
 import tech.filatov.pigeoner.util.ValidationUtil;
 import tech.filatov.pigeoner.util.exception.NotFoundException;
 import tech.filatov.pigeoner.validator.SectionValidator;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -130,6 +133,27 @@ public class SectionService {
 
     @Transactional
     public void delete(long id, long userId) {
-        ValidationUtil.checkNotFoundWithId(repository.delete(id, userId) != 0, id);
+        Section sectionToDelete = repository.findWithParentByIdAndOwnerId(id, userId).orElse(null);
+        ValidationUtil.checkNotFoundWithId(sectionToDelete != null, id);
+        boolean isNestDeleting = sectionToDelete.getType() == SectionType.NEST;
+
+        List<Pigeon> allPigeonToMove;
+        List<Long> sectionsIds = repository.getIdListOfAllDescendantsById(id);
+        if (isNestDeleting) {
+            allPigeonToMove = pigeonService.getAllBySectionId(sectionToDelete.getId(), userId);
+        } else {
+            sectionsIds.add(sectionToDelete.getId());
+            allPigeonToMove = pigeonService.getAllBySectionsIds(sectionsIds, userId);
+        }
+        allPigeonToMove = changeParentSectionTo(sectionToDelete.getParent(), allPigeonToMove);
+        pigeonService.saveAll(allPigeonToMove);
+
+        repository.delete(sectionToDelete);
+    }
+
+    private List<Pigeon> changeParentSectionTo(@Nullable Section newParentSection, List<Pigeon> pigeons) {
+        return pigeons.stream()
+                .peek(pigeon -> pigeon.setSection(newParentSection))
+                .collect(Collectors.toList());
     }
 }
