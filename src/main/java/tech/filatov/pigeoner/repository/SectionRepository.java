@@ -33,7 +33,7 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
     @Query("""
             DELETE FROM Section s WHERE s.id = :id AND s.owner.id = :userId
             """)
-    int delete(long id, long userId);
+    int deleteById(long id, long userId);
 
     @Query("SELECT s FROM Section s WHERE s.parent IS NULL")
     List<Section> getTopLevel();
@@ -44,8 +44,11 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
     @Query(nativeQuery = true)
     List<SectionDto> getCommonSectionInfoById(int id);
 
-    @Query("SELECT new tech.filatov.pigeoner.dto.SectionDto(s.id, s.name, s.parent.id, s.type) FROM Section s " +
-            "WHERE s.owner.id = :userId")
+    @Query("""
+        SELECT new tech.filatov.pigeoner.dto.SectionDto(s.id, s.name, s.parent.id, s.type) 
+        FROM Section s 
+        WHERE s.owner.id = :userId
+    """)
     List<SectionDto> getAll(long userId);
 
     @Query("SELECT new tech.filatov.pigeoner.dto.SectionDto(s.id, s.name, s.parent.id) FROM Section s " +
