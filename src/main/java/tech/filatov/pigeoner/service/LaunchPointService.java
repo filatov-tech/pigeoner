@@ -38,9 +38,13 @@ public class LaunchPointService {
     public LaunchPointDto getOneDto(long id, long userId) {
         LaunchPointDto launchPointDto =
                 repository.findOneDto(id, userId).orElseThrow(NotFoundException.withIdInfo(id));
-        launchPointDto.setMainKeeperPreciseDistance(
-                preciseDistanceService.get(keeperService.getMainKeeperDto(userId).getId(), id).getPreciseDistance()
+
+        PreciseDistance preciseDistance = preciseDistanceService.get(
+                keeperService.getMainKeeperDto(userId).getId(), id
         );
+        if (preciseDistance != null) {
+            launchPointDto.setMainKeeperPreciseDistance(preciseDistance.getPreciseDistance());
+        }
         return launchPointDto;
     }
 
