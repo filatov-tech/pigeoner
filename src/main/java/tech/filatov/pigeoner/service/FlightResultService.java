@@ -112,7 +112,9 @@ public class FlightResultService {
 
         for (FlightResult flightResult : flightResults) {
             flightResult.setPreciseDistance(launchPoint.getMainKeeperPreciseDistance());
-            flightResult.setAverageSpeed(CommonUtil.calculateAvgSpeed(flightResult));
+            if (flightResult.getArrivalTime() != null) {
+                flightResult.setAverageSpeed(CommonUtil.calculateAvgSpeed(flightResult));
+            }
         }
         repository.saveAll(flightResults);
     }
