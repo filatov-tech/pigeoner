@@ -72,7 +72,7 @@ public class FlightResultDto extends BaseDto {
         this.isPass = isPass;
         this.winPoints = winPoints;
         this.averageSpeed = averageSpeed;
-        this.afterFlightCondition = afterFlightCondition.getTitle();
+        this.afterFlightCondition = afterFlightCondition.name();
         this.keeper = keeper;
     }
 }
