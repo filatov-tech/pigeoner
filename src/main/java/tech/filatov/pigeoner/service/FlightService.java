@@ -80,7 +80,8 @@ public class FlightService {
 
     @Transactional
     public void delete(long id, long userId) {
-        ValidationUtil.checkNotFoundWithId(repository.delete(id, userId) != 0, id);
+        Flight flightToDelete = getOne(id, userId);
+        repository.delete(flightToDelete);
     }
 
     protected Flight save(Flight flight) {

@@ -74,7 +74,7 @@ public class Pigeon extends AbstractOwnedEntity {
     @JoinColumn(name = "COLOR_ID")
     private Color color;
 
-    @OneToMany(mappedBy = "flight")
+    @OneToMany(mappedBy = "flight", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private Set<FlightResult> flights;
 
