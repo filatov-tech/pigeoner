@@ -129,4 +129,5 @@ final public class Constants {
             FROM pedigree
                       LEFT JOIN keeper k ON keeper_id = k.id
             """;
+    public static final String AUTHORIZATION = "Authorization";
 }
