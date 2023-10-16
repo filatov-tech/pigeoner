@@ -7,7 +7,6 @@ src/main/resources/static/*
 !src/main/resources/static/components/
 src/main/resources/tests
 /src/main/java/tech/filatov/pigeoner/Tests.java
-git-filter-repo
 
 ### IntelliJ IDEA ###
 .idea
