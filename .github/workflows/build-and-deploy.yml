@@ -29,6 +29,11 @@ jobs:
         
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+      env:
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
+        POSTGRES_USER: ${{ secrets.DB_USERNAME }}
+        POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
     
     - name: Docker login
       uses: docker/login-action@v3.0.0
