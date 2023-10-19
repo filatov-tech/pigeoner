@@ -2,8 +2,8 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/pigeonerdb
     driver-class-name: org.postgresql.Driver
-    username: pguser
-    password: pgpassword
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     show-sql: true
     hibernate:
@@ -28,7 +28,12 @@ spring:
     prefix: classpath:/static/
 logging:
   level:
-    org.hibernate.type.descriptor.sql: trace
+    org:
+      hibernate.type.descriptor.sql: trace
+      springframework:
+        security: DEBUG
+        web.cors: DEBUG
+
 #    root: debug
 #    org.springframework.web: debug
 
