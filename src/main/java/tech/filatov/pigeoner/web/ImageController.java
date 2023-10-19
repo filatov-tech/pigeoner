@@ -14,7 +14,7 @@ import tech.filatov.pigeoner.service.ImageService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/pigeon/{pigeonId}/image")
+@RequestMapping("/api/v1/pigeons/{pigeonId}/image")
 public class ImageController {
 
     private final AuthorizedUser authUser = new AuthorizedUser();
