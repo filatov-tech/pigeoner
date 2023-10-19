@@ -61,7 +61,6 @@ final public class Constants {
                         FROM pigeon_count
                         WHERE pigeon_id IS NOT NULL) AS pigeon_number
                 FROM section ms
-                ORDER BY ms.name
             """;
     public static final String SECTION_DTO_ROOT = " WHERE ms.parent_id IS NULL";
     public static final String SECTION_DTO_BY_ID = " WHERE ms.parent_id = :id";
