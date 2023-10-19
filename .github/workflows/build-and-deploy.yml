@@ -1,0 +1,51 @@
+name: Build and Deploy pigeoner backend
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+    
+    - name: Docker login
+      uses: docker/login-action@v3.0.0
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build Docker images
+      uses: docker/build-push-action@v5.0.0
+      with:
+        context: .
+        push: true
+        tags: filatovtech/pigeoner
+    
+    - name: Push Docker image
+      run: docker push filatovtech/pigeoner
+
+    - name: SSH Deploy
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        script: |
+          sudo docker stop pigeoner
+          sudo docker rm pigeoner
+          sudo docker pull filatovtech/pigeoner
+          sudo docker run -e DB_USERNAME=${{ secrets.DB_USERNAME }} -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} -d --restart unless-stopped -it -p 8080:8080 --name pigeoner filatovtech/pigeoner
