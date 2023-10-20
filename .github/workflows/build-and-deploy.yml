@@ -15,6 +15,7 @@ jobs:
         env:
           POSTGRES_USER: ${{ secrets.DB_USERNAME }}
           POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_DB: pigeonerdb
         ports:
           - 5432:5432
 
@@ -28,7 +29,7 @@ jobs:
         cache: maven
         
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml -DDB_USERNAME=${{ secrets.DB_USERNAME }} -DDB_PASSWORD=${{ secrets.DB_PASSWORD }}
       env:
         POSTGRES_HOST: localhost
         POSTGRES_PORT: 5432
