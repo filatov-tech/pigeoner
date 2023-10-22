@@ -15,6 +15,10 @@ public class NotFoundException extends RuntimeException {
         return () -> new NotFoundException(String.format("Entity with name \"%s\" not found", name));
     }
 
+    public static Supplier<NotFoundException> userWithEmail(String email) {
+        return () -> new NotFoundException(String.format("User with email:%s not found", email));
+    }
+
     public static Supplier<NotFoundException> withInfo(String message) {
         return () -> new NotFoundException(message);
     }

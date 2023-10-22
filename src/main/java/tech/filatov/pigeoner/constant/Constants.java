@@ -129,4 +129,5 @@ final public class Constants {
                       LEFT JOIN keeper k ON keeper_id = k.id
             """;
     public static final String AUTHORIZATION = "Authorization";
+    public static final String AUTHORITIES = "authorities";
 }
