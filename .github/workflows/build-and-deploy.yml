@@ -29,7 +29,7 @@ jobs:
         cache: maven
         
     - name: Build with Maven
-      run: mvn -B package --file pom.xml -DDB_USERNAME=${{ secrets.DB_USERNAME }} -DDB_PASSWORD=${{ secrets.DB_PASSWORD }}
+      run: mvn -B package --file pom.xml -DDB_USERNAME=${{ secrets.DB_USERNAME }} -DDB_PASSWORD=${{ secrets.DB_PASSWORD }} -Dspring.profiles.active=dev
       env:
         POSTGRES_HOST: localhost
         POSTGRES_PORT: 5432
@@ -48,6 +48,7 @@ jobs:
         context: .
         push: true
         tags: filatovtech/pigeoner
+        build-args: SPRING_PROFILES_ACTIVE=prod
     
     - name: Push Docker image
       run: docker push filatovtech/pigeoner
