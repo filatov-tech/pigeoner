@@ -10,6 +10,8 @@ import tech.filatov.pigeoner.dto.auth.AuthenticationResponse;
 import tech.filatov.pigeoner.dto.auth.RegisterRequest;
 import tech.filatov.pigeoner.service.AuthenticationService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -19,7 +21,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest request
+            @Valid @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(service.register(request));
     }
