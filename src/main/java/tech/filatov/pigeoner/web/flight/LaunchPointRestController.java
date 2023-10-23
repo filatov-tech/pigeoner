@@ -1,10 +1,11 @@
 package tech.filatov.pigeoner.web.flight;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.filatov.pigeoner.AuthorizedUser;
 import tech.filatov.pigeoner.dto.LaunchPointDto;
+import tech.filatov.pigeoner.model.User;
 import tech.filatov.pigeoner.service.LaunchPointService;
 import tech.filatov.pigeoner.util.ValidationUtil;
 
@@ -17,7 +18,6 @@ import java.util.List;
 public class LaunchPointRestController {
     public static final String REST_URL = "/api/v1/launch-point";
 
-    private final AuthorizedUser authUser = new AuthorizedUser();
     private final LaunchPointService service;
 
     public LaunchPointRestController(LaunchPointService service) {
@@ -25,17 +25,20 @@ public class LaunchPointRestController {
     }
 
     @GetMapping
-    public List<LaunchPointDto> getAll() {
+    public List<LaunchPointDto> getAll(@AuthenticationPrincipal User authUser) {
         return service.getAllDto(authUser.getId());
     }
 
     @GetMapping("/{id}")
-    public LaunchPointDto get(@PathVariable long id) {
+    public LaunchPointDto get(@PathVariable long id, @AuthenticationPrincipal User authUser) {
         return service.getOneDto(id, authUser.getId());
     }
 
     @PostMapping
-    public ResponseEntity<LaunchPointDto> create(@Valid @RequestBody LaunchPointDto launchPoint) {
+    public ResponseEntity<LaunchPointDto> create(
+            @Valid @RequestBody LaunchPointDto launchPoint,
+            @AuthenticationPrincipal User authUser
+    ) {
         ValidationUtil.checkNew(launchPoint);
         LaunchPointDto created = service.createOrUpdate(launchPoint, authUser.getId());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -45,13 +48,17 @@ public class LaunchPointRestController {
     }
 
     @PutMapping("/{id}")
-    public LaunchPointDto update(@Valid @RequestBody LaunchPointDto launchPoint, @PathVariable long id) {
+    public LaunchPointDto update(
+            @Valid @RequestBody LaunchPointDto launchPoint,
+            @PathVariable long id,
+            @AuthenticationPrincipal User authUser
+    ) {
         ValidationUtil.assureIdConsistent(launchPoint, id);
         return service.createOrUpdate(launchPoint, authUser.getId());
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable long id) {
+    public void delete(@PathVariable long id, @AuthenticationPrincipal User authUser) {
         service.delete(id, authUser.getId());
     }
 }

@@ -1,13 +1,12 @@
 package tech.filatov.pigeoner.web;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.filatov.pigeoner.AuthorizedUser;
 import tech.filatov.pigeoner.dto.KeeperDto;
-import tech.filatov.pigeoner.repository.KeeperRepository;
+import tech.filatov.pigeoner.model.User;
 import tech.filatov.pigeoner.service.KeeperService;
-import tech.filatov.pigeoner.util.ValidationUtil;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -21,7 +20,6 @@ import static tech.filatov.pigeoner.util.ValidationUtil.checkNew;
 public class KeeperRestController {
     public static final String REST_URL = "/api/v1/keepers";
 
-    private final AuthorizedUser authUser = new AuthorizedUser();
     private final KeeperService service;
 
     public KeeperRestController(KeeperService service) {
@@ -29,22 +27,25 @@ public class KeeperRestController {
     }
 
     @GetMapping
-    public List<KeeperDto> getAll() {
+    public List<KeeperDto> getAll(@AuthenticationPrincipal User authUser) {
         return service.getAllDto(authUser.getId());
     }
 
     @GetMapping("/{keeperId}")
-    public KeeperDto get(@PathVariable long keeperId) {
+    public KeeperDto get(@PathVariable long keeperId, @AuthenticationPrincipal User authUser) {
         return service.getDto(keeperId, authUser.getId());
     }
 
     @GetMapping("/main")
-    public KeeperDto getMain() {
+    public KeeperDto getMain(@AuthenticationPrincipal User authUser) {
         return service.getMainKeeperDto(authUser.getId());
     }
 
     @PostMapping
-    public ResponseEntity<KeeperDto> create(@Valid @RequestBody KeeperDto dto) {
+    public ResponseEntity<KeeperDto> create(
+            @Valid @RequestBody KeeperDto dto,
+            @AuthenticationPrincipal User authUser
+    ) {
         checkNew(dto);
         KeeperDto created = service.createOrUpdate(dto, authUser.getId());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -54,13 +55,17 @@ public class KeeperRestController {
     }
 
     @PutMapping("/{keeperId}")
-    public KeeperDto update(@Valid @RequestBody KeeperDto dto, @PathVariable Long keeperId) {
+    public KeeperDto update(
+            @Valid @RequestBody KeeperDto dto,
+            @PathVariable Long keeperId,
+            @AuthenticationPrincipal User authUser
+    ) {
         assureIdConsistent(dto, keeperId);
-        return service.createOrUpdate(dto, keeperId);
+        return service.createOrUpdate(dto, authUser.getId());
     }
 
     @DeleteMapping("/{keeperId}")
-    public void delete(@PathVariable long keeperId) {
+    public void delete(@PathVariable long keeperId, @AuthenticationPrincipal User authUser) {
         service.delete(keeperId, authUser.getId());
     }
 }

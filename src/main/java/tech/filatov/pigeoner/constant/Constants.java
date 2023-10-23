@@ -19,6 +19,7 @@ final public class Constants {
                                                                      parent_id
                                                               FROM pigeon p
                                                                        LEFT JOIN section s ON FALSE
+                                                              WHERE p.user_id = :userId
                                                               UNION
                                                               SELECT p.id       AS pigeon_id,
                                                                      section_id AS location_id,
@@ -26,13 +27,15 @@ final public class Constants {
                                                                      type,
                                                                      parent_id
                                                               FROM pigeon p
-                                                                       RIGHT JOIN section s ON FALSE)
+                                                                       RIGHT JOIN section s ON FALSE
+                                                              WHERE s.user_id = :userId
+                                                              )
                                                                  AS v
                                                         WHERE v.location_id = ms.id
                                                            OR v.parent_id = ms.id
-                            
+                
                                                         UNION ALL
-                            
+                
                                                         SELECT w.pigeon_id, w.location_id, w.section_id, w.type, w.parent_id
                                                         FROM (SELECT p.id       AS pigeon_id,
                                                                      section_id AS location_id,
@@ -41,14 +44,18 @@ final public class Constants {
                                                                      parent_id
                                                               FROM pigeon p
                                                                        LEFT JOIN section s ON FALSE
+                                                              WHERE p.user_id = :userId
+                
                                                               UNION
+                
                                                               SELECT p.id       AS pigeon_id,
                                                                      section_id AS location_id,
                                                                      s.id       AS section_id,
                                                                      type,
                                                                      parent_id
                                                               FROM pigeon p
-                                                                       RIGHT JOIN section s ON FALSE)
+                                                                       RIGHT JOIN section s ON FALSE
+                                                              WHERE s.user_id = :userId)
                                                                  AS w
                                                                  INNER JOIN pigeon_count
                                                                             ON (w.pigeon_id IS NOT NULL AND
@@ -61,21 +68,24 @@ final public class Constants {
                         FROM pigeon_count
                         WHERE pigeon_id IS NOT NULL) AS pigeon_number
                 FROM section ms
+                WHERE ms.user_id = :userId
             """;
-    public static final String SECTION_DTO_ROOT = " WHERE ms.parent_id IS NULL";
-    public static final String SECTION_DTO_BY_ID = " WHERE ms.parent_id = :id";
-    public static final String SECTION_WITH_DEEP_CHILDREN = "WITH RECURSIVE recursive_sections\n" +
-            "                   AS (SELECT s.id, s.parent_id\n" +
-            "                       FROM section AS s\n" +
-            "                       WHERE s.parent_id = :id\n" +
-            "\n" +
-            "                       UNION ALL\n" +
-            "\n" +
-            "                       SELECT sj.id, sj.parent_id\n" +
-            "                       FROM section AS sj\n" +
-            "                                INNER JOIN recursive_sections AS rs ON rs.id = sj.parent_id)\n" +
-            "SELECT rec.id\n" +
-            "FROM recursive_sections rec";
+    public static final String SECTION_DTO_ROOT = " WHERE ms.parent_id IS NULL AND ms.user_id = :userId";
+    public static final String SECTION_DTO_BY_ID = " WHERE ms.parent_id = :id AND ms.user_id = :userId";
+    public static final String SECTION_WITH_DEEP_CHILDREN = """
+            WITH RECURSIVE recursive_sections
+                               AS (SELECT s.id, s.parent_id
+                                   FROM section AS s
+                                   WHERE s.parent_id = :id AND s.user_id = :userId
+                        
+                                   UNION ALL
+                        
+                                   SELECT sj.id, sj.parent_id
+                                   FROM section AS sj
+                                            INNER JOIN recursive_sections AS rs ON rs.id = sj.parent_id AND sj.user_id = :userId)
+            SELECT rec.id
+            FROM recursive_sections rec
+            """;
     public static final String PIGEON_WITH_3_LEVEL_ANCESTORS = """
             WITH RECURSIVE pedigree AS (SELECT id,
                                                name,
@@ -126,7 +136,7 @@ final public class Constants {
                    k.name keeper_name,
                    section_id
             FROM pedigree
-                      LEFT JOIN keeper k ON keeper_id = k.id
+                      LEFT JOIN keeper k ON keeper_id = k.id AND k.user_id = :userId
             """;
     public static final String AUTHORIZATION = "Authorization";
     public static final String AUTHORITIES = "authorities";

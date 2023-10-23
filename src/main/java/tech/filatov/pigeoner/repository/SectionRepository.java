@@ -35,31 +35,36 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
             """)
     int deleteById(long id, long userId);
 
-    @Query("SELECT s FROM Section s WHERE s.parent IS NULL")
-    List<Section> getTopLevel();
+    @Query("SELECT s FROM Section s WHERE s.parent IS NULL AND s.owner.id = :userId")
+    List<Section> getTopLevel(long userId);
 
     @Query(nativeQuery = true)
-    List<SectionDto> getTopLevelCommonSectionInfo();
+    List<SectionDto> getTopLevelCommonSectionInfo(long userId);
 
     @Query(nativeQuery = true)
-    List<SectionDto> getCommonSectionInfoById(int id);
+    List<SectionDto> getCommonSectionInfoById(int id, long userId);
 
     @Query("""
-        SELECT new tech.filatov.pigeoner.dto.SectionDto(s.id, s.name, s.parent.id, s.type) 
-        FROM Section s 
+        SELECT new tech.filatov.pigeoner.dto.SectionDto(s.id, s.name, s.parent.id, s.type)
+        FROM Section s
         WHERE s.owner.id = :userId
     """)
     List<SectionDto> getAll(long userId);
 
-    @Query("SELECT new tech.filatov.pigeoner.dto.SectionDto(s.id, s.name, s.parent.id) FROM Section s " +
-            "WHERE s.type IN (" +
-            "tech.filatov.pigeoner.model.dovecote.SectionType.DOVECOTE, " +
-            "tech.filatov.pigeoner.model.dovecote.SectionType.ROOM)")
-    List<SectionDto> getAllWithoutNests();
+    @Query("""
+            SELECT new tech.filatov.pigeoner.dto.SectionDto(s.id, s.name, s.parent.id)
+            FROM Section s
+            WHERE s.type IN (
+                tech.filatov.pigeoner.model.dovecote.SectionType.DOVECOTE,
+                tech.filatov.pigeoner.model.dovecote.SectionType.ROOM
+            )
+            AND s.owner.id = :userId
+    """)
+    List<SectionDto> getAllWithoutNests(long userId);
 
     @Query(nativeQuery = true)
-    List<Long> getIdListOfAllDescendantsById(long id);
+    List<Long> getIdListOfAllDescendantsById(long id, long userId);
 
     @Query(nativeQuery = true)
-    List<SectionDto> getAllWithInfo();
+    List<SectionDto> getAllWithInfo(long userId);
 }

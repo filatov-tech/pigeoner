@@ -18,9 +18,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static tech.filatov.pigeoner.util.SectionUtil.*;
+import static tech.filatov.pigeoner.util.SectionUtil.makeSectionsFrom;
 
 @Repository
 public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
@@ -87,7 +88,7 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
         }
         if (params.getDovecote() != null) {
             long currentSectionId = params.getDovecote();
-            List<Long> idList = sectionRepository.getIdListOfAllDescendantsById(currentSectionId);
+            List<Long> idList = sectionRepository.getIdListOfAllDescendantsById(currentSectionId, userId);
             CriteriaBuilder.In<Section> inSections = cb.in(pigeonRoot.get(Pigeon_.section));
             for (Section section : makeSectionsFrom(idList)) {
                 inSections.value(section);

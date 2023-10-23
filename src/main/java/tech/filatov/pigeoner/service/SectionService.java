@@ -61,8 +61,8 @@ public class SectionService {
         return sectionsMap.get(id);
     }
 
-    public List<SectionDto> getAllHierarchicalWithoutNests() {
-        List<SectionDto> sectionWithoutHierarchy = repository.getAllWithoutNests();
+    public List<SectionDto> getAllHierarchicalWithoutNests(long userId) {
+        List<SectionDto> sectionWithoutHierarchy = repository.getAllWithoutNests(userId);
         return makeHierarchy(sectionWithoutHierarchy);
     }
 
@@ -72,7 +72,7 @@ public class SectionService {
     }
 
     public List<SectionDto> getSectionsDtoTreeWithPigeons(long userId) {
-        List<SectionDto> sectionsWithoutHierarchy = repository.getAllWithInfo();
+        List<SectionDto> sectionsWithoutHierarchy = repository.getAllWithInfo(userId);
         List<PigeonLabelDto> pigeons = pigeonService.getAllLabelDto(userId);
         insertPigeonsToSections(pigeons, sectionsWithoutHierarchy);
         return makeHierarchy(sectionsWithoutHierarchy);
@@ -138,7 +138,7 @@ public class SectionService {
         boolean isNestDeleting = sectionToDelete.getType() == SectionType.NEST;
 
         List<Pigeon> allPigeonToMove;
-        List<Long> sectionsIds = repository.getIdListOfAllDescendantsById(id);
+        List<Long> sectionsIds = repository.getIdListOfAllDescendantsById(id, userId);
         if (isNestDeleting) {
             allPigeonToMove = pigeonService.getAllBySectionId(sectionToDelete.getId(), userId);
         } else {
