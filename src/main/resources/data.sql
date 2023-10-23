@@ -1,6 +1,6 @@
 INSERT INTO users (id, created, updated, email, password)
 VALUES
-    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'user1@yandex.ru', '$2a$12$oh6c0bn/N1IWJU4MWnmqgeKis9M3wtQ1T3/swgYBJ.v2OQpaQfZRO')
+    (nextval('global_seq'), CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'user1@yandex.ru', '$2a$12$NmQwa9PolVgShCpFdmTmmebkfBbqZkjNtpJDwP5vvaLf66u6q5clG')
 ;
 
 INSERT INTO color (id, created, updated, name, user_id)
