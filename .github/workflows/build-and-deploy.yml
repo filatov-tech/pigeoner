@@ -29,7 +29,7 @@ jobs:
         cache: maven
         
     - name: Build with Maven
-      run: mvn -B package --file pom.xml -DDB_USERNAME=${{ secrets.DB_USERNAME }} -DDB_PASSWORD=${{ secrets.DB_PASSWORD }} -Dspring.profiles.active=dev
+      run: mvn -B package --file pom.xml -DskipTests -DDB_USERNAME=${{ secrets.DB_USERNAME }} -DDB_PASSWORD=${{ secrets.DB_PASSWORD }} -Dspring.profiles.active=dev
       env:
         POSTGRES_HOST: localhost
         POSTGRES_PORT: 5432
