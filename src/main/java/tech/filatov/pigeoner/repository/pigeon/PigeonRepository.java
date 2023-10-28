@@ -44,6 +44,12 @@ public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRep
     @Query(nativeQuery = true)
     List<PigeonDto> getWithAncestorsById(long id, long userId);
 
+    @Query(nativeQuery = true)
+    List<PigeonDto> getWithAllAncestorsById(long id, long userId);
+
+    @Query(nativeQuery = true)
+    List<PigeonDto> getWithAllDescendantsById(long id, long userId);
+
     List<Pigeon> getAllBySectionIdAndOwnerId(long sectionId, long userId);
 
     List<Pigeon> getAllBySectionIdInAndOwnerId(List<Long> ids, long userId);

@@ -138,6 +138,108 @@ final public class Constants {
             FROM pedigree
                       LEFT JOIN keeper k ON keeper_id = k.id AND k.user_id = :userId
             """;
+    public static final String PIGEON_WITH_ALL_ANCESTORS = """
+            WITH RECURSIVE pedigree AS (SELECT id,
+                                               name,
+                                               ring_number,
+                                               birthdate,
+                                               condition_status,
+                                               sex,
+                                               is_own,
+                                               mate_id,
+                                               father_id,
+                                               mother_id,
+                                               keeper_id,
+                                               section_id,
+                                               0 AS depth
+                                        FROM pigeon
+                                        WHERE id = :id
+                                          AND pigeon.user_id = :userId
+                        
+                                        UNION
+                        
+                                        SELECT p.id,
+                                               p.name,
+                                               p.ring_number,
+                                               p.birthdate,
+                                               p.condition_status,
+                                               p.sex,
+                                               p.is_own,
+                                               p.mate_id,
+                                               p.father_id,
+                                               p.mother_id,
+                                               p.keeper_id,
+                                               p.section_id,
+                                               depth + 1
+                                        FROM pigeon p
+                                                 JOIN pedigree ped ON ped.father_id = p.id OR ped.mother_id = p.id
+                                        )
+            SELECT pedigree.id,
+                   pedigree.name,
+                   ring_number,
+                   birthdate,
+                   condition_status,
+                   sex,
+                   is_own,
+                   mate_id,
+                   father_id,
+                   mother_id,
+                   keeper_id,
+                   k.name keeper_name,
+                   section_id
+            FROM pedigree
+                      LEFT JOIN keeper k ON keeper_id = k.id AND k.user_id = :userId
+            """;
+    public static final String PIGEON_WITH_ALL_DESCENDANTS = """
+            WITH RECURSIVE pedigree AS (SELECT id,
+                                               name,
+                                               ring_number,
+                                               birthdate,
+                                               condition_status,
+                                               sex,
+                                               is_own,
+                                               mate_id,
+                                               father_id,
+                                               mother_id,
+                                               keeper_id,
+                                               section_id
+                                        FROM pigeon
+                                        WHERE id = :id
+                                          AND pigeon.user_id = :userId
+                        
+                                        UNION
+                        
+                                        SELECT p.id,
+                                               p.name,
+                                               p.ring_number,
+                                               p.birthdate,
+                                               p.condition_status,
+                                               p.sex,
+                                               p.is_own,
+                                               p.mate_id,
+                                               p.father_id,
+                                               p.mother_id,
+                                               p.keeper_id,
+                                               p.section_id
+                                        FROM pigeon p
+                                                 JOIN pedigree ped ON p.father_id = ped.id OR p.mother_id = ped.id
+                                        )
+            SELECT pedigree.id,
+                   pedigree.name,
+                   ring_number,
+                   birthdate,
+                   condition_status,
+                   sex,
+                   is_own,
+                   mate_id,
+                   father_id,
+                   mother_id,
+                   keeper_id,
+                   k.name keeper_name,
+                   section_id
+            FROM pedigree
+                     LEFT JOIN keeper k ON keeper_id = k.id AND k.user_id = :userId
+            """;
     public static final String AUTHORIZATION = "Authorization";
     public static final String AUTHORITIES = "authorities";
 }

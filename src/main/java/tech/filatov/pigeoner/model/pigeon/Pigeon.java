@@ -21,6 +21,18 @@ import static tech.filatov.pigeoner.constant.Constants.*;
         resultSetMapping = "Mapping.pigeonDto"
 )
 
+@NamedNativeQuery(
+        name = "Pigeon.getWithAllAncestorsById",
+        query = PIGEON_WITH_ALL_ANCESTORS,
+        resultSetMapping = "Mapping.pigeonDto"
+)
+
+@NamedNativeQuery(
+        name = "Pigeon.getWithAllDescendantsById",
+        query = PIGEON_WITH_ALL_DESCENDANTS,
+        resultSetMapping = "Mapping.pigeonDto"
+)
+
 @SqlResultSetMapping(
         name = "Mapping.pigeonDto",
         classes = @ConstructorResult(targetClass = PigeonDto.class,
@@ -62,10 +74,12 @@ public class Pigeon extends AbstractOwnedEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MOTHER_ID")
+    @ToString.Exclude
     private Pigeon mother;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FATHER_ID")
+    @ToString.Exclude
     private Pigeon father;
 
     private boolean isOwn;

@@ -3,11 +3,14 @@ package tech.filatov.pigeoner.validator;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import tech.filatov.pigeoner.dto.PigeonDto;
 import tech.filatov.pigeoner.model.dovecote.Section;
 import tech.filatov.pigeoner.model.dovecote.SectionType;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
 import tech.filatov.pigeoner.model.pigeon.Sex;
+
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.Set;
 
 @Component
@@ -18,6 +21,17 @@ public class PigeonValidator implements Validator {
         return Pigeon.class.equals(clazz);
     }
 
+    public void validate(
+            Object target,
+            Errors errors,
+            Map<Long, PigeonDto> descendants,
+            Long fatherId,
+            Long motherId
+    ) {
+        checkForLooping(errors, descendants, fatherId, motherId);
+        validate(target, errors);
+    }
+
     @Override
     public void validate(Object target, Errors errors) {
         Pigeon pigeon = (Pigeon) target;
@@ -25,6 +39,20 @@ public class PigeonValidator implements Validator {
         checkParentsConstraints(pigeon, errors);
         checkSection(pigeon, errors);
         checkMate(pigeon, errors);
+    }
+
+    private void checkForLooping(
+            Errors errors,
+            Map<Long, PigeonDto> descendants,
+            Long fatherId,
+            Long motherId
+    ) {
+        if (fatherId != null && descendants.containsKey(fatherId)) {
+            errors.rejectValue("father", "", "Голубь не может быть предком или потомком самому себе");
+        }
+        if (motherId != null && descendants.containsKey(motherId)) {
+            errors.rejectValue("mother", "", "Голубь не может быть предком или потомком самому себе");
+        }
     }
 
     private void checkParentsConstraints(Pigeon pigeon, Errors errors) {

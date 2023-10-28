@@ -120,7 +120,7 @@ public class PigeonService {
         if (images != null) {
             return saveWithImage(pigeon, images, pigeonShallowDto.getMainImageFileName(), userId);
         }
-
+        validate(pigeon);
         pigeon = save(pigeon);
         return getPigeonDto(Objects.requireNonNull(pigeon.getId()), userId);
     }
@@ -138,6 +138,15 @@ public class PigeonService {
             return saveWithImage(pigeon, images, pigeonShallowDto.getMainImageFileName(), userId);
         }
 
+        validate(pigeonShallowDto, pigeon, userId);
+
+        if (pigeonShallowDto.getFatherId() != null) {
+            pigeon.setFather(get(pigeonShallowDto.getFatherId(), userId));
+        }
+        if (pigeonShallowDto.getMotherId() != null) {
+            pigeon.setMother(get(pigeonShallowDto.getMotherId(), userId));
+        }
+
         pigeon = save(pigeon);
         return getPigeonDto(Objects.requireNonNull(pigeon.getId()), userId);
     }
@@ -148,7 +157,6 @@ public class PigeonService {
     }
 
     protected Pigeon save(Pigeon pigeon) {
-        validate(pigeon);
         return repository.save(pigeon);
     }
 
@@ -176,6 +184,7 @@ public class PigeonService {
         }
         pigeon.setImages(imagesForSave);
 
+        validate(pigeon);
         pigeon = save(pigeon);
         long createdPigeonId = Objects.requireNonNull(pigeon.getId());
         imageService.store(images, userId, createdPigeonId);
@@ -215,6 +224,25 @@ public class PigeonService {
         }
     }
 
+    private void validate(PigeonShallowDto source, Pigeon pigeon, long userId) {
+        Errors errors = new BeanPropertyBindingResult(pigeon, "pigeon");
+        if (pigeon.isNew()) {
+            validator.validate(pigeon, errors);
+        } else {
+            List<PigeonDto> descendants = repository.getWithAllDescendantsById(Objects.requireNonNull(pigeon.getId()), userId);
+            validator.validate(
+                    pigeon,
+                    errors,
+                    CommonUtil.getLookupMapFrom(descendants),
+                    source.getFatherId(),
+                    source.getMotherId()
+                    );
+        }
+        if (errors.hasErrors()) {
+            throw new NotPassValidationException(errors);
+        }
+    }
+
     private void validate(Pigeon pigeon) {
         Errors errors = new BeanPropertyBindingResult(pigeon, "pigeon");
         validator.validate(pigeon, errors);
@@ -228,10 +256,10 @@ public class PigeonService {
         if (source.getMateId() != null) {
             pigeon.setMate(get(source.getMateId(), userId));
         }
-        if (source.getFatherId() != null) {
+        if (source.getFatherId() != null && pigeon.isNew()) {
             pigeon.setFather(get(source.getFatherId(), userId));
         }
-        if (source.getMotherId() != null) {
+        if (source.getMotherId() != null && pigeon.isNew()) {
             pigeon.setMother(get(source.getMotherId(), userId));
         }
         if (source.getSectionId() != null) {
@@ -253,6 +281,5 @@ public class PigeonService {
         if (pigeonKeeper != null && pigeonKeeper.equals(mainKeeper)) {
             pigeon.setOwn(true);
         }
-
     }
 }
