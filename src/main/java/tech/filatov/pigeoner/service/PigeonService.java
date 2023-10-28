@@ -139,13 +139,17 @@ public class PigeonService {
         }
 
         validate(pigeonShallowDto, pigeon, userId);
-
-        if (pigeonShallowDto.getFatherId() != null) {
+        if (pigeonShallowDto.getFatherId() == null) {
+            pigeon.setFather(null);
+        } else {
             pigeon.setFather(get(pigeonShallowDto.getFatherId(), userId));
         }
-        if (pigeonShallowDto.getMotherId() != null) {
+        if (pigeonShallowDto.getMotherId() == null) {
+            pigeon.setMother(null);
+        } else {
             pigeon.setMother(get(pigeonShallowDto.getMotherId(), userId));
         }
+        validate(pigeon);
 
         pigeon = save(pigeon);
         return getPigeonDto(Objects.requireNonNull(pigeon.getId()), userId);
