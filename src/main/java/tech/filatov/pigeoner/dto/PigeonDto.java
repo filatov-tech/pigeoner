@@ -56,7 +56,7 @@ public class PigeonDto extends BaseDto {
         this.name = name;
         this.ringNumber = ringNumber;
         this.birthdate = birthdate;
-        this.condition = condition == null ? null : Condition.valueOf(condition).getTitle();
+        this.condition = condition;
         this.sex = sex;
         this.year = birthdate == null ? null : birthdate.getYear();
         this.isOwn = isOwn;
@@ -87,7 +87,7 @@ public class PigeonDto extends BaseDto {
         this.ringNumber = ringNumber;
         this.birthdate = birthdate;
         this.colorId = colorId;
-        this.condition = condition == null ? null : condition.getTitle();
+        this.condition = condition == null ? null : condition.name();
         this.sex = sex == null ? null : sex.name();
         this.year = birthdate == null ? null : birthdate.getYear();
         this.isOwn = isOwn;
