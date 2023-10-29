@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.filatov.pigeoner.dto.ChangeSectionRequest;
 import tech.filatov.pigeoner.dto.FilterParams;
 import tech.filatov.pigeoner.dto.PigeonDto;
 import tech.filatov.pigeoner.dto.PigeonShallowDto;
@@ -92,6 +93,21 @@ public class PigeonRestController {
         return service.update(pigeon, images, id, authUser.getId());
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable long id, @AuthenticationPrincipal User authUser) {
+        service.delete(id, authUser.getId());
+    }
+
+    @PatchMapping("/{id}")
+    public void changeLocation(
+            @PathVariable long id,
+            @RequestBody ChangeSectionRequest body,
+            @AuthenticationPrincipal User authUser
+    ) {
+        service.changeSection(id, body.getNewSectionId(), authUser.getId());
+    }
+
     private ResponseEntity<PigeonDto> create(PigeonShallowDto pigeon, MultipartFile[] images, long userId) {
         checkNew(pigeon);
         PigeonDto created = service.create(pigeon, images, userId);
@@ -99,11 +115,5 @@ public class PigeonRestController {
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable long id, @AuthenticationPrincipal User authUser) {
-        service.delete(id, authUser.getId());
     }
 }

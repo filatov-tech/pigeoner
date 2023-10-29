@@ -57,7 +57,7 @@ public class Config {
                 registry.addMapping("/api/v1/**").allowedOrigins("http://localhost:63342");
                 registry.addMapping("/api/v1/**").allowedOrigins("http://localhost:3000");
                 registry.addMapping("/api/v1/**").allowedOrigins("http://localhost");
-                registry.addMapping("/api/v1/**").allowedMethods("GET","POST", "PUT", "DELETE");
+                registry.addMapping("/api/v1/**").allowedMethods("GET","POST", "PUT", "DELETE", "PATCH");
             }
         };
     }

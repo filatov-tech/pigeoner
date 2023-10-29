@@ -157,6 +157,19 @@ public class PigeonService {
     }
 
     @Transactional
+    public void changeSection(long id, long newSectionId, long userId) {
+        Pigeon pigeon = get(id, userId);
+        if (newSectionId == -1L) {
+            pigeon.setSection(null);
+        } else {
+            Section section = sectionService.findOne(newSectionId, userId);
+            pigeon.setSection(section);
+        }
+        validate(pigeon);
+        repository.save(pigeon);
+    }
+
+    @Transactional
     public void delete(long id, long userId) {
         Pigeon pigeon = get(id, userId);
         Set<Pigeon> children = repository.getAllDirectChildren(id, userId);
@@ -287,6 +300,8 @@ public class PigeonService {
                 section = sectionService.getWithPigeons(source.getSectionId(), userId);
             }
             pigeon.setSection(section);
+        } else if (!pigeon.isNew()) {
+            pigeon.setSection(null);
         }
         if (source.getKeeperId() != null) {
             pigeon.setKeeper(keeperService.get(source.getKeeperId(), userId));
