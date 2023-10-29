@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -109,6 +110,12 @@ public class ImageService {
         }
         catch (MalformedURLException e) {
             throw new ImageStorageFileNotFoundException("Невозможно прочитать файл: " + filename, e);
+        }
+    }
+
+    public void deleteAll(Collection<String> filenames, long userId, long pigeonId) {
+        for (String filename : filenames) {
+            delete(filename, userId, pigeonId);
         }
     }
 
