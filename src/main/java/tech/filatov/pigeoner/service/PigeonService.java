@@ -13,6 +13,7 @@ import tech.filatov.pigeoner.model.dovecote.Section;
 import tech.filatov.pigeoner.model.dovecote.SectionType;
 import tech.filatov.pigeoner.model.pigeon.Image;
 import tech.filatov.pigeoner.model.pigeon.Pigeon;
+import tech.filatov.pigeoner.model.pigeon.Sex;
 import tech.filatov.pigeoner.repository.pigeon.PigeonRepository;
 import tech.filatov.pigeoner.util.CommonUtil;
 import tech.filatov.pigeoner.util.PigeonUtil;
@@ -157,7 +158,21 @@ public class PigeonService {
 
     @Transactional
     public void delete(long id, long userId) {
-        checkNotFoundWithId(repository.deleteByIdAndOwnerId(id, userId) != 0, id);
+        Pigeon pigeon = get(id, userId);
+        Set<Pigeon> children = repository.getAllDirectChildren(id, userId);
+        for (Pigeon child : children) {
+            if (pigeon.getSex() == Sex.MALE) {
+                child.setFather(null);
+            } else {
+                child.setMother(null);
+            }
+        }
+        repository.saveAllAndFlush(children);
+        imageService.deleteAll(
+                pigeon.getImages().stream().map(Image::getFileName).toList(),
+                userId,
+                id);
+        repository.delete(pigeon);
     }
 
     protected Pigeon save(Pigeon pigeon) {

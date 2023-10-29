@@ -11,6 +11,7 @@ import tech.filatov.pigeoner.model.pigeon.Pigeon;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRepositoryCustom {
 
@@ -49,6 +50,11 @@ public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRep
 
     @Query(nativeQuery = true)
     List<PigeonDto> getWithAllDescendantsById(long id, long userId);
+
+    @Query("""
+        SELECT p FROM Pigeon p WHERE (p.father.id = :id OR p.mother.id = :id) AND p.owner.id = :userId
+    """)
+    Set<Pigeon> getAllDirectChildren(long id, long userId);
 
     List<Pigeon> getAllBySectionIdAndOwnerId(long sectionId, long userId);
 
