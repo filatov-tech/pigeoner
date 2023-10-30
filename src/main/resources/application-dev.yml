@@ -3,6 +3,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/pigeonerdb
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
 ---
 storage.location: 'C:\Users\Denis\Desktop\images'
