@@ -6,8 +6,6 @@ spring:
     password: ${DB_PASSWORD}
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: create-drop
     defer-datasource-initialization: true
     properties:
       hibernate:
