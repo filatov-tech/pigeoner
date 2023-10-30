@@ -64,4 +64,4 @@ jobs:
           sudo docker stop pigeoner
           sudo docker rm pigeoner
           sudo docker pull filatovtech/pigeoner
-          sudo docker run -e DB_USERNAME=${{ secrets.DB_USERNAME }} -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} -d --restart unless-stopped -it -p 8080:8080 --name pigeoner filatovtech/pigeoner
+          sudo docker run -e DB_USERNAME=${{ secrets.DB_USERNAME }} -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} -d --restart unless-stopped -v pigeoner-db-images-volume:/app/uploaded-images -it -p 8080:8080 --name pigeoner filatovtech/pigeoner
