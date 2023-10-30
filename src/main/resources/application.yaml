@@ -33,6 +33,5 @@ logging:
       springframework:
         security: DEBUG
         web.cors: DEBUG
-
-#    root: debug
-#    org.springframework.web: debug
+server:
+  forward-headers-strategy: native
