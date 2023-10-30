@@ -20,7 +20,6 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class Keeper extends AbstractOwnedEntity {
 
-    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "keeper")

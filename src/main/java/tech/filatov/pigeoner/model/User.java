@@ -17,6 +17,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 public class User extends AbstractBaseEntity implements UserDetails {
 
+    @Column(unique = true)
     private String email;
 
     private String password;
