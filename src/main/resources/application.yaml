@@ -6,7 +6,6 @@ spring:
     password: ${DB_PASSWORD}
   jpa:
     show-sql: true
-    defer-datasource-initialization: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -17,7 +16,6 @@ spring:
         order_updates: true
         jdbc:
           batch_size: 20
-  sql.init.mode: always
   servlet:
     multipart:
       max-file-size: 10MB
