@@ -36,6 +36,3 @@ logging:
 
 #    root: debug
 #    org.springframework.web: debug
-
----
-storage.location: 'C:\Users\Denis\Desktop\images'

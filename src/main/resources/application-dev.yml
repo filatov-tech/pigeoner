@@ -1,3 +1,6 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/pigeonerdb
+
+---
+storage.location: 'C:\Users\Denis\Desktop\images'
