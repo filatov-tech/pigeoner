@@ -30,7 +30,7 @@ public class ImageController {
                 .map(path -> MvcUriComponentsBuilder.fromMethodName(
                         ImageController.class,
                         "serveImage",
-                        pigeonId, path.getFileName().toString()).build().toUri().toString())
+                        pigeonId, path.getFileName().toString(), authUser).build().toUri().toString())
                 .toList();
     }
 
