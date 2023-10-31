@@ -9,11 +9,14 @@ import tech.filatov.pigeoner.model.AbstractOwnedEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "COLOR")
+@Table(name = "COLOR", uniqueConstraints = {
+        @UniqueConstraint(name = "UniqueNameWithinUser", columnNames = {"name", "user_id"})
+})
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
