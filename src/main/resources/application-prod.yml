@@ -3,6 +3,6 @@ spring:
     url: jdbc:postgresql://172.17.0.3:5432/pigeonerdb
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
 ---
 storage.location: '/app/uploaded-images'

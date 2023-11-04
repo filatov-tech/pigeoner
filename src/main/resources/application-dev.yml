@@ -2,9 +2,21 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/pigeonerdb
   jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        generate_statistics: true
     hibernate:
       ddl-auto: create
     defer-datasource-initialization: true
   sql.init.mode: always
+logging:
+  level:
+    org:
+      hibernate.type.descriptor.sql: trace
+      springframework:
+        security: DEBUG
+        web.cors: DEBUG
 ---
 storage.location: 'C:\Users\Denis\Desktop\images'

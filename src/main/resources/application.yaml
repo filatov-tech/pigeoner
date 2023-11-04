@@ -5,13 +5,10 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
-    show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         default_batch_fetch_size: 20
-        format_sql: true
-        generate_statistics: true
         order_inserts: true
         order_updates: true
         jdbc:
@@ -20,12 +17,3 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-  thymeleaf:
-    prefix: classpath:/static/
-logging:
-  level:
-    org:
-      hibernate.type.descriptor.sql: trace
-      springframework:
-        security: DEBUG
-        web.cors: DEBUG
