@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "COLOR", uniqueConstraints = {
-        @UniqueConstraint(name = "UniqueNameWithinUser", columnNames = {"name", "user_id"})
+        @UniqueConstraint(name = "UniqueColorNameWithinUser", columnNames = {"name", "user_id"})
 })
 @Data
 @EqualsAndHashCode(callSuper = true)
