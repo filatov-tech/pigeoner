@@ -25,6 +25,5 @@ public class Color extends AbstractOwnedEntity {
 
     @NotNull
     @NotBlank
-    @Column(unique = true)
     private String name;
 }
