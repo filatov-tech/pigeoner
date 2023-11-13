@@ -66,7 +66,7 @@ Spring Boot приложение организовано в соответст�
 <details>
   <summary>Frontend</summary>
   <ul>
-    <li>JavaSript/React</li>
+    <li>JavaScript/React</li>
     <li>Material UI</li>
     <li>Bootstrap</li>
     <li>HTML/CSS</li>
