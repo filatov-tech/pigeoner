@@ -113,10 +113,10 @@ public class PigeonValidator implements Validator {
         }
     }
 
-    private void checkNotOlderThan(Pigeon parent, Pigeon pigeon1, Errors errors) {
-        LocalDate fathersBirthdate = parent != null ? parent.getBirthdate() : null;
-        if (pigeon1.getBirthdate() != null && fathersBirthdate != null
-                && fathersBirthdate.isAfter(pigeon1.getBirthdate())) {
+    private void checkNotOlderThan(Pigeon parent, Pigeon pigeon, Errors errors) {
+        LocalDate parentBirthdate = parent != null ? parent.getBirthdate() : null;
+        if (pigeon.getBirthdate() != null && parentBirthdate != null
+                && parentBirthdate.getYear() > pigeon.getBirthdate().getYear()) {
             errors.rejectValue("birthdate", "", "Голубь не должен быть старше родителя");
         }
     }
