@@ -10,6 +10,7 @@ import tech.filatov.pigeoner.model.pigeon.Pigeon;
 import tech.filatov.pigeoner.model.pigeon.Sex;
 
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,6 +40,7 @@ public class PigeonValidator implements Validator {
         checkParentsConstraints(pigeon, errors);
         checkSection(pigeon, errors);
         checkMate(pigeon, errors);
+        checkCountryCodeAlpha2(pigeon, errors);
     }
 
     private void checkForLooping(
@@ -119,5 +121,15 @@ public class PigeonValidator implements Validator {
                 && parentBirthdate.getYear() > pigeon.getBirthdate().getYear()) {
             errors.rejectValue("birthdate", "", "Голубь не должен быть старше родителя");
         }
+    }
+
+    private void checkCountryCodeAlpha2(Pigeon pigeon, Errors errors) {
+        String[] isoCountries = Locale.getISOCountries();
+        for (String isoCountry : isoCountries) {
+            if (isoCountry.equalsIgnoreCase(pigeon.getCountryCode())) {
+                return;
+            }
+        }
+        errors.rejectValue("countryCode", "", "Неверно указана страна происхождения");
     }
 }

@@ -25,6 +25,7 @@ public class PigeonDto extends BaseDto {
     private String sex;
     private Integer year;
     private Boolean isOwn;
+    private String countryCode;
     private Long mateId;
     private PigeonDto mate;
     private Long fatherId;
@@ -46,6 +47,7 @@ public class PigeonDto extends BaseDto {
                      String condition,
                      String sex,
                      Boolean isOwn,
+                     String countryCode,
                      Long mateId,
                      Long fatherId,
                      Long motherId,
@@ -60,6 +62,7 @@ public class PigeonDto extends BaseDto {
         this.sex = sex;
         this.year = birthdate == null ? null : birthdate.getYear();
         this.isOwn = isOwn;
+        this.countryCode = countryCode;
         this.mateId = mateId;
         this.fatherId = fatherId;
         this.motherId = motherId;
@@ -76,6 +79,7 @@ public class PigeonDto extends BaseDto {
                      Condition condition,
                      Sex sex,
                      Boolean isOwn,
+                     String countryCode,
                      Long mateId,
                      Long fatherId,
                      Long motherId,
@@ -91,6 +95,7 @@ public class PigeonDto extends BaseDto {
         this.sex = sex == null ? null : sex.name();
         this.year = birthdate == null ? null : birthdate.getYear();
         this.isOwn = isOwn;
+        this.countryCode = countryCode;
         this.mateId = mateId;
         this.fatherId = fatherId;
         this.motherId = motherId;

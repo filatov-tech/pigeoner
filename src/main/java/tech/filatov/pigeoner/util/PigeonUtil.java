@@ -51,7 +51,7 @@ public class PigeonUtil {
         pigeon.setBirthdate(dto.getBirthdate());
         pigeon.setConditionStatus(dto.getCondition() == null ? null : Condition.valueOf(dto.getCondition()));
         pigeon.setSex(dto.getSex() == null ? null : Sex.valueOf(dto.getSex()));
+        pigeon.setCountryCode(dto.getCountryCode());
         return pigeon;
     }
-
 }

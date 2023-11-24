@@ -43,6 +43,7 @@ import static tech.filatov.pigeoner.constant.Constants.*;
                         @ColumnResult(name = "condition_status", type = String.class),
                         @ColumnResult(name = "sex", type = String.class),
                         @ColumnResult(name = "is_own", type = Boolean.class),
+                        @ColumnResult(name = "country_code", type = String.class),
                         @ColumnResult(name = "mate_id", type = Long.class),
                         @ColumnResult(name = "father_id", type = Long.class),
                         @ColumnResult(name = "mother_id", type = Long.class),
@@ -93,6 +94,8 @@ public class Pigeon extends AbstractOwnedEntity {
     private Set<FlightResult> flights;
 
     private LocalDate birthdate;
+
+    private String countryCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SECTION_ID")

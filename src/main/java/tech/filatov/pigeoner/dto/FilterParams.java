@@ -32,4 +32,5 @@ public class FilterParams {
     private Long keeper;
     private Sex sex;
     private Boolean hasMate;
+    private String countryCode;
 }

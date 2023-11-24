@@ -8,10 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tech.filatov.pigeoner.model.pigeon.Condition;
 import tech.filatov.pigeoner.model.pigeon.Sex;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -38,6 +35,8 @@ public class PigeonShallowDto extends BaseDto {
     private String sex;
     private Integer year;
     private Boolean isOwn;
+    @Size(max = 2, message = "Неверно указана страна происхождения")
+    private String countryCode;
     private Long mateId;
     private String mateRingNumber;
     private Long fatherId;
@@ -56,6 +55,7 @@ public class PigeonShallowDto extends BaseDto {
                             Condition condition,
                             Sex sex,
                             Boolean isOwn,
+                            String countryCode,
                             Long mateId,
                             String mateRingNumber,
                             Long fatherId,
@@ -71,6 +71,7 @@ public class PigeonShallowDto extends BaseDto {
         this.sex = sex == null ? null : sex.name();
         this.year = birthdate == null ? null : birthdate.getYear();
         this.isOwn = isOwn;
+        this.countryCode = countryCode;
         this.mateId = mateId;
         this.mateRingNumber = mateRingNumber;
         this.fatherId = fatherId;

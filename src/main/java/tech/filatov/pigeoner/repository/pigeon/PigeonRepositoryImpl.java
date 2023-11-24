@@ -53,6 +53,7 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
                 pigeonRoot.get(Pigeon_.conditionStatus),
                 pigeonRoot.get(Pigeon_.sex),
                 pigeonRoot.get(Pigeon_.isOwn),
+                pigeonRoot.get(Pigeon_.countryCode),
                 mate.get(Pigeon_.id),
                 mate.get(Pigeon_.ringNumber),
                 pigeonRoot.get(Pigeon_.father).get(Pigeon_.id),
@@ -127,6 +128,10 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
 
         if (params.getKeeper() != null) {
             predicates.add(cb.equal(pigeonRoot.get(Pigeon_.keeper), new Keeper(params.getKeeper())));
+        }
+
+        if (params.getCountryCode() != null) {
+            predicates.add(cb.equal(pigeonRoot.get(Pigeon_.countryCode), params.getCountryCode()));
         }
 
         return predicates.toArray(new Predicate[]{});

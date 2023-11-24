@@ -20,7 +20,7 @@ public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRep
     @Query("""
     SELECT new tech.filatov.pigeoner.dto.PigeonShallowDto(
         p.id, p.name, p.ringNumber, p.birthdate, c.name, p.conditionStatus, p.sex,
-        p.isOwn, m.id, m.ringNumber, p.father.id, p.mother.id , p.keeper.id, p.section.id)
+        p.isOwn, p.countryCode, m.id, m.ringNumber, p.father.id, p.mother.id , p.keeper.id, p.section.id)
     FROM Pigeon p
     LEFT OUTER JOIN Color c ON p.color.id = c.id
     LEFT OUTER JOIN Pigeon m ON p.mate.id = m.id
@@ -31,7 +31,7 @@ public interface PigeonRepository extends JpaRepository<Pigeon, Long>, PigeonRep
     @Query("""
     SELECT new tech.filatov.pigeoner.dto.PigeonDto(
         p.id, p.name, p.ringNumber, p.birthdate, p.color.id, p.conditionStatus, p.sex,
-        p.isOwn, p.mate.id, p.father.id, p.mother.id, k.id, k.name, p.section.id)
+        p.isOwn, p.countryCode, p.mate.id, p.father.id, p.mother.id, k.id, k.name, p.section.id)
     FROM Pigeon p LEFT OUTER JOIN Keeper k ON p.keeper.id = k.id
     WHERE p.owner.id = :userId AND p.id = :id
     """)
