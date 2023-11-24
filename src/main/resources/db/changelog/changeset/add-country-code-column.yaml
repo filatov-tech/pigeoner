@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-country-code
+      author: Denis Filatov
+      changes:
+        - addColumn:
+            tableName: pigeon
+            columns:
+              - column:
+                  name: country_code
+                  type: varchar(2)
