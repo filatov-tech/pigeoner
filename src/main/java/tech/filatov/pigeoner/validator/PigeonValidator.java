@@ -124,6 +124,9 @@ public class PigeonValidator implements Validator {
     }
 
     private void checkCountryCodeAlpha2(Pigeon pigeon, Errors errors) {
+        if (pigeon.getCountryCode() == null) {
+            return;
+        }
         String[] isoCountries = Locale.getISOCountries();
         for (String isoCountry : isoCountries) {
             if (isoCountry.equalsIgnoreCase(pigeon.getCountryCode())) {
