@@ -77,7 +77,7 @@ public class PigeonRepositoryImpl implements PigeonRepositoryCustom {
         predicates.add(cb.equal(pigeonRoot.get(Pigeon_.owner), userId));
 
         if (params.getRingNumber() != null) {
-            predicates.add(cb.equal(pigeonRoot.get(Pigeon_.ringNumber), params.getRingNumber()));
+            predicates.add(cb.like(pigeonRoot.get(Pigeon_.ringNumber), String.format("%%%s%%", params.getRingNumber())));
         }
         if (params.getCondition() != null) {
             predicates.add(
